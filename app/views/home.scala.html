@@ -1,0 +1,76 @@
+@(titel: String) 
+
+@additionalHead = {<!-- Additional head -->
+	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
+	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
+	<script src=@routes.Assets.at("javascripts/bootstrapx-clickover.js")></script>}
+
+@menu =  {
+<!-- Matze, your stuff goes here! -->
+}
+
+@main(titel)(additionalHead) {
+<!-- HEADER -->
+<div class="row-fluid">
+	<div class="span12 headline">
+	<div class="row-fluid">
+		<div class="span4">
+			<a href="/"><img src="@routes.Assets.at("images/ovgu_fin.png")"></a>
+		</div>
+		<div class="span3 offset3" style="padding-left: 85px; margin-top: 33px;">
+			<a href="#">Eistellungen</a> <span class="divider">|</span>
+			<a href="#">Kontakt</a>
+		</div>
+		<div class="span1" style="padding-left: 30px; margin-top: 28px">
+			<button rel="clickover_login" class="btn btn-primary btn-medium" data-toggle="clickover" data-placement="bottom">
+				<b>Login</b>
+			</button>
+		</div>
+	</div>
+	</div>
+</div>
+
+<!-- Content -->
+
+
+
+
+<!-- FOOTER -->
+<div class="row-fluid">
+	<div class="span12 footer">
+		<div class="row-fluid">
+			<div class="span9" style="padding: 26px 0px 0px 15px;">
+				&copy &copy <a href="mailto:Projectphoenix@@radeberger.cs.uni-magdeburg.de"> Phoenix Team </a>
+			</div>
+			<div class="span5 offset1" style="width: 80px; height: 50px;">
+				<img src="@routes.Assets.at("images/INF.png")" width="100%" style="margin: 10px 0px 0px 45px;"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Login Tool-Tip Content -->
+<div id="login-content" class="hide">
+	<form method="POST" action="#">
+		Nutzername:<br>
+		<input type="text" name="user"><br>
+		Passwort:<br>
+		<input name="pw" type="password"><br><br>
+		<input type="submit" value="Log me in!" class="btn btn-success">
+	</form>
+</div>
+
+<!-- Javascripts -->
+<script type="text/javascript">
+$(function() { 
+    $('[rel="clickover_login"]').clickover({
+    html: true,
+    content: $('#login-content').html(),
+    title: "<b>Login</b>"
+    }); 
+})  		
+</script>
+
+}

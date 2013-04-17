@@ -11,11 +11,12 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     javaCore,
     javaJdbc,
-    javaEbean
+    javaEbean,
+	"de.phoenix" % "library" % "0.0.1-SNAPSHOT"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+   resolvers += "Phoenix Projext Nexus" at "http://meldanor.dyndns.org:8081/nexus/content/groups/public/"     
   )
 
 }
