@@ -1,9 +1,9 @@
 body {
-	background-color: #aad;	
+	background-color: #bbd;	
 	background-image: url("../images/bg1.5.png");	
 }
 .container {
-	min-width: 797px;
+	min-width: 900px;
 }
 .divider {
 	color: #ccc;
@@ -34,6 +34,38 @@ body {
 .span12.headline a{
 	color: ##4399e1;
 }
+
+/* CONTENT */
+
+.article {
+	border-radius: 7px;
+	box-shadow:8px 8px 15px #788;	
+	margin-bottom: 30px;
+	background-color: #fdfdfd;
+}
+
+.article #headline {
+	border-bottom: 1px solid #777;
+	background-color: #eaeaea;
+	padding: 11px 9px 9px 9px;
+	text-align: left;
+	font-size: 20px;
+	font-weight: bold;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+}
+
+.article #content {
+	padding: 20px 20px 20px 20px;
+	text-align: top-left;
+}
+
+.article #content:after {
+	content: "";
+	clear: left;
+	display: block;
+}
+
 
 /* FOOTER */
 
