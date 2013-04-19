@@ -1,4 +1,9 @@
-This is your new Play 2.1 application
+Phoenix Website
 =====================================
 
-This file will be packaged with your application, when using `play dist`.
+This project uses the PlayFramework from http://www.playframework.com/
+
+Installation:
+1. Clone the project
+2. Open a terminal and navicate to the dir
+3. Run "play eclipse" to create the .classpath and other neccessary folders
