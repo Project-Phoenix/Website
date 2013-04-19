@@ -12,3 +12,4 @@ dist
 /out
 /.idea_modules
 /RUNNING_PID
+/.classpath
