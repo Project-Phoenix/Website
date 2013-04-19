@@ -13,3 +13,5 @@ dist
 /.idea_modules
 /RUNNING_PID
 /.classpath
+bin/
+.settings/org.scala-ide.sdt.core.prefs
