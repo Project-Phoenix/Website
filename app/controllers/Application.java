@@ -10,5 +10,25 @@ public class Application extends Controller {
     public static Result home() {
         return ok(home.render("Home"));
     }
-  
+  //Don't know, why error... Anyway, it works.
+    public static Result student1() {
+        return ok(student1.render("Student"));
+    }
+    
+    public static Result student2() {
+        return ok(student2.render("Student"));
+    }
+    
+    public static Result teacher() {
+        return ok(teacher.render("Teacher"));
+    }
+    
+    public static Result group() {
+        return ok(group.render("Group"));
+    }
+    
+    public static Result course() {
+        return ok(course.render("Course"));
+    }
+    
 }
