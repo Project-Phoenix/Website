@@ -1,0 +1,117 @@
+@(titel: String) 
+
+@additionalHead = {<!-- Additional head -->
+	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
+	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
+	<script src=@routes.Assets.at("javascripts/bootstrapx-clickover.js")></script>}
+
+@menu =  {
+<!-- Matze, your stuff goes here! -->
+	<div class="dropdown clearfix">
+       	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; padding: 8px">
+			<li class="dropdown-submenu">
+                <a tabindex="-1" href="#">Lehre</a>
+                <ul class="dropdown-menu">
+	                <li class="dropdown-submenu">
+	                    <!-- Courses -->
+	                    <a tabindex="-1" href="#">Einführung i.d. Informatik</a> 
+		                    <ul class="dropdown-menu">
+				                <li class="dropdown-submenu">
+				                    <li><a tabindex="-1" href="#">Material</a></li>
+				                    <li class="divider"></li>
+				                    <li><a tabindex="-1" href="#">Gruppe 1</a></li>
+				                    <li><a tabindex="-1" href="#">Gruppe 2</a></li>
+				                    <li><a tabindex="-1" href="#">Gruppe 3</a></li>
+				                    <li><a tabindex="-1" href="#">Gruppe 4</a></li>
+				        	</ul>
+	                			<li class="dropdown-submenu">
+				                    <a tabindex="-1" href="#">Algorithmen und Datenstrukturen</a> 
+					               		<ul class="dropdown-menu">
+							                <li class="dropdown-submenu">
+							                      <li><a tabindex="-1" href="#">Material</a></li>
+							                      <li class="divider"></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 1</a></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 2</a></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 3</a></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 4</a></li>
+							                </li>
+							        	</ul>
+				                </li>
+					                <li class="dropdown-submenu">
+					                    <a tabindex="-1" href="#">Lehre 3</a> 
+					                    <ul class="dropdown-menu">
+							                <li class="dropdown-submenu">
+							                      <li><a tabindex="-1" href="#">Material</a></li>
+							                      <li class="divider"></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 1</a></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 2</a></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 3</a></li>
+							                      <li><a tabindex="-1" href="#">Gruppe 4</a></li>
+							                 </li>
+							        	</ul>
+					               </li>
+			                    </ul>
+			                </li>
+			              	<!-- Divider -->       	
+			                <li class="divider"></li>
+			                <li><a tabindex="-1" href="group">Meine Gruppe</a></li>
+			              	<!-- Divider -->       	
+			                <li class="divider"></li>
+			                <li><a tabindex="-1" href="#">Blatt5</a></li>
+			                <li><a tabindex="-1" href="#">Blatt4</a></li>
+			                <li><a tabindex="-1" href="#">Blatt3</a></li>
+			                <li><a tabindex="-1" href="#">Blatt2</a></li>
+			                <li><a tabindex="-1" href="#">Blatt1</a></li>
+			                <li><a tabindex="-1" href="#">Material</a></li>
+			              	<!-- Divider -->       	
+			                <li class="divider"></li>
+			                <li><a tabindex="-1" href="#">Aktuelle Aufgabe</a></li>
+			                <li><a tabindex="-1" href="#">Musterlösungen</a></li>
+			          	 	<!-- Divider -->       	
+			                <li class="divider"></li>
+							<li><a tabindex="-1" href="#">Einreichungen</a></li>
+							<li><a tabindex="-1" href="#">Statistiken</a></li>
+		</ul>
+	</div> <!-- Dropdown menu -->
+			        
+}
+
+@main(titel)(additionalHead)(menu) {
+<!-- Content -->
+<div class="article">
+	<div id="headline">
+		Überschrift
+		<div class="pull-right">
+    		'Opt'
+		</div>
+	</div>
+	<div id="content">
+		Content goes here!
+	</div>
+</div>
+
+
+
+<!-- Login Tool-Tip Content -->
+<div id="login-content" class="hide">
+	<form method="POST" action="#">
+		Nutzername:<br>
+		<input type="text" name="user"><br>
+		Passwort:<br>
+		<input name="pw" type="password"><br><br>
+		<input type="submit" value="Log me in!" class="btn btn-success">
+	</form>
+</div>
+
+<!-- Javascripts -->
+<script type="text/javascript">
+$(function() { 
+    $('[rel="clickover_login"]').clickover({
+    html: true,
+    content: $('#login-content').html(),
+    title: "<b>Login</b>"
+    }); 
+})  		
+</script>
+
+}
