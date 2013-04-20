@@ -14,6 +14,7 @@ GET 	/teacher					controllers.Application.teacher()
 GET 	/mygroup					controllers.Application.mygroup()
 GET 	/group						controllers.Application.group()
 GET 	/course						controllers.Application.course()
+GET 	/register					controllers.Login.register()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

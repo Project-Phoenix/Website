@@ -55,10 +55,10 @@
 		    <li class="dropdown-submenu">	
 		    <li class="menu-label1">&nbsp&nbsp&nbspAuD</li>
 		    <li><a tabindex="-1" href="group">Gruppe 1</a></li>
-		    <li><a tabindex="-1" href="group">Gruppe 2</a></li>
-		    <li><a tabindex="-1" href="group">Gruppe 3</a></li>
-		    <li><a tabindex="-1" href="group">Gruppe 4</a></li>
-		    <li><a tabindex="-1" href="group">Gruppe 5</a></li>
+		    <li><a tabindex="-1" href="#">Gruppe 2</a></li>
+		    <li><a tabindex="-1" href="#">Gruppe 3</a></li>
+		    <li><a tabindex="-1" href="#">Gruppe 4</a></li>
+		    <li><a tabindex="-1" href="#">Gruppe 5</a></li>
 		    <li><a tabindex="-1" href="#">Material für Lehrende</a></li>
 		    <li><a tabindex="-1" href="#">Studentische Lösungen</a></li>
 		    <li><a tabindex="-1" href="#">Material für Studenten</a></li>
@@ -71,13 +71,22 @@
 
 }
 
-@main(titel)(additionalHead)(menu) {
+@MAIN(titel)(additionalHead)(menu) {
 <!-- Content -->
 <div class="article">
 	<div id="headline">
 		Überschrift
 		<div class="pull-right">
-    		'Opt'
+			<div class="btn-group">
+				<button class="btn btn-mini"><i class="icon-edit"></i></button>
+				<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+			    <ul class="dropdown-menu" style="margin: 0 auto; left: -280%">
+			    	<li><a href="#">Bearbeiten</a></li>
+			    	<li><a href="#">Hinzufügen</a></li>
+			    </ul>
+			</div>
 		</div>
 	</div>
 	<div id="content">

@@ -1,6 +1,6 @@
 body {
-	background-color: #bbd;	
-	background-image: url("../images/bg1.5.png");	
+	background-color: #abb4bd;
+	background-image: url("../images/bg1.5.png");
 }
 .container {
 	min-width: 900px;
@@ -57,7 +57,7 @@ body {
 	box-shadow:8px 8px 15px #788;	
 	margin-bottom: 30px;
 	margin-right: 15px;
-	background-color: #fdfdfd;
+	background-color: transparent;
 }
 
 .article #headline {
@@ -73,13 +73,31 @@ body {
 
 .article #content {
 	padding: 20px 20px 20px 20px;
+	background-color: #fcfcfc;
 	text-align: top-left;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
 }
 
 .article #content:after {
 	content: "";
 	clear: left;
 	display: block;
+}
+
+/* INFO Article */
+.article.home {
+	margin: 0px 45px 30px 45px;
+}
+.article.home #headline {
+	background-color: #3c73ff;
+	border-bottom: 1px solid #000580;
+}
+
+.article.home #content {
+	background-color: #eeefef;
+	padding: 30px;
+	font-size: 17px;
 }
 
 

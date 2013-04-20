@@ -76,13 +76,22 @@
 			        
 }
 
-@main(titel)(additionalHead)(menu) {
+@MAIN(titel)(additionalHead)(menu) {
 <!-- Content -->
 <div class="article">
 	<div id="headline">
 		Überschrift
 		<div class="pull-right">
-    		'Opt'
+			<div class="btn-group">
+				<button class="btn btn-mini"><i class="icon-edit"></i></button>
+				<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+			    <ul class="dropdown-menu" style="margin: 0 auto; left: -280%">
+			    	<li><a href="#">Bearbeiten</a></li>
+			    	<li><a href="#">Hinzufügen</a></li>
+			    </ul>
+			</div>
 		</div>
 	</div>
 	<div id="content">

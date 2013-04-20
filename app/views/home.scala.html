@@ -3,7 +3,7 @@
 @additionalHead = {<!-- Additional head -->}
 
 @menu =  {
-<!-- Matze, your stuff goes here! -->
+<!-- Matze, your stuff goes here! 
 	<div class="dropdown clearfix">
        	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; padding: 8px">
 			<li><a tabindex="-1" href="student1">Student View #1</a></li>
@@ -14,16 +14,44 @@
 			        
 }
 
-@main(titel)(additionalHead)(menu) {
-<!-- Content -->
-<div class="article">
-	<div id="headline">
-		Überschrift
+@news1 = {<font size="2px">Die Klausureinsicht erfolgt bei Ilona Blümel in G29-022 für die Klausuren <a href="#">mehr...</a></font>}
+@news3 = {<font size="2px">Studenten, die bereits Erfahrung mitbringen und ihre Programmierkenntnisse über das Fach Einführung in die Informatik erweitern wollen, <a href="#">mehr...</a></font>}
+@news2 = {<font size="2px">Am Montag, den 17.12.2012 wurde der Programmierwettbewerb 2013 <a href="#">mehr...</a></font>}
 
+
+@HOME(titel)(additionalHead) {
+<!-- Content -->
+<div class="article home">
+	<div id="headline">
+		Willkommen bei Plone's Untergang
    	</div>
     
 	<div id="content">
-		Content goes here!
+		<table class="table table-condensed table-bordered" style="margin: 0px 0px 25px 0px;border: 2px solid #748abc; background-color: white;">
+			<tr>
+				<td style="width: 33%"><a href="#" style="color: #f48134"><b>Neuer Termin Klausureinsicht </b></a><br><hr style="margin: 1px 0px 3px 0px;">@news1</td>
+				<td style="width: 33%"><a href="#" style="color: #f48134"><b>Folien Programmierwettbewerbs 2013 </b></a><br><hr style="margin: 1px 0px 3px 0px;">@news2<br></td>
+				<td style="width: 33%"><a href="#" style="color: #f48134"><b>Acagamics</b></a><br><hr style="margin: 1px 0px 3px 0px;">@news3</td>
+			<tr>
+		</table>
+		<hr>
+		Sie bekommen an dieser Stelle Unterstützung für alle organisatorischen, technischen und inhaltlichen Aspekte unserer Lehrveranstaltungen. Dies umfasst:
+		<br><br>
+		<ul>
+			<li>Übersicht angebotener Vorlesungen<br /></li>
+			<li>Anmeldung zu Vorlesungen<span class="discreet"></span></li>
+			<li>Einsicht in Materialien zu Vorlesungen</li>
+			<li>Übersicht angebotener Übungen<br /></li>
+			<li>Anmeldung zu Übungen</li>
+			<li>Bearbeitung von Übungsaufgaben</li>
+		</ul>
+		<br>
+		<h3>Was jetzt?</h3>
+		Einloggen bzw. Registrieren können sie sich rechts oben auf der Seite. Alle weiteren Informationen befinden sich dann auf den entsprechenden Unterseiten zur Lehrveranstaltung.
+		<br><br>
+		<center><a href="student1">Student View #1</a>&nbsp&nbsp
+		<a href="student2">Student View #2</a>&nbsp&nbsp
+		<a href="teacher">Teacher View</a></center>
 	</div>
 </div>
 
