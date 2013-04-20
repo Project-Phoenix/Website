@@ -1,9 +1,6 @@
 @(titel: String) 
 
-@additionalHead = {<!-- Additional head -->
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
-	<script src=@routes.Assets.at("javascripts/bootstrapx-clickover.js")></script>}
+@additionalHead = {<!-- Additional head -->}
 
 @menu =  {
 <!-- Matze, your stuff goes here! -->
@@ -54,20 +51,23 @@
 			                </li>
 			              	<!-- Divider -->       	
 			                <li class="divider"></li>
-			                <li><a tabindex="-1" href="group">Meine Gruppe</a></li>
+			                <li class="menu-label1">&nbsp&nbspAuD</li>
+			                <li class="menu-label2">&nbsp&nbsp&nbsp&nbspGruppe 1</li>
 			              	<!-- Divider -->       	
-			                <li class="divider"></li>
-			                <li><a tabindex="-1" href="#">Blatt5</a></li>
-			                <li><a tabindex="-1" href="#">Blatt4</a></li>
-			                <li><a tabindex="-1" href="#">Blatt3</a></li>
-			                <li><a tabindex="-1" href="#">Blatt2</a></li>
-			                <li><a tabindex="-1" href="#">Blatt1</a></li>
-			                <li><a tabindex="-1" href="#">Material</a></li>
-			              	<!-- Divider -->       	
-			                <li class="divider"></li>
-			                <li><a tabindex="-1" href="#">Aktuelle Aufgabe</a></li>
-			                <li><a tabindex="-1" href="#">Musterlösungen</a></li>
-			          	 	<!-- Divider -->       	
+			                <!-- <li class="divider"></li>  -->
+			                <li><a tabindex="-1" href="#">&nbsp|&nbsp&nbsp&nbsp&nbspBlatt5</a></li>
+			                <li><a tabindex="-1" href="#">&nbsp|&nbsp&nbsp&nbsp&nbspBlatt4</a></li>
+			                <li><a tabindex="-1" href="#">&nbsp|&nbsp&nbsp&nbsp&nbspBlatt3</a></li>
+			                <li><a tabindex="-1" href="#">&nbsp|&nbsp&nbsp&nbsp&nbspBlatt2</a></li>
+			                <li><a tabindex="-1" href="#">&nbsp|&nbsp&nbsp&nbsp&nbspBlatt1</a></li>
+			               	<li><a tabindex="-1" href="#">Gruppe 2</a></li>
+		    				<li><a tabindex="-1" href="#">Gruppe 3</a></li>
+		    				<li><a tabindex="-1" href="#">Gruppe 4</a></li>
+		    				<li><a tabindex="-1" href="#">Gruppe 5</a></li>
+		    				<li><a tabindex="-1" href="#">Material für Lehrende</a></li>
+		    				<li><a tabindex="-1" href="#">Studentische Lösungen</a></li>
+		    				<li><a tabindex="-1" href="#">Material für Studenten</a></li>
+			              	<!-- Divider -->       	     	
 			                <li class="divider"></li>
 							<li><a tabindex="-1" href="#">Einreichungen</a></li>
 							<li><a tabindex="-1" href="#">Statistiken</a></li>
@@ -89,29 +89,5 @@
 		Content goes here!
 	</div>
 </div>
-
-
-
-<!-- Login Tool-Tip Content -->
-<div id="login-content" class="hide">
-	<form method="POST" action="#">
-		Nutzername:<br>
-		<input type="text" name="user"><br>
-		Passwort:<br>
-		<input name="pw" type="password"><br><br>
-		<input type="submit" value="Log me in!" class="btn btn-success">
-	</form>
-</div>
-
-<!-- Javascripts -->
-<script type="text/javascript">
-$(function() { 
-    $('[rel="clickover_login"]').clickover({
-    html: true,
-    content: $('#login-content').html(),
-    title: "<b>Login</b>"
-    }); 
-})  		
-</script>
 
 }

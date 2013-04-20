@@ -12,7 +12,7 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-	"de.phoenix" % "library" % "0.0.1-SNAPSHOT"
+	"com.sun.jersey" % "jersey-client" % "1.17.1"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

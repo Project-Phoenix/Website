@@ -1,9 +1,6 @@
 @(titel: String) 
 
-@additionalHead = {<!-- Additional head -->
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
-	<script src=@routes.Assets.at("javascripts/bootstrapx-clickover.js")></script>}
+@additionalHead = {<!-- Additional head -->}
 
 @menu =  {
 <!-- Matze, your stuff goes here! -->
@@ -19,7 +16,7 @@
 				                <li class="dropdown-submenu">
 				                    <li><a tabindex="-1" href="#">Material</a></li>
 				                    <li class="divider"></li>
-				                    <li><a tabindex="-1" href="group">Gruppe 1</a></li>
+				                    <li><a tabindex="-1" href="mygroup">Gruppe 1</a></li>
 				                    <li><a tabindex="-1" href="#">Gruppe 2</a></li>
 				                    <li><a tabindex="-1" href="#">Gruppe 3</a></li>
 				                    <li><a tabindex="-1" href="#">Gruppe 4</a></li>
@@ -58,7 +55,7 @@
            	<li class="dropdown-submenu">
                <a tabindex="-1" href="#">Veranstaltung 1</a>
                <ul class="dropdown-menu">
-                   <li><a tabindex="-1" href="group">Meine Gruppe</a></li>
+                   <li><a tabindex="-1" href="mygroup">Meine Gruppe</a></li>
                    <li><a tabindex="-1" href="#">Aktuelle Aufgaben</a></li>
                    <li><a tabindex="-1" href="#">Musterlösungen</a></li>
 	          	   <!-- Divider -->       	
@@ -110,27 +107,5 @@
 </div>
 
 
-
-<!-- Login Tool-Tip Content -->
-<div id="login-content" class="hide">
-	<form method="POST" action="#">
-		Nutzername:<br>
-		<input type="text" name="user"><br>
-		Passwort:<br>
-		<input name="pw" type="password"><br><br>
-		<input type="submit" value="Log me in!" class="btn btn-success">
-	</form>
-</div>
-
-<!-- Javascripts -->
-<script type="text/javascript">
-$(function() { 
-    $('[rel="clickover_login"]').clickover({
-    html: true,
-    content: $('#login-content').html(),
-    title: "<b>Login</b>"
-    }); 
-})  		
-</script>
 
 }

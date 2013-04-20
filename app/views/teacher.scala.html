@@ -1,9 +1,6 @@
 @(titel: String) 
 
-@additionalHead = {<!-- Additional head -->
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
-	<script src=@routes.Assets.at("javascripts/bootstrapx-clickover.js")></script>}
+@additionalHead = {<!-- Additional head -->}
 
 @menu =  {
 <!-- Matze, your stuff goes here! -->
@@ -14,7 +11,7 @@
                 <ul class="dropdown-menu">
 	                <li class="dropdown-submenu">
 	                    <!-- Courses -->
-	                    <a tabindex="-1" href="course">Einführung i.d. Informatik</a> 
+	                    <a tabindex="-1" href="#">Einführung i.d. Informatik</a> 
 		                    <ul class="dropdown-menu">
 				                <li class="dropdown-submenu">
 				                    <li><a tabindex="-1" href="#">Material</a></li>
@@ -26,7 +23,7 @@
 				                </li>
 				        	</ul>
 	                			<li class="dropdown-submenu">
-				                    <a tabindex="-1" href="#">Algorithmen und Datenstrukturen</a> 
+				                    <a tabindex="-1" href="course">Algorithmen und Datenstrukturen</a> 
 					               		<ul class="dropdown-menu">
 							                <li class="dropdown-submenu">
 							                      <li><a tabindex="-1" href="#">Material</a></li>
@@ -56,8 +53,8 @@
 		   	<!-- Divider -->       	
 		    <li class="divider"></li>
 		    <li><a tabindex="-1" href="course">Veranstaltung 1</a></li>
-		    <li><a tabindex="-1" href="#">Veranstaltung 2</a></li>
-		    <li><a tabindex="-1" href="#">Veranstaltung 3</a></li>
+		    <li><a tabindex="-1" href="course">Veranstaltung 2</a></li>
+		    <li><a tabindex="-1" href="course">Veranstaltung 3</a></li>
 		 	<!-- Divider -->       	
 		    <li class="divider"></li>
 			<li><a tabindex="-1" href="#">Aufgabenpool</a></li>
@@ -73,7 +70,16 @@
 	<div id="headline">
 		Überschrift
 		<div class="pull-right">
-    		'Opt'
+			<div class="btn-group">
+				<button class="btn btn-mini"><i class="icon-edit"></i></button>
+				<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+			    <ul class="dropdown-menu" style="margin: 0 auto; left: -280%">
+			    	<li><a href="#">Bearbeiten</a></li>
+			    	<li><a href="#">Hinzufügen</a></li>
+			    </ul>
+			</div>
 		</div>
 	</div>
 	<div id="content">
@@ -81,28 +87,5 @@
 	</div>
 </div>
 
-
-
-<!-- Login Tool-Tip Content -->
-<div id="login-content" class="hide">
-	<form method="POST" action="#">
-		Nutzername:<br>
-		<input type="text" name="user"><br>
-		Passwort:<br>
-		<input name="pw" type="password"><br><br>
-		<input type="submit" value="Log me in!" class="btn btn-success">
-	</form>
-</div>
-
-<!-- Javascripts -->
-<script type="text/javascript">
-$(function() { 
-    $('[rel="clickover_login"]').clickover({
-    html: true,
-    content: $('#login-content').html(),
-    title: "<b>Login</b>"
-    }); 
-})  		
-</script>
 
 }

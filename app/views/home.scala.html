@@ -1,9 +1,6 @@
 @(titel: String) 
 
-@additionalHead = {<!-- Additional head -->
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
-	<script src=@routes.Assets.at("javascripts/bootstrapx-clickover.js")></script>}
+@additionalHead = {<!-- Additional head -->}
 
 @menu =  {
 <!-- Matze, your stuff goes here! -->
@@ -22,37 +19,13 @@
 <div class="article">
 	<div id="headline">
 		Überschrift
-		<div class="pull-right">
-    		'Opt'
-		</div>
-	</div>
+
+   	</div>
+    
 	<div id="content">
 		Content goes here!
 	</div>
 </div>
 
-
-
-<!-- Login Tool-Tip Content -->
-<div id="login-content" class="hide">
-	<form method="POST" action="#">
-		Nutzername:<br>
-		<input type="text" name="user"><br>
-		Passwort:<br>
-		<input name="pw" type="password"><br><br>
-		<input type="submit" value="Log me in!" class="btn btn-success">
-	</form>
-</div>
-
-<!-- Javascripts -->
-<script type="text/javascript">
-$(function() { 
-    $('[rel="clickover_login"]').clickover({
-    html: true,
-    content: $('#login-content').html(),
-    title: "<b>Login</b>"
-    }); 
-})  		
-</script>
 
 }
