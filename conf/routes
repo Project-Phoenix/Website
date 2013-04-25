@@ -5,16 +5,19 @@
 # Home page
 GET     /                           controllers.Application.home()
 
-# Views
+#GET
 GET		/student1					controllers.Application.student1()
 GET		/student2					controllers.Application.student2()
 GET 	/teacher					controllers.Application.teacher()
-
-# Dummy-sites
 GET 	/mygroup					controllers.Application.mygroup()
 GET 	/group						controllers.Application.group()
 GET 	/course						controllers.Application.course()
-GET 	/register					controllers.Login.register()
+GET 	/register					controllers.Application.register()
+GET 	/logout						controllers.Login.logout()
+
+#POST
+POST 	/register					controllers.Login.register()
+POST 	/login						controllers.Login.login()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

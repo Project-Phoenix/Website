@@ -35,6 +35,7 @@
 	<div class="row-fluid">
 		<!-- Content -->
 		<div class="span12">
+			@if(session().get("PhoenixUser") != null){<div class="well">Logged in as <a href="/logout">@session.get("PhoenixUser")</a></div>}
 			@content
 		</div>
 	</div><!-- Close middle row-fluid -->
@@ -58,37 +59,13 @@
 
 <!-- Login Tool-Tip Content -->
 <div id="login-content" class="hide">
-	<form method="POST" action="#" style="margin-bottom: 8px;">
+	<form method="POST" action="/login" style="margin-bottom: 8px;">
 		Nutzername:<br>
-		<input type="text" name="user"><br>
+		<input type="text" name="username"><br>
 		Passwort:<br>
-		<input name="pw" type="password"><br><br>
+		<input name="password" type="password"><br><br>
 		<input type="submit" value="Log me in!" class="btn btn-success">
 	</form>
-</div>
-
-
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel">Registrieren</h3>
-	</div>
-	<div class="modal-body">
-		<form method="POST" action="#" style="margin-bottom: 8px;">
-			Nutzername:<br>
-			<input type="text" name="user"><br>
-			Matrikel Nr.:<br>
-			<input name="matrnr" type="password"><br>
-			Passwort:<br>
-			<input name="pw" type="password"><br>
-			Re-Type Passwort:<br>
-			<input name="pw" type="password"><br><br>
-			<input type="submit" value="Registrieren" class="btn btn-success">
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-	</div>
 </div>
 
 
@@ -107,7 +84,7 @@ $(function() {
     $('[rel="clickover_login"]').clickover({
     html: true,
     content: $('#login-content').html(),
-    title: "<b>Login</b><div class=\"pull-right\"><a href=\"#myModal\" data-toggle=\"modal\">Registrieren</a></div>"
+    title: "<b>Login</b><div class=\"pull-right\"><a href=\"/register\" data-toggle=\"modal\">Registrieren</a></div>"
     }); 
 })  		
 </script>

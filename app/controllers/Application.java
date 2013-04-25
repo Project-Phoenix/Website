@@ -20,7 +20,6 @@ package controllers;
 
 //import play.*;
 import play.mvc.*;
-
 import views.html.*;
 
 public class Application extends Controller {
@@ -51,6 +50,10 @@ public class Application extends Controller {
     
     public static Result course() {
         return ok(course.render("Course"));
+    }
+    
+    public static Result register() {
+        return ok(register.render("Registrieren"));
     }
     
 }

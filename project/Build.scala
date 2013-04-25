@@ -12,7 +12,8 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-	"com.sun.jersey" % "jersey-client" % "1.17.1"
+	"com.sun.jersey" % "jersey-bundle" % "1.17.1",
+	"de.phoenix" % "library" % "0.0.1-SNAPSHOT"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

@@ -40,6 +40,7 @@
 		
 		<!-- Content -->
 		<div class="span9">
+			@if(session().get("PhoenixUser") != null){<div class="well">Logged in as <a href="/logout">@session.get("PhoenixUser")</a></div>}
 			@content
 		</div>
 	</div><!-- Close middle row-fluid -->
@@ -63,11 +64,11 @@
 
 <!-- Login Tool-Tip Content -->
 <div id="login-content" class="hide">
-	<form method="POST" action="#" style="margin-bottom: 8px;">
+	<form method="POST" action="/login" style="margin-bottom: 8px;">
 		Nutzername:<br>
-		<input type="text" name="user"><br>
+		<input type="text" name="username"><br>
 		Passwort:<br>
-		<input name="pw" type="password"><br><br>
+		<input name="password" type="password"><br><br>
 		<input type="submit" value="Log me in!" class="btn btn-success">
 	</form>
 	
