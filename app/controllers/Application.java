@@ -55,5 +55,36 @@ public class Application extends Controller {
     public static Result register() {
         return ok(register.render("Registrieren"));
     }
+   
+    public static Result material() {
+        return ok(material.render("Materialien"));
+    }
     
+    public static Result statistics() {
+        return ok(statistics.render("Statistik"));
+    }
+    
+    public static Result submissions() {
+        return ok(submissions.render("Einreichungen"));
+    }
+    
+    public static Result taskpool() {
+        return ok(taskpool.render("Aufgabenpool"));
+    }
+    
+    public static Result create() {
+        return ok(create.render("Erstellen"));
+    }
+    
+    public static Result doctrine() {
+        return ok(doctrine.render("Lehre"));
+    }
+    
+    public static Result solutions() {
+        return ok(solutions.render("Musterlösungen"));
+    }
+    
+    public static Result exercise() {
+        return ok(exercise.render("Übungsblatt"));
+    }
 }
