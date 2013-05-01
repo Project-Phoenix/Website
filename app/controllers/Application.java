@@ -87,4 +87,8 @@ public class Application extends Controller {
     public static Result exercise() {
         return ok(exercise.render("Übungsblatt"));
     }
+    
+    public static Result materialStudent() {
+        return ok(materialStudent.render("Material Student"));
+    }
 }
