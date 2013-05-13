@@ -60,7 +60,7 @@
 		    <li class="divider"></li>
 			<li><a tabindex="-1" href="taskpool">Aufgabenpool</a></li>
 			<li class="dropdown-submenu">
-				<a tabindex="-1" href="#">Erstellen</a>
+				<li><a tabindex="-1" href="#">Erstellen</a></li>
 				<ul class="dropdown-menu">
 					<li class="dropdown-submenu">
 						<li><a tabindex="-1" href="sheet_create">Blatt</a></li>
@@ -69,33 +69,166 @@
 					</li>
 				</ul>
 			</li>
+			<!-- Divider -->       	
+		    <li class="divider"></li>
+			<li class="menu-label1">&nbsp&nbspSemester</li>
+			<li><a tabindex="-1" href="submissions">Einreichungen</a></li>
+			<li><a tabindex="-1" href="statistics">Statistiken</a></li>
+			<!--<li class="menu-label1">&nbsp&nbspErstellen</li> -->
 		</ul>
 	</div> <!-- Dropdown menu -->
-
+			        
 }
 
 @_main_(titel)(additionalHead)(menu) {
 <!-- Content -->
 <div class="article">
 	<div id="headline">
-		Welcome teacher!
+		Blatt erstellen
 		<div class="pull-right">
-			<div class="btn-group">
-				<button class="btn btn-mini"><i class="icon-edit"></i></button>
-				<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-					<span class="caret"></span>
-				</button>
-			    <ul class="dropdown-menu" style="margin: 0 auto; left: -280%">
-			    	<li><a href="#">Bearbeiten</a></li>
-			    	<li><a href="#">Hinzufügen</a></li>
-			    </ul>
-			</div>
 		</div>
 	</div>
 	<div id="content">
-		-Begrüßungsseite für Lehrpersonen
+		<form method="POST" action="/showLesson">
+				<div class="accordion" id="accordion2">
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+								Einführung in die Informatik
+							</a>
+						</div>
+						<div id="collapseOne" class="accordion-body collapse in">
+							<div class="accordion-inner">
+							<table class="table table-condensed" style="width:40%">	
+								<tr>
+									<td>
+										<b>Gruppe 1</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u1g1">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 2</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u1g2">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 3</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u1g3">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 4</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u1g4">
+									</td>
+								</tr>						  		 
+							</table>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+								Algorithmen und Datenstrukturen
+							</a>
+						</div>
+						<div id="collapseTwo" class="accordion-body collapse">
+							<div class="accordion-inner">
+								<table class="table table-condensed" style="width:40%">	
+								<tr>
+									<td>
+										<b>Gruppe 1</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u2g1">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 2</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u2g2">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 3</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u2g3">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 4</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u2g4">
+									</td>
+								</tr>						  		 
+							</table>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+								Funktionale Programmierung
+							</a>
+						</div>
+						<div id="collapseThree" class="accordion-body collapse">
+							<div class="accordion-inner">
+								<table class="table table-condensed" style="width:40%">	
+								<tr>
+									<td>
+										<b>Gruppe 1</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u3g1">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 2</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u3g2">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 3</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u3g3">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<b>Gruppe 4</b>
+									</td>
+									<td>
+										<input type="checkbox" name="u3g4">
+									</td>
+								</tr>						  		 
+							</table>
+							</div>
+						</div>
+					</div>					
+				</div>
+  		</form>
 	</div>
 </div>
-
 
 }

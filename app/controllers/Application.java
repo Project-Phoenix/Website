@@ -91,4 +91,8 @@ public class Application extends Controller {
     public static Result materialStudent() {
         return ok(materialStudent.render("Material Student"));
     }
+    
+    public static Result sheet_create(){
+        return ok(sheet_create.render("Aufgabenblatt erstellen"));
+    }
 }

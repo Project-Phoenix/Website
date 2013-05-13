@@ -23,6 +23,7 @@ GET		/exercise					controllers.Application.exercise()
 GET		/solutions					controllers.Application.solutions()
 GET		/doctrine					controllers.Application.doctrine()
 GET 	/materialStudent			controllers.Application.materialStudent()
+GET 	/sheet_create				controllers.Application.sheet_create()
 
 #POST
 POST 	/register					controllers.Login.register()
