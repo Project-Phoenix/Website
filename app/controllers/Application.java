@@ -95,4 +95,64 @@ public class Application extends Controller {
     public static Result sheet_create(){
         return ok(sheet_create.render("Aufgabenblatt erstellen"));
     }
+    
+    public static Result AUDcourse(){
+        return ok(AUDcourse.render("AuD VL"));
+    }
+    
+    public static Result AUDgroup1(){
+        return ok(AUDgroup1.render("AuD GR1"));
+    }
+    
+    public static Result AUDgroup2(){
+        return ok(AUDgroup2.render("AuD GR2"));
+    }
+    
+    public static Result AUDgroup3(){
+        return ok(AUDgroup3.render("AuD GR3"));
+    }
+    
+    public static Result AUDgroup4(){
+        return ok(AUDgroup4.render("AuD GR4"));
+    }
+    
+    public static Result EIcourse(){
+        return ok(EIcourse.render("Einf. Inf. VL"));
+    }
+    
+    public static Result EIgroup1(){
+        return ok(EIgroup1.render("Einf. Inf. GR1"));
+    }
+    
+    public static Result EIgroup2(){
+        return ok(EIgroup2.render("Einf. Inf. GR2"));
+    }
+    
+    public static Result EIgroup3(){
+        return ok(EIgroup3.render("Einf. Inf. GR3"));
+    }
+    
+    public static Result EIgroup4(){
+        return ok(EIgroup4.render("Einf. Inf. GR4"));
+    }
+    
+    public static Result FPcourse(){
+        return ok(FPcourse.render("Func. Prog. VL"));
+    }
+    
+    public static Result FPgroup1(){
+        return ok(FPgroup1.render("Func. Prog. GR1"));
+    }
+    
+    public static Result FPgroup2(){
+        return ok(FPgroup2.render("Func. Prog. GR2"));
+    }
+    
+    public static Result FPgroup3(){
+        return ok(FPgroup3.render("Func. Prog. GR3"));
+    }
+    
+    public static Result FPgroup4(){
+        return ok(FPgroup4.render("Func. Prog. GR4"));
+    }
 }
