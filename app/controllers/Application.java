@@ -116,6 +116,74 @@ public class Application extends Controller {
         return ok(AUDgroup4.render("AuD GR4"));
     }
     
+    public static Result AUDgr1sh1(){
+        return ok(AUDgr1sh1.render("AUD GR1 SH1"));
+    }
+    
+    public static Result AUDgr1sh2(){
+        return ok(AUDgr1sh2.render("AUD GR1 SH2"));
+    }
+    
+    public static Result AUDgr1sh3(){
+        return ok(AUDgr1sh3.render("AUD GR1 SH3"));
+    }
+    
+    public static Result AUDgr2sh1(){
+        return ok(AUDgr2sh1.render("AUD GR2 SH1"));
+    }
+    
+    public static Result AUDgr2sh2(){
+        return ok(AUDgr2sh2.render("AUD GR2 SH2"));
+    }
+    
+    public static Result AUDgr2sh3(){
+        return ok(AUDgr2sh3.render("AUD GR2 SH3"));
+    }
+    
+    public static Result AUDgr3sh1(){
+        return ok(AUDgr3sh1.render("AUD GR3 SH1"));
+    }
+    
+    public static Result AUDgr3sh2(){
+        return ok(AUDgr3sh2.render("AUD GR3 SH2"));
+    }
+    
+    public static Result AUDgr3sh3(){
+        return ok(AUDgr3sh3.render("AUD GR3 SH3"));
+    }
+    
+    public static Result AUDgr4sh1(){
+        return ok(AUDgr4sh1.render("AUD GR4 SH1"));
+    }
+    
+    public static Result AUDgr4sh2(){
+        return ok(AUDgr4sh2.render("AUD GR4 SH2"));
+    }
+    
+    public static Result AUDgr4sh3(){
+        return ok(AUDgr4sh3.render("AUD GR4 SH3"));
+    }
+    
+    public static Result AUDsheet_create(){
+        return ok(AUDsheet_create.render("AUD Blatt erstellen"));
+    }
+    
+    public static Result AUDtaskpool(){
+        return ok(AUDtaskpool.render("AUD Aufgabenpool"));
+    }
+    
+    public static Result AUDTEsolutions(){
+        return ok(AUDTEsolutions.render("AUD Musterlösungen"));
+    }
+    
+    public static Result AUDTEmaterial(){
+        return ok(AUDTEmaterial.render("AUD TEmaterial"));
+    }
+    
+    public static Result AUDTESTmaterial(){
+        return ok(AUDTESTmaterial.render("AUD STmaterial"));
+    }
+    
     public static Result EIcourse(){
         return ok(EIcourse.render("Einf. Inf. VL"));
     }
@@ -136,6 +204,74 @@ public class Application extends Controller {
         return ok(EIgroup4.render("Einf. Inf. GR4"));
     }
     
+    public static Result EIgr1sh1(){
+        return ok(EIgr1sh1.render("Einf. Inf. GR1 SH1"));
+    }
+    
+    public static Result EIgr1sh2(){
+        return ok(EIgr1sh2.render("Einf. Inf. GR1 SH2"));
+    }
+    
+    public static Result EIgr1sh3(){
+        return ok(EIgr1sh3.render("Einf. Inf. GR1 SH3"));
+    }
+    
+    public static Result EIgr2sh1(){
+        return ok(EIgr2sh1.render("Einf. Inf. GR2 SH1"));
+    }
+    
+    public static Result EIgr2sh2(){
+        return ok(EIgr2sh2.render("Einf. Inf. GR2 SH2"));
+    }
+    
+    public static Result EIgr2sh3(){
+        return ok(EIgr2sh3.render("Einf. Inf. GR2 SH3"));
+    }
+    
+    public static Result EIgr3sh1(){
+        return ok(EIgr3sh1.render("Einf. Inf. GR3 SH1"));
+    }
+    
+    public static Result EIgr3sh2(){
+        return ok(EIgr3sh2.render("Einf. Inf. GR3 SH2"));
+    }
+    
+    public static Result EIgr3sh3(){
+        return ok(EIgr3sh3.render("Einf. Inf. GR3 SH3"));
+    }
+    
+    public static Result EIgr4sh1(){
+        return ok(EIgr4sh1.render("Einf. Inf. GR4 SH1"));
+    }
+    
+    public static Result EIgr4sh2(){
+        return ok(EIgr4sh2.render("Einf. Inf. GR4 SH2"));
+    }
+    
+    public static Result EIgr4sh3(){
+        return ok(EIgr4sh3.render("Einf. Inf. GR4 SH3"));
+    }
+    
+    public static Result EIsheet_create(){
+        return ok(EIsheet_create.render("Einf. Inf. Blatt erstellen"));
+    }
+    
+    public static Result EItaskpool(){
+        return ok(EItaskpool.render("Einf. Inf. Aufgabenpool"));
+    }
+    
+    public static Result EITEsolutions(){
+        return ok(EITEsolutions.render("Einf. Inf. Musterlösungen"));
+    }
+    
+    public static Result EITEmaterial(){
+        return ok(EITEmaterial.render("Einf. Inf. TEmaterial"));
+    }
+    
+    public static Result EITESTmaterial(){
+        return ok(EITESTmaterial.render("Einf. Inf. STmaterial"));
+    }
+    
     public static Result FPcourse(){
         return ok(FPcourse.render("Func. Prog. VL"));
     }
@@ -154,5 +290,73 @@ public class Application extends Controller {
     
     public static Result FPgroup4(){
         return ok(FPgroup4.render("Func. Prog. GR4"));
+    }
+    
+    public static Result FPgr1sh1(){
+        return ok(FPgr1sh1.render("Func. Prog. GR1 SH1"));
+    }
+    
+    public static Result FPgr1sh2(){
+        return ok(FPgr1sh2.render("Func. Prog. GR1 SH2"));
+    }
+    
+    public static Result FPgr1sh3(){
+        return ok(FPgr1sh3.render("Func. Prog. GR1 SH3"));
+    }
+    
+    public static Result FPgr2sh1(){
+        return ok(FPgr2sh1.render("Func. Prog. GR2 SH1"));
+    }
+    
+    public static Result FPgr2sh2(){
+        return ok(FPgr2sh2.render("Func. Prog. GR2 SH2"));
+    }
+    
+    public static Result FPgr2sh3(){
+        return ok(FPgr2sh3.render("Func. Prog. GR2 SH3"));
+    }
+    
+    public static Result FPgr3sh1(){
+        return ok(FPgr3sh1.render("Func. Prog. GR3 SH1"));
+    }
+    
+    public static Result FPgr3sh2(){
+        return ok(FPgr3sh2.render("Func. Prog. GR3 SH2"));
+    }
+    
+    public static Result FPgr3sh3(){
+        return ok(FPgr3sh3.render("Func. Prog. GR3 SH3"));
+    }
+    
+    public static Result FPgr4sh1(){
+        return ok(FPgr4sh1.render("Func. Prog. GR4 SH1"));
+    }
+    
+    public static Result FPgr4sh2(){
+        return ok(FPgr4sh2.render("Func. Prog. GR4 SH2"));
+    }
+    
+    public static Result FPgr4sh3(){
+        return ok(FPgr4sh3.render("Func. Prog. GR4 SH3"));
+    }
+    
+    public static Result FPsheet_create(){
+        return ok(FPsheet_create.render("Func. Prog. Blatt erstellen"));
+    }
+    
+    public static Result FPtaskpool(){
+        return ok(FPtaskpool.render("Func. Prog. Aufgabenpool"));
+    }
+    
+    public static Result FPTEsolutions(){
+        return ok(FPTEsolutions.render("Func. Prog. Musterlösungen"));
+    }
+    
+    public static Result FPTEmaterial(){
+        return ok(FPTEmaterial.render("Func. Prog. TEmaterial"));
+    }
+    
+    public static Result FPTESTmaterial(){
+        return ok(FPTESTmaterial.render("Func. Prog. STmaterial"));
     }
 }
