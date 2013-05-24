@@ -164,6 +164,42 @@ public class Application extends Controller {
         return ok(AUDgr4sh3.render("AUD GR4 SH3"));
     }
     
+    public static Result AUDgr1sh1a1(){
+        return ok(AUDgr1sh1a1.render("AUD GR1 SH1 A1"));
+    }
+    
+    public static Result AUDgr1sh1a2(){
+        return ok(AUDgr1sh1a2.render("AUD GR1 SH1 A2"));
+    }
+    
+    public static Result AUDgr1sh1a3(){
+        return ok(AUDgr1sh1a3.render("AUD GR1 SH1 A3"));
+    }
+    
+    public static Result AUDgr1sh2a1(){
+        return ok(AUDgr1sh2a1.render("AUD GR1 SH2 A1"));
+    }
+    
+    public static Result AUDgr1sh2a2(){
+        return ok(AUDgr1sh2a2.render("AUD GR1 SH2 A2"));
+    }
+    
+    public static Result AUDgr1sh2a3(){
+        return ok(AUDgr1sh2a3.render("AUD GR1 SH2 A3"));
+    }
+    
+    public static Result AUDgr1sh3a1(){
+        return ok(AUDgr1sh3a1.render("AUD GR1 SH3 A1"));
+    }
+    
+    public static Result AUDgr1sh3a2(){
+        return ok(AUDgr1sh3a2.render("AUD GR1 SH3 A2"));
+    }
+    
+    public static Result AUDgr1sh3a3(){
+        return ok(AUDgr1sh3a3.render("AUD GR1 SH3 A3"));
+    }
+    
     public static Result AUDsheet_create(){
         return ok(AUDsheet_create.render("AUD Blatt erstellen"));
     }
@@ -276,6 +312,42 @@ public class Application extends Controller {
         return ok(EIgr4sh3.render("Einf. Inf. GR4 SH3"));
     }
     
+    public static Result EIgr1sh1a1(){
+        return ok(EIgr1sh1a1.render("EI GR1 SH1 A1"));
+    }
+    
+    public static Result EIgr1sh1a2(){
+        return ok(EIgr1sh1a2.render("EI GR1 SH1 A2"));
+    }
+    
+    public static Result EIgr1sh1a3(){
+        return ok(EIgr1sh1a3.render("EI GR1 SH1 A3"));
+    }
+    
+    public static Result EIgr1sh2a1(){
+        return ok(EIgr1sh2a1.render("EI GR1 SH2 A1"));
+    }
+    
+    public static Result EIgr1sh2a2(){
+        return ok(EIgr1sh2a2.render("EI GR1 SH2 A2"));
+    }
+    
+    public static Result EIgr1sh2a3(){
+        return ok(EIgr1sh2a3.render("EI GR1 SH2 A3"));
+    }
+    
+    public static Result EIgr1sh3a1(){
+        return ok(EIgr1sh3a1.render("EI GR1 SH3 A1"));
+    }
+    
+    public static Result EIgr1sh3a2(){
+        return ok(EIgr1sh3a2.render("EI GR1 SH3 A2"));
+    }
+    
+    public static Result EIgr1sh3a3(){
+        return ok(EIgr1sh3a3.render("EI GR1 SH3 A3"));
+    }
+    
     public static Result EIsheet_create(){
         return ok(EIsheet_create.render("Einf. Inf. Blatt erstellen"));
     }
@@ -386,6 +458,42 @@ public class Application extends Controller {
     
     public static Result FPgr4sh3(){
         return ok(FPgr4sh3.render("Func. Prog. GR4 SH3"));
+    }
+    
+    public static Result FPgr1sh1a1(){
+        return ok(FPgr1sh1a1.render("FP GR1 SH1 A1"));
+    }
+    
+   public static Result FPgr1sh1a2(){
+       return ok(FPgr1sh1a2.render("FP GR1 SH1 A2"));
+    }
+    
+    public static Result FPgr1sh1a3(){
+        return ok(FPgr1sh1a3.render("FP GR1 SH1 A3"));
+    }
+    
+    public static Result FPgr1sh2a1(){
+        return ok(FPgr1sh2a1.render("FP GR1 SH2 A1"));
+    }
+    
+    public static Result FPgr1sh2a2(){
+        return ok(FPgr1sh2a2.render("FP GR1 SH2 A2"));
+    }
+    
+    public static Result FPgr1sh2a3(){
+        return ok(FPgr1sh2a3.render("FP GR1 SH2 A3"));
+    }
+    
+    public static Result FPgr1sh3a1(){
+        return ok(FPgr1sh3a1.render("FP GR1 SH3 A1"));
+    }
+    
+    public static Result FPgr1sh3a2(){
+        return ok(FPgr1sh3a2.render("FP GR1 SH3 A2"));
+    }
+    
+    public static Result FPgr1sh3a3(){
+        return ok(FPgr1sh3a3.render("FP GR1 SH3 A3"));
     }
     
     public static Result FPsheet_create(){
