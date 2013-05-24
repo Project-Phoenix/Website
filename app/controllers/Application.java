@@ -184,6 +184,30 @@ public class Application extends Controller {
         return ok(AUDTESTmaterial.render("AUD STmaterial"));
     }
     
+    public static Result AUDTESEMsubmissions(){
+        return ok(AUDTESEMsubmissions.render("AUD SEM Einreichungen"));
+    }   
+    
+    public static Result AUDTEGRsubmissions(){
+        return ok(AUDTEGRsubmissions.render("AUD GR Einreichungen"));
+    } 
+    
+    public static Result AUDTESHsubmissions(){
+        return ok(AUDTESHsubmissions.render("AUD SH Einreichungen"));
+    } 
+    
+    public static Result AUDTESEMstatistics(){
+        return ok(AUDTESEMstatistics.render("AUD SEM Statistiken"));
+    } 
+
+    public static Result AUDTEGRstatistics(){
+        return ok(AUDTEGRstatistics.render("AUD GR Statistiken"));
+    } 
+    
+    public static Result AUDTESHstatistics(){
+        return ok(AUDTESHstatistics.render("AUD SH Statistiken"));
+    } 
+    
     public static Result EIcourse(){
         return ok(EIcourse.render("Einf. Inf. VL"));
     }
@@ -272,6 +296,30 @@ public class Application extends Controller {
         return ok(EITESTmaterial.render("Einf. Inf. STmaterial"));
     }
     
+    public static Result EITESEMsubmissions(){
+        return ok(EITESEMsubmissions.render("EI SEM Einreichungen"));
+    }   
+    
+    public static Result EITEGRsubmissions(){
+        return ok(EITEGRsubmissions.render("EI GR Einreichungen"));
+    } 
+    
+    public static Result EITESHsubmissions(){
+        return ok(EITESHsubmissions.render("EI SH Einreichungen"));
+    } 
+    
+    public static Result EITESEMstatistics(){
+        return ok(EITESEMstatistics.render("EI SEM Statistiken"));
+    } 
+
+    public static Result EITEGRstatistics(){
+        return ok(EITEGRstatistics.render("EI GR Statistiken"));
+    } 
+    
+    public static Result EITESHstatistics(){
+        return ok(EITESHstatistics.render("EI SH Statistiken"));
+    } 
+    
     public static Result FPcourse(){
         return ok(FPcourse.render("Func. Prog. VL"));
     }
@@ -358,5 +406,29 @@ public class Application extends Controller {
     
     public static Result FPTESTmaterial(){
         return ok(FPTESTmaterial.render("Func. Prog. STmaterial"));
+    }
+    
+    public static Result FPTESEMsubmissions(){
+        return ok(FPTESEMsubmissions.render("FP SEM Einreichungen"));
+    }   
+    
+    public static Result FPTEGRsubmissions(){
+        return ok(FPTEGRsubmissions.render("FP GR Einreichungen"));
+    } 
+    
+    public static Result FPTESHsubmissions(){
+        return ok(FPTESHsubmissions.render("FP SH Einreichungen"));
+    } 
+    
+    public static Result FPTESEMstatistics(){
+        return ok(FPTESEMstatistics.render("FP SEM Statistiken"));
+    } 
+
+    public static Result FPTEGRstatistics(){
+        return ok(FPTEGRstatistics.render("FP GR Statistiken"));
+    } 
+    
+    public static Result FPTESHstatistics(){
+        return ok(FPTESHstatistics.render("FP SH Statistiken"));
     }
 }
