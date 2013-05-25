@@ -1,0 +1,173 @@
+@(titel: String) 
+
+@additionalHead = {<!-- Additional head -->}
+
+@menu =  {
+<div style="background-color:white; border-radius:25px; width:95px; font-size: 20px">&nbsp&nbspStudent</div>
+<!-- Matze, your stuff goes here! -->
+	<div class="dropdown clearfix">
+       	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; padding: 8px">
+			<li class="dropdown-submenu">
+                <a tabindex="-1" href="doctrine">Lehre</a>
+                <ul class="dropdown-menu">
+	                <li class="dropdown-submenu">
+	                    <!-- Courses -->
+	                    <a tabindex="-1" href="EISTcourse">Einführung i.d. Informatik</a> 
+		                    <ul class="dropdown-menu">
+				                <li class="dropdown-submenu">
+				                    <li><a tabindex="-1" href="EImaterialStudent">Material</a></li>
+				                    <li class="divider"></li>
+				                    <li><a tabindex="-1" href="EISTgroup1">Gruppe 1</a></li>
+				                    <li><a tabindex="-1" href="EISTgroup2">Gruppe 2</a></li>
+				                    <li><a tabindex="-1" href="EISTgroup3">Gruppe 3</a></li>
+				                    <li><a tabindex="-1" href="EISTgroup4">Gruppe 4</a></li>
+				        	</ul>
+	                			<li class="dropdown-submenu">
+				                    <a tabindex="-1" href="AUDSTcourse">Algorithmen und Datenstrukturen</a> 
+					               		<ul class="dropdown-menu">
+							                <li class="dropdown-submenu">
+							                      <li><a tabindex="-1" href="AUDmaterialStudent">Material</a></li>
+							                      <li class="divider"></li>
+							                      <li><a tabindex="-1" href="AUDSTgroup1">Gruppe 1</a></li>
+							                      <li><a tabindex="-1" href="AUDSTgroup2">Gruppe 2</a></li>
+							                      <li><a tabindex="-1" href="AUDSTgroup3">Gruppe 3</a></li>
+							                      <li><a tabindex="-1" href="AUDSTgroup4">Gruppe 4</a></li>
+							                </li>
+							        	</ul>
+				                </li>
+					                <li class="dropdown-submenu">
+					                    <a tabindex="-1" href="FPSTcourse">Funktionale Programmierung</a> 
+					                    <ul class="dropdown-menu">
+							                <li class="dropdown-submenu">
+							                      <li><a tabindex="-1" href="FPmaterialStudent">Material</a></li>
+							                      <li class="divider"></li>
+							                      <li><a tabindex="-1" href="FPSTgroup1">Gruppe 1</a></li>
+							                      <li><a tabindex="-1" href="FPSTgroup2">Gruppe 2</a></li>
+							                      <li><a tabindex="-1" href="FPSTgroup3">Gruppe 3</a></li>
+							                      <li><a tabindex="-1" href="FPSTgroup4">Gruppe 4</a></li>
+							                 </li>
+							        	</ul>
+					               </li>
+			                    </ul>
+			                </li>
+			              	<!-- Divider -->       	
+			                <li class="divider"></li>
+			                <li class="menu-label1">&nbsp&nbsp&nbspAuD</li>
+			                <li class="dropdown-submenu">
+								<a tabindex="-1" href="AUDSTgroup1">Meine Gruppe</a> 
+								<ul class="dropdown-menu">
+									<li class="dropdown-submenu">
+										<li><a tabindex="-1" href="AUDSTgr1sh3">Blatt 3</a></li>
+										<li><a tabindex="-1" href="AUDSTgr1sh2">Blatt 2</a></li>
+										<li><a tabindex="-1" href="AUDSTgr1sh1">Blatt 1</a></li>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="AUDSTgr1sh3">&nbsp|&nbsp&nbspBlatt3</a> 
+								<ul class="dropdown-menu">
+									<li class="dropdown-submenu">
+										<li><a tabindex="-1" href="AUDSTgr1sh3a1">Aufgabe 1</a></li>
+										<li><a tabindex="-1" href="AUDSTgr1sh3a2">Aufgabe 2</a></li>
+										<li><a tabindex="-1" href="AUDSTgr1sh3a3">Aufgabe 3</a></li>
+									</li>
+								</ul>
+							</li>
+			                <li><a tabindex="-1" href="AUDSTsolutions">Musterlösungen</a></li>
+			                <li><a tabindex="-1" href="AUDmaterialStudent">Material</a></li>
+			          	 	<!-- Divider -->       	
+			                <li class="divider"></li>
+			                <li class="menu-label1">&nbsp&nbspSemester</li>
+							<li><a tabindex="-1" href="AUDSTSEMsubmissions">Einreichungen</a></li>
+							<li><a tabindex="-1" href="AUDSTSEMstatistics">Statistiken</a></li>
+		</ul>
+	</div> <!-- Dropdown menu -->
+			        
+}
+
+@_main_(titel)(additionalHead)(menu) {
+<!-- Content -->
+<div class="article">
+	<div id="headline">
+		Einführung in die Informatik
+	</div>
+	<div id="content">
+		<table>
+			<tr>
+				<td>
+					<table id="info" class="table table-condensed table-bordered" style="width: auto">
+						<tr>
+							<td>Teilnehmerzahl</td>
+							<td>200 (aktuell angemeldet: 0)</td>
+						</tr>
+						<tr>
+							<td>Veranstaltungstyp</td>
+							<td>Vorlesung</td>
+						</tr>
+						<tr>
+							<td>Dozent</td>
+							<td>Prof. Dr. Matthias Eiserloh</td>
+						</tr>
+						<tr>
+							<td>Zeit </td>
+							<td>Dienstag, 09:00–11:00</td>
+						</tr>
+						<tr>
+							<td>Turnus</td>
+							<td>wöchentlich vom 08.04.2013 bis zum 08.07.2013</td>
+						</tr>
+						<tr>
+							<td>Raum</td>
+							<td>G50-H3 </td>
+						</tr>								
+	    			</table>  		
+    			</td >
+    			<td style="vertical-align: top; text-align: left; padding-left: 60px;">
+	    			<fieldset>
+	    				<legend>Materialien</legend> 
+		    				<ul>
+		    					<li><a href="#"><i class="icon-pencil"></i> Dies das und natürlich Jenes</a></li>
+		    					<li><a href="#"><i class="icon-folder-open"></i> Order unso</a></li>
+		    					<li><a href="#"><i class="icon-plane"></i> Acagamics</a></li>
+		    					</ul>
+	    			</fieldset>
+				</td>
+			</tr>
+		</table>
+<h3>Klausurzulassung</h3>
+<p>Am Ende des Semesters
+findet eine Abschlussklausur statt. Für eine Zulassung zu dieser schriftlichen Prüfung sind erforderlich:</p>
+<ol><li>aktive Teilnahme und regelmäßige Anwesenheit in den Gruppenübungen</li><li>mind. 66 % der insgesamt gestellten Übungsaufgaben müssen votiert worden sein. Als votiert gelten alle eingereichten Lösungen, die nicht abgelehnt wurden.</li>
+<li>mind. 3 Vortragspunkte müssen in den Übungen erworben worden sein. Es ist möglich, für den Vortrag einer Lösung oder Alternativlösung mehrere Vortragspunkte zu erhalten.</li>
+<li>erfolgreiche Teilnahme am 
+<a href="http://wettbewerb.acagamics.cs.ovgu.de/"><b>Programmierwettbewerb</b></a>
+</li></ol>
+<ul> 
+<li>Wer das Fach mit einem <b>unbenoteten Schein</b> abschließen möchte, muss die Klausur mindestens mit Note 4 abschließen. Um an der schriftlichen Abschlussklausur teilnehmen zu können, müssen alle vier Zulassungskriterien erfüllt sein.
+</li>
+<li>Bei unentschuldigtem Fehlen zur Übung werden die zum jeweiligen Termin eingereichten Lösungen abgelehnt. Bei Verspätung in den Übungen werden nur die noch nicht besprochenen Aufgaben angerechnet.<br /></li>
+<li>Mit den eingereichten Aufgaben zeigen Sie dem Übungsleiter, dass Sie bereit sind, diese votierten Aufgaben vorzutragen (Lösungsvorschläge werden diskutiert, sie müssen nicht gleich vollständig richtig sein!). Kommen Sie der Aufforderung zum Vortragen nicht nach, werden ALLE Einreichungen für den jeweiligen Übungstermin abgelehnt. Sind die Ausführungen zu einer Aufgabe nicht akzeptabel, so wird die Einreichung für diese Aufgabe abgelehnt.</li></ul>
+<h3>Übungsgruppen</h3>
+<p>Jeder Student ist <strong>genau einer </strong>Übungsgruppe zugeordnet. Es werden auf den Gruppenseiten wöchentlich Aufgabenblätter veröffentlicht, die <strong>einzeln</strong> zu bearbeiten, und deren Lösungen im System <strong>einzureichen</strong>
+sind. Bei Programmieraufgaben erhalten Sie unmittelbar eine
+Rückmeldung. In der darauf folgenden Woche werden Ihre Aufgaben dann in <strong>Ihrer</strong>
+Übungsgruppe besprochen, Alternativlösungen vorgestellt und diskutiert.
+Eine aktive Mitwirkung hierbei ist für die Teilnahme an der
+Abschlussklausur notwendig. Die Übungen beginnen in der Woche ab 15.4.2013. </p>
+<h3>Aufgabenblätter</h3>
+<p>Es wird über das Semester hinweg 12 Aufgabenblätter geben. Neue
+Aufgabenblätter werden <strong>montags gegen 14 Uhr</strong> auf Ihrer
+jeweiligen Gruppenseite veröffentlicht. Die Annahme von Lösungen für das vorherige Aufgabenblatt schließt <strong>montags um 8 Uhr</strong>. Bitte beachten Sie, dass kurz vor Ablauf der Einreichfrist der Server besonders langsam ist, reichen Sie also <b>rechtzeitig</b> ein.</p>
+
+
+<h3>Tutorien</h3>
+<p>Es werden ab 15.4.2013 wöchentlich freiwillige Tutorien angeboten, Sie sollten sich dafür (ab 10.4.2013 um 14:00 Uhr) anmelden: <a href="http://iws.cs.uni-magdeburg.de:8080/frs"><b>Anmeldung zum Tutorium</b></a>. 
+<br />
+In den Tutorien besteht die Möglichkeit, Fragen zu Vorlesung und Übung zu stellen  und praktische Hilfe beim Umgang mit Java zu erhalten. Die Tutoren sind "Helfer zur Selbsthilfe", d.h. Sie werden von den Tutoren bei der Programmierung  unterstützt.</li>
+<br />
+
+Folgende Tutorien werden angeboten. Sie finden in Raum G29-336 statt. Eine endgültige Terminfestlegung erfolgt im ersten Tutorium.</p>    						
+	</div>
+</div>
+
+}

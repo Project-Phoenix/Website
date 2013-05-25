@@ -100,6 +100,26 @@ public class Application extends Controller {
         return ok(AUDcourse.render("AuD VL"));
     }
     
+    public static Result AUDSTcourse(){
+        return ok(AUDSTcourse.render("AuD ST VL"));
+    }
+    
+    public static Result AUDmaterialStudent() {
+        return ok(AUDmaterialStudent.render("AUD Material Student"));
+    }
+    
+    public static Result AUDSTsolutions(){
+        return ok(AUDSTsolutions.render("AuD ST Musterlösungen"));
+    }
+    
+    public static Result AUDSTSEMsubmissions(){
+        return ok(AUDSTSEMsubmissions.render("AuD ST Einreichungen"));
+    }
+    
+    public static Result AUDSTSEMstatistics(){
+        return ok(AUDSTSEMstatistics.render("AuD ST statistiken"));
+    }
+    
     public static Result AUDgroup1(){
         return ok(AUDgroup1.render("AuD GR1"));
     }
@@ -116,6 +136,22 @@ public class Application extends Controller {
         return ok(AUDgroup4.render("AuD GR4"));
     }
     
+    public static Result AUDSTgroup1(){
+        return ok(AUDSTgroup1.render("AuD ST GR1"));
+    }
+    
+    public static Result AUDSTgroup2(){
+        return ok(AUDSTgroup2.render("AuD ST GR2"));
+    }
+    
+    public static Result AUDSTgroup3(){
+        return ok(AUDSTgroup3.render("AuD ST GR3"));
+    }
+    
+    public static Result AUDSTgroup4(){
+        return ok(AUDSTgroup4.render("AuD ST GR4"));
+    }
+    
     public static Result AUDgr1sh1(){
         return ok(AUDgr1sh1.render("AUD GR1 SH1"));
     }
@@ -126,6 +162,18 @@ public class Application extends Controller {
     
     public static Result AUDgr1sh3(){
         return ok(AUDgr1sh3.render("AUD GR1 SH3"));
+    }
+    
+    public static Result AUDSTgr1sh1(){
+        return ok(AUDSTgr1sh1.render("AUD ST GR1 SH1"));
+    }
+    
+    public static Result AUDSTgr1sh2(){
+        return ok(AUDSTgr1sh2.render("AUD ST GR1 SH2"));
+    }
+    
+    public static Result AUDSTgr1sh3(){
+        return ok(AUDSTgr1sh3.render("AUD ST GR1 SH3"));
     }
     
     public static Result AUDgr2sh1(){
@@ -200,6 +248,42 @@ public class Application extends Controller {
         return ok(AUDgr1sh3a3.render("AUD GR1 SH3 A3"));
     }
     
+    public static Result AUDSTgr1sh1a1(){
+        return ok(AUDSTgr1sh1a1.render("AUD ST GR1 SH1 A1"));
+    }
+    
+    public static Result AUDSTgr1sh1a2(){
+        return ok(AUDSTgr1sh1a2.render("AUD ST GR1 SH1 A2"));
+    }
+    
+    public static Result AUDSTgr1sh1a3(){
+        return ok(AUDSTgr1sh1a3.render("AUD ST GR1 SH1 A3"));
+    }
+    
+    public static Result AUDSTgr1sh2a1(){
+        return ok(AUDSTgr1sh2a1.render("AUD ST GR1 SH2 A1"));
+    }
+    
+    public static Result AUDSTgr1sh2a2(){
+        return ok(AUDSTgr1sh2a2.render("AUD ST GR1 SH2 A2"));
+    }
+    
+    public static Result AUDSTgr1sh2a3(){
+        return ok(AUDSTgr1sh2a3.render("AUD ST GR1 SH2 A3"));
+    }
+    
+    public static Result AUDSTgr1sh3a1(){
+        return ok(AUDSTgr1sh3a1.render("AUD ST GR1 SH3 A1"));
+    }
+    
+    public static Result AUDSTgr1sh3a2(){
+        return ok(AUDSTgr1sh3a2.render("AUD ST GR1 SH3 A2"));
+    }
+    
+    public static Result AUDSTgr1sh3a3(){
+        return ok(AUDSTgr1sh3a3.render("AUD ST GR1 SH3 A3"));
+    }
+    
     public static Result AUDsheet_create(){
         return ok(AUDsheet_create.render("AUD Blatt erstellen"));
     }
@@ -248,6 +332,14 @@ public class Application extends Controller {
         return ok(EIcourse.render("Einf. Inf. VL"));
     }
     
+    public static Result EISTcourse(){
+        return ok(EISTcourse.render("Einf. Inf. ST VL"));
+    }
+    
+    public static Result EImaterialStudent() {
+        return ok(EImaterialStudent.render("Einf. Inf. Material Student"));
+    }
+    
     public static Result EIgroup1(){
         return ok(EIgroup1.render("Einf. Inf. GR1"));
     }
@@ -262,6 +354,22 @@ public class Application extends Controller {
     
     public static Result EIgroup4(){
         return ok(EIgroup4.render("Einf. Inf. GR4"));
+    }
+    
+    public static Result EISTgroup1(){
+        return ok(EISTgroup1.render("Einf. Inf. ST GR1"));
+    }
+    
+    public static Result EISTgroup2(){
+        return ok(EISTgroup2.render("Einf. Inf. ST GR2"));
+    }
+    
+    public static Result EISTgroup3(){
+        return ok(EISTgroup3.render("Einf. Inf. ST GR3"));
+    }
+    
+    public static Result EISTgroup4(){
+        return ok(EISTgroup4.render("Einf. Inf. ST GR4"));
     }
     
     public static Result EIgr1sh1(){
@@ -396,6 +504,14 @@ public class Application extends Controller {
         return ok(FPcourse.render("Func. Prog. VL"));
     }
     
+    public static Result FPSTcourse(){
+        return ok(FPSTcourse.render("Func. Prog. ST VL"));
+    }
+    
+    public static Result FPmaterialStudent() {
+        return ok(FPmaterialStudent.render("Func. Prog. Material Student"));
+    }
+    
     public static Result FPgroup1(){
         return ok(FPgroup1.render("Func. Prog. GR1"));
     }
@@ -410,6 +526,22 @@ public class Application extends Controller {
     
     public static Result FPgroup4(){
         return ok(FPgroup4.render("Func. Prog. GR4"));
+    }
+    
+    public static Result FPSTgroup1(){
+        return ok(FPSTgroup1.render("Func. Prog. ST GR1"));
+    }
+    
+    public static Result FPSTgroup2(){
+        return ok(FPSTgroup2.render("Func. Prog. ST GR2"));
+    }
+    
+    public static Result FPSTgroup3(){
+        return ok(FPSTgroup3.render("Func. Prog. ST GR3"));
+    }
+    
+    public static Result FPSTgroup4(){
+        return ok(FPSTgroup4.render("Func. Prog. ST GR4"));
     }
     
     public static Result FPgr1sh1(){
