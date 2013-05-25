@@ -116,8 +116,24 @@ public class Application extends Controller {
         return ok(AUDSTSEMsubmissions.render("AuD ST Einreichungen"));
     }
     
+    public static Result AUDSTGRsubmissions(){
+        return ok(AUDSTGRsubmissions.render("AuD ST GR Einreichungen"));
+    }
+    
+    public static Result AUDSTSHsubmissions(){
+        return ok(AUDSTSHsubmissions.render("AuD ST Blatt Einreichungen"));
+    }
+    
     public static Result AUDSTSEMstatistics(){
         return ok(AUDSTSEMstatistics.render("AuD ST statistiken"));
+    }
+    
+    public static Result AUDSTGRstatistics(){
+        return ok(AUDSTGRstatistics.render("AuD ST GR statistiken"));
+    }
+    
+    public static Result AUDSTSHstatistics(){
+        return ok(AUDSTSHstatistics.render("AuD ST Blatt statistiken"));
     }
     
     public static Result AUDgroup1(){
