@@ -131,7 +131,142 @@
 		</div>
 	</div>
 	<div id="content">
- 		- Hier werden Sie Aufgaben erstellen und alte Aufgaben verwalten können.
+ 	<div>	
+ 		<button class="btn btn-primary" id="btn00">Aufgabe erstellen</button>
+ 	</div>
+ 	<div>&nbsp</div>	
+ 		<div>
+	 		<select id="course" onchange="show()" style="width: 200px">
+	 			<option value=""><i>Veranstaltung</i></option>
+	 			<option value="EinfInf">Einf. Inf.</option>
+	 			<option value="AuD">AuD</option>
+	 			<option value="FuncProg">Func. Prog</option>
+	 		</select>
+	 		<select id="semester" onchange="show()" style="width: 200px">
+	 			<option value=""><i>Semester</i></option>
+	 			<option value="W1213">WS 12/13</option>
+	 			<option value="S12">SS 12</option>
+	 			<option value="W1112">WS 11/12</option>
+	 		</select>
+	 		<select id="sheet" onchange="show()" style="width: 200px">
+	 			<option value=""><i>Übungsblatt</i></option>
+	 			<option value="sheet1">Blatt 1</option>
+	 			<option value="sheet2">Blatt 2</option>
+	 			<option value="sheet3">Blatt 3</option>
+	 		</select>
+	 		<select id="theme" onchange="show()" style="width: 200px">
+	 			<option value=""><i>Thema</i></option>
+	 			<option value="theme1">Bäume</option>
+	 			<option value="theme2">Rekursion</option>
+	 			<option value="theme3">Sortieralgorithmen</option>
+	 		</select>
+	 	</div>
+	 	<div style="height:400px; overflow:auto">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Veranstaltung</th>
+						<th>Semester</th>
+						<th>Übungsblatt</th>
+						<th>Thema</th>					
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Aufgabe 01</td>
+						<td>Einf. Inf.</td>
+						<td>WS 12/13</td>
+						<td>Blatt 03</td>
+						<td>Rekursion</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 02</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 03</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 04</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 05</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 06</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 07</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 08</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 09</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+					<tr>
+						<td>Aufgabe 10</td>
+						<td>AuD</td>
+						<td>SS 12</td>
+						<td>Blatt 01</td>
+						<td>Bäume</td>
+						<td><button class="btn btn-warning" id="btn01">Bearbeiten</button></td>
+						<td><button class="btn btn-danger" id="btn02">Löschen</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 	</div>
 </div>
 
