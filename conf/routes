@@ -172,6 +172,7 @@ GET 	/FPTEGRsubmissions			controllers.Application.FPTEGRsubmissions()
 GET 	/FPTEGRstatistics			controllers.Application.FPTEGRstatistics()
 GET 	/FPTESHsubmissions			controllers.Application.FPTESHsubmissions()
 GET 	/FPTESHstatistics			controllers.Application.FPTESHstatistics()
+GET 	/ViewSubmissions			controllers.Application.ViewSubmissions()
 
 #POST
 POST 	/register					controllers.Login.register()

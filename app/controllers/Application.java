@@ -687,4 +687,9 @@ public class Application extends Controller {
     public static Result FPTESHstatistics(){
         return ok(FPTESHstatistics.render("FP SH Statistiken"));
     }
+    
+    public static Result ViewSubmissions() {
+        SubmissionHandler subh = new SubmissionHandler();
+        return ok(ViewSubmissions.render("Submissions", subh.getSubmissions()));
+    }
 }

@@ -5,10 +5,10 @@
 	
 	<title>@title</title>
 	<link href=@routes.Assets.at("stylesheets/bootstrap.css") rel="stylesheet">
-	<link href=@routes.Assets.at("stylesheets/main.css") rel="stylesheet">
 	<script src=@routes.Assets.at("javascripts/bootstrap.js")></script>
 	<script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
 	@additionalHead
+	<link href=@routes.Assets.at("stylesheets/main.css") rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -87,7 +87,7 @@ $(function() {
     $('[rel="clickover_login"]').clickover({
     html: true,
     content: $('#login-content').html(),
-    title: "<b>Login</b><div class=\"pull-right\"><a href=\"/register\" data-toggle=\"modal\">Registrieren</a></div>"
+    title: "<b>Login</b><div class=\"pull-right\"><a href=\"/register\">Registrieren</a></div>"
     }); 
 })  		
 </script>

@@ -75,7 +75,8 @@ public class Login extends Controller {
                 return redirect(routes.Application.home());
             }
             else
-                    return Controller.status(NOT_ACCEPTABLE);
+                    //return Controller.status(NOT_ACCEPTABLE);
+                flash("wrongReType","true");
         }
         else
             flash("wrongReType","true");
