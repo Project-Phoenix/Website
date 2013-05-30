@@ -8,7 +8,7 @@
 	<div class="dropdown clearfix">
        	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; padding: 8px">
 			<li class="dropdown-submenu">
-                <a tabindex="-1" href="doctrine">Lehre</a>
+                <a tabindex="-1" href="#">Lehre</a>
                 <ul class="dropdown-menu">
 	                <li class="dropdown-submenu">
 	                    <!-- Courses -->
@@ -94,8 +94,7 @@
 									</ul>
 							</li>
 		    				<li><a tabindex="-1" href="AUDTEmaterial">Material für Lehrende</a></li>
-		    				<li><a tabindex="-1" href="AUDTEsolutions">Studentische Lösungen</a></li>		    				
-		    				<li><a tabindex="-1" href="AUDTESTmaterial">Material für Studenten</a></li>
+		    				<li><a tabindex="-1" href="AUDTEsolutions">Studentische Musterlösungen</a></li>		    				
 		    				<li><a tabindex="-1" href="AUDtaskpool">Aufgabenpool</a></li>
 							<li class="menu-label2">&nbsp&nbsp&nbsp&nbspBlatt Erstellen</li>			              	
 			              	<!-- Divider -->       	     	
@@ -131,7 +130,6 @@
 		</div>
 	</div>
 	<div id="content">
- 		<div>- Hier werden Sie aus den Aufgaben ein neues Übungsbltt erstellen können.</div>
 
 		<div class="accordion" id="accordion1">
 					<div class="accordion-group">
@@ -171,7 +169,7 @@
 								<table class="table">
 									<thead>
 										<tr>
-											<th>In Tabelle?</th>
+											<th>Ausgewählt</th>
 											<th>Name</th>
 											<th>Veranstaltung</th>
 											<th>Semester</th>
@@ -207,7 +205,7 @@
 										<tr>
 											<td><input type="checkbox"></input></td>
 											<td>Aufgabe 04</td>
-											<td>AuD</td>
+											<td>Func. Prog</td>
 											<td>SS 12</td>
 											<td>Blatt 01</td>
 											<td>Bäume</td>
@@ -223,7 +221,7 @@
 										<tr>
 											<td><input type="checkbox"></input></td>
 											<td>Aufgabe 06</td>
-											<td>AuD</td>
+											<td>Einf. Inf.</td>
 											<td>SS 12</td>
 											<td>Blatt 01</td>
 											<td>Bäume</td>
@@ -239,7 +237,7 @@
 										<tr>
 											<td><input type="checkbox"></input></td>
 											<td>Aufgabe 08</td>
-											<td>AuD</td>
+											<td>Func. Prog</td>
 											<td>SS 12</td>
 											<td>Blatt 01</td>
 											<td>Bäume</td>
@@ -275,54 +273,44 @@
 					<div class="accordion-inner">	
 					<form method="POST" action="#">
 					<div> Blattname:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="text" name="blattname" maxlength="30" value="Blatt 01"></div>
-					<div> Veröffentlichen: <input type="datetime" name="datetime" value="2013-05-16T08:00Z"></div>
-					<div> Abgabedatum:&nbsp&nbsp <input type="datetime" name="datetime" value="2013-05-23T08:00Z"></div>
+					<div> Veröffentlichen: <input type="text" name="datetime1" value="31.05.2013"></div>
+					<div> Abgabedatum:&nbsp&nbsp <input type="text" name="datetime2" value="07.06.2013"></div>
 					<div>
 						<table class="table table-bordered">
 							<tr>
 								<th></th>
-								<th>Aufgabe 1</th>
-								<th>Aufgabe 2</th>
-								<th>Aufgabe 3</th>
-								<th>Aufgabe 4</th>
-								<th>Aufgabe 5</th>
-								<th>Aufgabe 6</th>
+								<th>Gruppe 1</th>
+								<th>Gruppe 2</th>
+								<th>Gruppe 3</th>
+								<th>Gruppe 4</th>
 							</tr>
 							<tr>
-								<td>Gruppe 1</td>
+								<td>Endrekursion</td>
 								<td><input type="checkbox" name="g1a1"></td>
-								<td><input type="checkbox" name="g1a2"></td>
-								<td><input type="checkbox" name="g1a3"></td>
-								<td><input type="checkbox" name="g1a4"></td>
-								<td><input type="checkbox" name="g1a5"></td>
-								<td><input type="checkbox" name="g1a6"></td>
-							</tr>
-							<tr>
-								<td>Gruppe 2</td>
 								<td><input type="checkbox" name="g2a1"></td>
-								<td><input type="checkbox" name="g2a2"></td>
-								<td><input type="checkbox" name="g2a3"></td>
-								<td><input type="checkbox" name="g2a4"></td>
-								<td><input type="checkbox" name="g2a5"></td>
-								<td><input type="checkbox" name="g2a6"></td>
-							</tr>
-							<tr>
-								<td>Gruppe 3</td>
 								<td><input type="checkbox" name="g3a1"></td>
-								<td><input type="checkbox" name="g3a2"></td>
-								<td><input type="checkbox" name="g3a3"></td>
-								<td><input type="checkbox" name="g3a4"></td>
-								<td><input type="checkbox" name="g3a5"></td>
-								<td><input type="checkbox" name="g3a6"></td>
+								<td><input type="checkbox" name="g4a1"></td>
 							</tr>
 							<tr>
-								<td>Gruppe 4</td>
-								<td><input type="checkbox" name="g4a1"></td>
+								<td>Stack-Anwendung: Palindrom</td>
+								<td><input type="checkbox" name="g1a2"></td>
+								<td><input type="checkbox" name="g2a2"></td>
+								<td><input type="checkbox" name="g3a2"></td>
 								<td><input type="checkbox" name="g4a2"></td>
+							</tr>
+							<tr>
+								<td>Binärer Baum</td>
+								<td><input type="checkbox" name="g1a3"></td>
+								<td><input type="checkbox" name="g2a3"></td>
+								<td><input type="checkbox" name="g3a3"></td>
 								<td><input type="checkbox" name="g4a3"></td>
+							</tr>
+							<tr>
+								<td>DList erweitern</td>
+								<td><input type="checkbox" name="g1a4"></td>
+								<td><input type="checkbox" name="g2a4"></td>
+								<td><input type="checkbox" name="g3a4"></td>
 								<td><input type="checkbox" name="g4a4"></td>
-								<td><input type="checkbox" name="g4a5"></td>
-								<td><input type="checkbox" name="g4a6"></td>
 							</tr>
 						</table>
 					</div>

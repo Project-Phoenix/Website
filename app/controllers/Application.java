@@ -76,6 +76,14 @@ public class Application extends Controller {
         return ok(create.render("Erstellen"));
     }
     
+    public static Result GROUPcreate() {
+        return ok(GROUPcreate.render("Gruppe Erstellen"));
+    }
+    
+    public static Result COURSEcreate() {
+        return ok(COURSEcreate.render("Veranstaltung Erstellen"));
+    }
+    
     public static Result doctrine() {
         return ok(doctrine.render("Lehre"));
     }
@@ -332,6 +340,10 @@ public class Application extends Controller {
         return ok(AUDTESHsubmissions.render("AUD SH Einreichungen"));
     } 
     
+    public static Result AUDTETAsubmissions(){
+        return ok(AUDTETAsubmissions.render("AUD TA Einreichungen"));
+    } 
+    
     public static Result AUDTESEMstatistics(){
         return ok(AUDTESEMstatistics.render("AUD SEM Statistiken"));
     } 
@@ -342,6 +354,10 @@ public class Application extends Controller {
     
     public static Result AUDTESHstatistics(){
         return ok(AUDTESHstatistics.render("AUD SH Statistiken"));
+    } 
+    
+    public static Result AUDTETAstatistics(){
+        return ok(AUDTETAstatistics.render("AUD TA Statistiken"));
     } 
     
     public static Result EIcourse(){
@@ -504,6 +520,10 @@ public class Application extends Controller {
         return ok(EITESHsubmissions.render("EI SH Einreichungen"));
     } 
     
+    public static Result EITETAsubmissions(){
+        return ok(EITETAsubmissions.render("EI TA Einreichungen"));
+    } 
+    
     public static Result EITESEMstatistics(){
         return ok(EITESEMstatistics.render("EI SEM Statistiken"));
     } 
@@ -514,6 +534,10 @@ public class Application extends Controller {
     
     public static Result EITESHstatistics(){
         return ok(EITESHstatistics.render("EI SH Statistiken"));
+    }
+    
+    public static Result EITETAstatistics(){
+        return ok(EITETAstatistics.render("EI TA Statistiken"));
     } 
     
     public static Result FPcourse(){
@@ -676,6 +700,10 @@ public class Application extends Controller {
         return ok(FPTESHsubmissions.render("FP SH Einreichungen"));
     } 
     
+    public static Result FPTETAsubmissions(){
+        return ok(FPTETAsubmissions.render("FP TA Einreichungen"));
+    } 
+    
     public static Result FPTESEMstatistics(){
         return ok(FPTESEMstatistics.render("FP SEM Statistiken"));
     } 
@@ -691,5 +719,9 @@ public class Application extends Controller {
     public static Result ViewSubmissions() {
         SubmissionHandler subh = new SubmissionHandler();
         return ok(ViewSubmissions.render("Submissions", subh.getSubmissions()));
+	}
+
+    public static Result FPTETAstatistics(){
+        return ok(FPTETAstatistics.render("FP TA Statistiken"));
     }
 }

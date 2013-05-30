@@ -113,7 +113,9 @@ body {
 
 /* PRETTITY */
 
-
+pre {
+	background-color: #FFF;
+}
 
 
 
