@@ -18,11 +18,17 @@
 
 package controllers;
 
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.Jenkins;
 import views.html.*;
+import de.phoenix.database.entity.User;
 /**
  *  This class handles all the functionality used by the frontend.
  * @author Markus W.<br>Matthias E.
@@ -43,7 +49,24 @@ public class Application extends Controller {
     }
     
     public static Result handleRegister() {
-        return ok();
+        Client client = Client.create();
+        WebResource wr = client.resource(Jenkins.BASE_URL).path("account").path("register");
+        User user = null;
+        
+        try {
+            user = models.Parser.setUser(  Form.form().bindFromRequest() );
+        }
+        catch (Exception e) {
+            
+        }
+        
+        ClientResponse response = wr.post(ClientResponse.class, user);
+        if (response.getStatus() == 200) {
+            return ok(home.render("Home"));
+        }
+        
+        return ok(); //TODO send connection error
+        
     }
     
     public static Result login() {

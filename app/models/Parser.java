@@ -17,7 +17,7 @@ public class Parser {
      * @param dynForm 
      * @return filled user
      */    
-    public User setUser(DynamicForm dynForm)
+    public static User setUser(DynamicForm dynForm)
     {
         DynamicForm requestData = dynForm;
         User user = new User(requestData.get("password"));
