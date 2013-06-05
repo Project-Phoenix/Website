@@ -1,0 +1,16 @@
+@(title : String)
+@_Structure(title){
+<h2>Registrieren</h2><br>
+<table>
+<form action="handleRegister" method="POST">
+	<tr><td>Vorname:</td> <td><input name="name" type="text"></td></tr>
+	<tr><td>Name:</td><td><input name="surname" type="text"></td></tr>
+	<tr><td>Title:</td><td> <input name="title" type="text"></td></tr>
+	<tr><td>E-Mail:</td><td> <input name="email" type="text"></td></tr>
+	<tr><td>Username:</td><td> <input name="username" type="text"></td></tr>
+	<tr><td>Passwort:</td><td> <input name="password" type="password"></td></tr>
+	<tr><td>Passwort erneut eigeben:</td><td> <input name="repassword" type="password"></td></tr>
+	<tr><td><br><input type="submit" value="Registrieren" name="submit"></td></tr>
+</form>
+</table>
+}

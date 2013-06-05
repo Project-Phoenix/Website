@@ -18,10 +18,37 @@
 
 package controllers;
 
-//import play.*;
-import play.mvc.*;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Result;
 import views.html.*;
-
+/**
+ *  This class handles all the functionality used by the frontend.
+ * @author Markus W.<br>Matthias E.
+ * 
+ */
 public class Application extends Controller {
+    
+    /**
+     * Displays the Homepage
+     * @return play.mvc.Results.Status
+     */
+    public static Result home() {
+        return ok(home.render("Home"));
+    }
+    
+    public static Result register() {
+        return ok(register.render("Registrieren"));
+    }
+    
+    public static Result handleRegister() {
+        return ok();
+    }
+    
+    public static Result login() {
+        return ok(login.render());
+    }
+    
   
 }
