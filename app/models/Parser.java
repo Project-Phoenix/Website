@@ -1,5 +1,9 @@
 package models;
 
+import exceptions.TooShortPasswordException;
+import exceptions.PasswordMismatchException;
+import exceptions.EmptyFieldException;
+
 import de.phoenix.database.entity.User;
 
 import play.data.DynamicForm;
@@ -17,8 +21,11 @@ public class Parser {
      * 
      * @param DynamicForm 
      * @return de.phoenix.database.entity.User
+     * @throws TooShortPasswordException 
+     * @throws EmptyFieldException 
+     * @throws PasswordMismatchException 
      */    
-    public static User setUser(DynamicForm dynForm)
+    public static User setUser(DynamicForm dynForm) throws TooShortPasswordException, EmptyFieldException, PasswordMismatchException
     {
         DynamicForm requestData = dynForm;
         User user = new User(requestData.get("password"));
@@ -31,29 +38,29 @@ public class Parser {
         
         if (!requestData.get("password").equals(requestData.get("repassword")))
         {
-            //TODO: Throw exeption
+            throw new PasswordMismatchException();
         }
         
         if (requestData.get("password").length()<6)
         {
-            //TODO: Throw exeption
+            throw new TooShortPasswordException();
         }
         
         if(name.length()>0)
             user.setName(name);
-        //TODO: else throw exeption
+        else throw new EmptyFieldException();
         if(surname.length()>0)
             user.setSurname(surname);
-        //TODO: else throw exeption
+        else throw new EmptyFieldException();
         if(title.length()>0)
             user.setTitle(title);
-        //TODO: else throw exeption
+        else throw new EmptyFieldException();      
         if(username.length()>0)
             user.setUsername(username);
-        //TODO: else throw exeption        
+        else throw new EmptyFieldException();        
         if(email.length()>0)
             user.setEmail(email);
-        //TODO: else throw exeption
+        else throw new EmptyFieldException(); 
                 
         return user;
     }

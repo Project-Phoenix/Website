@@ -31,6 +31,9 @@ import de.phoenix.database.entity.User;
 import de.phoenix.security.LoginFilter;
 import de.phoenix.security.Token;
 import de.phoenix.security.TokenFilter;
+import exceptions.EmptyFieldException;
+import exceptions.PasswordMismatchException;
+import exceptions.TooShortPasswordException;
 /**
  *  This class handles all the functionality used by the frontend.
  * @author Markus W.<br>Matthias E.
@@ -60,8 +63,11 @@ public class Application extends Controller {
      * entity with information binded from Request form and sends the user data
      * back to the jenkins server.
      * @return
+     * @throws PasswordMismatchException 
+     * @throws EmptyFieldException 
+     * @throws TooShortPasswordException
      */
-    public static Result handleRegister() {
+    public static Result handleRegister() throws EmptyFieldException, TooShortPasswordException, PasswordMismatchException {
         Client client = Client.create();
         WebResource wr = client.resource(Jenkins.BASE_URL).path("account").path("register");
         User user = null;
@@ -69,9 +75,19 @@ public class Application extends Controller {
         try {
             user = models.Parser.setUser(  Form.form().bindFromRequest() );
         }
-        catch (Exception e) {
-            //TODO check for self generated Exceptions and set flash message
+        catch (EmptyFieldException e){
+            flash("empty_field","true");
+            return ok(register.render("Registrieren"));            
+        }        
+        catch (TooShortPasswordException e) {
+            flash("too_short_password","true");
+            return ok(register.render("Registrieren"));
         }
+        catch (PasswordMismatchException e) {
+            flash("password_mismatch","true");
+            return ok(register.render("Registrieren"));             
+        }
+
         
         ClientResponse response = wr.post(ClientResponse.class, user);
         if (response.getStatus() == 200) {
@@ -79,8 +95,7 @@ public class Application extends Controller {
             return ok(home.render("Home"));
         }
         
-        return ok(); //TODO send connection error
-        
+        return ok(); //TODO send connection error  
     }
     
     /**
