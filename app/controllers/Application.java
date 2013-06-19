@@ -123,8 +123,10 @@ public class Application extends Controller {
             }
         }
         return Controller.status(505); //TODO Login failed status
-   
-
+    }
+    
+    public static Result createTask() {
+        return ok(createTask.render("Aufgabe erstellen"));
     }
     
   

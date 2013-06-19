@@ -6,6 +6,7 @@
 GET 	/							controllers.Application.home()
 GET 	/login						controllers.Application.login()
 GET 	/register					controllers.Application.register()
+GET 	/createTask					controllers.Application.createTask()
 
 # POST
 POST 	/handleRegister				controllers.Application.handleRegister()
