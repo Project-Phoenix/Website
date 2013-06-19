@@ -9,6 +9,7 @@ GET 	/register					controllers.Application.register()
 
 # POST
 POST 	/handleRegister				controllers.Application.handleRegister()
+POST	/handleLogin				controllers.Application.handleLogin()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -5,17 +5,18 @@ import de.phoenix.database.entity.User;
 import play.data.DynamicForm;
 
 /**
- * fills the different entities with information
+ * Fills the different entities with information
  * 
  * @author Markus W.<br>Matthias E.
  */
 public class Parser {
         
     /**
-     * gets the inforamtion from the form and returns the filled user
+     * Parses user data from given DynamicForm to user entity and also <br>
+     * checks for user data correctness.
      * 
-     * @param dynForm 
-     * @return filled user
+     * @param DynamicForm 
+     * @return de.phoenix.database.entity.User
      */    
     public static User setUser(DynamicForm dynForm)
     {

@@ -22,13 +22,15 @@ package controllers;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.Jenkins;
 import views.html.*;
 import de.phoenix.database.entity.User;
+import de.phoenix.security.LoginFilter;
+import de.phoenix.security.Token;
+import de.phoenix.security.TokenFilter;
 /**
  *  This class handles all the functionality used by the frontend.
  * @author Markus W.<br>Matthias E.
@@ -37,17 +39,28 @@ import de.phoenix.database.entity.User;
 public class Application extends Controller {
     
     /**
-     * Displays the Homepage
+     * Displays the home page
      * @return play.mvc.Results.Status
      */
     public static Result home() {
         return ok(home.render("Home"));
     }
     
+    /**
+     * Displays registration page
+     * @return play.mvc.Results.Status
+     */
     public static Result register() {
         return ok(register.render("Registrieren"));
     }
     
+    /**
+     * Handles registration process. Connects to jenkins server,<br>
+     * defined in the BASE_URL constant, fills user <br>
+     * entity with information binded from Request form and sends the user data
+     * back to the jenkins server.
+     * @return
+     */
     public static Result handleRegister() {
         Client client = Client.create();
         WebResource wr = client.resource(Jenkins.BASE_URL).path("account").path("register");
@@ -57,11 +70,12 @@ public class Application extends Controller {
             user = models.Parser.setUser(  Form.form().bindFromRequest() );
         }
         catch (Exception e) {
-            
+            //TODO check for self generated Exceptions and set flash message
         }
         
         ClientResponse response = wr.post(ClientResponse.class, user);
         if (response.getStatus() == 200) {
+            flash("registration_successful","true");
             return ok(home.render("Home"));
         }
         
@@ -69,8 +83,48 @@ public class Application extends Controller {
         
     }
     
+    /**
+     * Displays login page
+     * @return play.mvc.Results.Status
+     */
     public static Result login() {
-        return ok(login.render());
+        return ok(login.render("Login"));
+    }
+    
+    /**
+     * Binds username and password from Request and sends it to the jenkins server.<br>
+     * Also validates Token and generates a new session for the user (with TokenID).
+     * @return play.mvc.Results.Status
+     */
+    public static Result handleLogin() {
+        Client client = Client.create();
+        WebResource requestTokenRes = client.resource(Jenkins.BASE_URL).path("token").path("request");
+        requestTokenRes.addFilter(
+                new LoginFilter( Form.form().bindFromRequest().get("username"), Form.form().bindFromRequest().get("password"))
+                );
+        
+        ClientResponse response = requestTokenRes.get(ClientResponse.class);
+        
+        if ( response.getClientResponseStatus().equals(ClientResponse.Status.OK) ) {
+            
+            Token token = response.getEntity(Token.class);
+            WebResource validateTokenRes = client.resource(Jenkins.BASE_URL).path("token").path("validate");
+            client.addFilter(new TokenFilter(token));
+            
+            //Token Validation and Session creation from TokenID
+            response = validateTokenRes.get(ClientResponse.class);
+            if ( response.getClientResponseStatus().equals(ClientResponse.Status.OK) ) {
+                session("PhoenixUser",Form.form().bindFromRequest().get("username") );
+                session(Form.form().bindFromRequest().get("username"), token.getID());
+                return ok(home.render("Home"));
+            }
+            else {
+                return Controller.status(505); //TODO: Token not valid status
+            }
+        }
+        return Controller.status(505); //TODO Login failed status
+   
+
     }
     
   
