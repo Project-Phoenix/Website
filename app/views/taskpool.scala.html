@@ -1,0 +1,18 @@
+@(title : String)(tasks : List[de.phoenix.database.entity.TaskPool])
+
+@head={}
+
+@_Structure(title)(head){
+<table>
+	<tr>
+		<td style="width:100">Aufgabe</td>
+		<td style="width:300">Tags</td>
+	</tr>
+	@tasks.map { task =>
+		<tr>
+			<td>@task.getName()</td>
+			<td></td>
+		</tr>
+	}
+</table>
+}

@@ -19,6 +19,7 @@
 package controllers;
 
 
+import java.util.List;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -28,6 +29,7 @@ import play.mvc.Result;
 import util.Jenkins;
 import views.html.*;
 import de.phoenix.database.entity.User;
+import de.phoenix.database.entity.TaskPool;
 import de.phoenix.security.LoginFilter;
 import de.phoenix.security.Token;
 import de.phoenix.security.TokenFilter;
@@ -144,5 +146,10 @@ public class Application extends Controller {
         return ok(createTask.render("Aufgabe erstellen"));
     }
     
+    public static Result taskpool() 
+    {
+        List<TaskPool> tasks;
+        return ok(taskpool.render(tasks));
+    }
   
 }
