@@ -1,5 +1,8 @@
 @(title : String)
-@_Structure(title) {
+
+@head = {}
+
+@_Structure(title)(head) {
 	<table>
 		<form method="POST" action="handleLogin">
 			<tr><td>Username:</td><td><input type="text" name="username"></td></tr>
