@@ -1,5 +1,8 @@
 @(title : String)
-@_Structure(title){
+
+@head = {}
+
+@_Structure(title)(head){
 <h2>Registrieren</h2><br>
 @if(flash.get("password_mismatch") == "true"){
 	<p style="color: red">Das Passwort ist zu kurz!</p> 
