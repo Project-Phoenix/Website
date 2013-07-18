@@ -19,6 +19,8 @@
 package controllers;
 
 
+import java.util.ArrayList;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -27,7 +29,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import util.Jenkins;
 import views.html.*;
+import de.phoenix.database.entity.Tag;
 import de.phoenix.database.entity.User;
+import de.phoenix.database.entity.TaskPool;
 import de.phoenix.security.LoginFilter;
 import de.phoenix.security.Token;
 import de.phoenix.security.TokenFilter;
@@ -145,5 +149,35 @@ public class Application extends Controller {
         return ok(createTask.render("Aufgabe erstellen"));
     }
     
+    /**
+     * Pulls the Taskpoollist from the database and sends it to the taskpoolview
+     * @return
+     */
+    public static Result taskpool() 
+    {
+        ArrayList<TaskPool> tasks = new ArrayList<TaskPool>(); // TODO: Get the TaskPoolList from the database
+        Tag tag1 = new Tag(1,"test1");
+        Tag tag2 = new Tag(2,"test2");
+        Tag tag3 = new Tag(3,"test3");
+        TaskPool tp1 = new TaskPool(1,"aufgabe1","'ne aufgabe halt");
+        TaskPool tp2 = new TaskPool(2,"aufgabe2","'ne aufgabe halt");
+        TaskPool tp3 = new TaskPool(3,"aufgabe3","'ne aufgabe halt");
+        ArrayList<Tag> tags1 = new ArrayList<Tag>();
+        ArrayList<Tag> tags2 = new ArrayList<Tag>();
+        ArrayList<Tag> tags3 = new ArrayList<Tag>();
+        tags1.add(tag1);
+        tags1.add(tag2);
+        tags2.add(tag2);
+        tags2.add(tag3);
+        tags3.add(tag1);
+        tags3.add(tag3);
+        tp1.setTags(tags1);
+        tp2.setTags(tags2);
+        tp3.setTags(tags3);
+        tasks.add(tp1);
+        tasks.add(tp2);
+        tasks.add(tp3);
+        return ok(taskpool.render("taskpool",tasks));
+    }
   
 }

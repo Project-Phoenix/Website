@@ -6,5 +6,5 @@
 	<h2>Es geht!</h2><br>
 	<i>@if(session().get("PhoenixUser") != null) { Eingeloggt als: @session().get("PhoenixUser") <br> }</i><br>
 	@if(flash.get("registration_successful") == "true"){ <strong>Die Registrierung war erfolgreich! ;)</strong><br> }
-	<b><a href="register">Register</a> <a href="login">Login</a></b>
+	<b><a href="register">Register</a> <a href="login">Login</a> <a href="taskpool">TaskPool</a></b>
 }
