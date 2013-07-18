@@ -36,16 +36,6 @@ public class Parser {
         String username = requestData.get("username"); 
         String email = requestData.get("email");
         
-        if (!requestData.get("password").equals(requestData.get("repassword")))
-        {
-            throw new PasswordMismatchException();
-        }
-        
-        if (requestData.get("password").length()<6)
-        {
-            throw new TooShortPasswordException();
-        }
-        
         if(name.length()>0)
             user.setName(name);
         else throw new EmptyFieldException();
@@ -61,6 +51,15 @@ public class Parser {
         if(email.length()>0)
             user.setEmail(email);
         else throw new EmptyFieldException(); 
+        
+        
+        if (!requestData.get("password").equals(requestData.get("repassword")))
+            throw new PasswordMismatchException();
+        
+        
+        if (requestData.get("password").length()<6)
+            throw new TooShortPasswordException();
+       
                 
         return user;
     }

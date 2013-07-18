@@ -3,7 +3,9 @@
 @head = {}
 
 @_Structure(title)(head){
+
 <h2>Registrieren</h2><br>
+
 @if(flash.get("password_mismatch") == "true"){
 	<p style="color: red">Das Passwort ist zu kurz!</p> 
 }
@@ -11,8 +13,9 @@
 	<p style="color: red">Die Passwörter stimmen nicht überein!</p> 
 }
 @if(flash.get("empty_field") == "true"){
-	<p style="color: red">Ein Feld ist leer!</p> 
+	<p style="color: red">Bitte alle Felder ausfüllen!</p> 
 }
+
 <table>
 <form action="handleRegister" method="POST">
 	<tr><td>Vorname:</td> <td><input name="name" type="text"></td></tr>
