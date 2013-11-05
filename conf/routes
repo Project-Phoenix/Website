@@ -4,14 +4,6 @@
 
 # GET
 GET 	/							controllers.Application.home()
-GET 	/login						controllers.Application.login()
-GET 	/register					controllers.Application.register()
-GET 	/createTask					controllers.Application.createTask()
-GET 	/taskpool					controllers.Application.taskpool()
-
-# POST
-POST 	/handleRegister				controllers.Application.handleRegister()
-POST	/handleLogin				controllers.Application.handleLogin()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
