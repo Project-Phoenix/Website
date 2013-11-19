@@ -5,10 +5,14 @@
 # GET
 GET 	/							controllers.Application.home()
 GET 	/createTask					controllers.Application.createTask()
+GET		/showTasks					controllers.Application.showTasks()
+GET		/showSubmissions			controllers.Application.showSubmissions()
 
 #POST
 
 POST	/sendTask					controllers.Application.sendTask()
+
+
 
 
 # Map static resources from the /public folder to the /assets URL path

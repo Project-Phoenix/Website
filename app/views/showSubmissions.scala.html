@@ -1,0 +1,13 @@
+@(title : String)(submissions : List[de.phoenix.rs.entity.PhoenixSubmission]) 
+
+@head={}
+
+@_Structure(title)(head){
+	@submissions.map { submission =>
+		<p>@submission.getDate()</p>
+		<p>@submission.getStatusText()</p>
+		<p>@submission.getTexts().map { text =>
+			<p>@Html(text.getText().replace("\n", "<br>"))</p>
+		}
+	}
+}

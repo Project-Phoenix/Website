@@ -1,0 +1,9 @@
+@(title : String)(tasks : List[de.phoenix.rs.entity.PhoenixTask]) 
+@head={}
+
+@_Structure(title)(head){
+		 @tasks.map { task =>
+		<p>@task.getTitle()</p>
+		<p>@Html(task.getDescription())</p>
+		}
+}
