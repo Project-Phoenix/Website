@@ -4,9 +4,17 @@
 
 # GET
 GET 	/							controllers.Application.home()
+GET 	/createTask					controllers.Application.createTask()
 GET		/showTasks					controllers.Application.showTasks()
 GET		/showSubmissions			controllers.Application.showSubmissions()
 GET		/createLecture				controllers.Application.createLecture()
+
+#POST
+
+POST	/sendTask					controllers.Application.sendTask()
+
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
