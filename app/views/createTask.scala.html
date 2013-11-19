@@ -1,0 +1,32 @@
+@(title : String)
+
+@head = {}
+
+@_Structure(title)(head){
+	<center>
+		<p style="margin-top: 50px">
+			<h2>Erstelle eine Aufgabe</h2>
+			<form enctype="multipart/form-data" action="/sendTask" method="POST">
+				<table cellspacing="25" style="width:50%">
+					<tr>
+						<td>Aufgabentitel</td>
+						<td><input name="title" style="width:100%" type="text" ></td>
+					</tr>
+					<tr>
+						<td>Beschreibung</td>
+						<td><textarea name="description" style="width: 100%" rows="8" ></textarea></td>
+					</tr>
+					<tr>
+						<td>Anhang</td>
+						<td><input type="file" name="binary" multiple/></td>
+					</tr>
+					<tr>
+						<td>Antwortvorlage</td>
+						<td><textarea name="pattern" style="width: 100%" rows="8" ></textarea></td>
+					</tr>
+				</table>
+				<input type="submit" value="Aufgabe erstellen">
+			</form>
+		</p>
+	</center>
+}
