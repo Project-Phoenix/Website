@@ -28,8 +28,10 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import de.phoenix.rs.PhoenixClient;
+import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
@@ -71,5 +73,17 @@ public class Application extends Controller {
         ClientResponse resp = wr.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         
         return PhoenixTask.fromSendableList(resp);       
+    }
+    
+    public static Result createLecture() {
+        return ok(createLecture.render("Create Lecture"));
+    }
+    
+    public static Result sendLecture() {
+        System.out.println(Form.form().bindFromRequest().get("period2"));
+        System.out.println(Form.form().bindFromRequest().get("selectDay"));
+        System.out.println(Form.form().bindFromRequest().get("day"));
+        
+        return ok();
     }
 }

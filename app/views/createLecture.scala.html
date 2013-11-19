@@ -1,0 +1,85 @@
+@(title : String)
+@head={}
+
+@_Structure(title)(head){
+	<form action="/sendLecture" method="post">
+		Titel: <input type="text" name="titel"><br><br>
+		
+		<input type="radio" name="day" value="monday" checked>Montag
+		<input type="radio" name="day" value="tuesday">Dienstag
+		<input type="radio" name="day" value="wednesday">Mittwoch
+		<input type="radio" name="day" value="thursday">Donnerstag
+		<input type="radio" name="day" value="friday">Freitag
+		<input type="radio" name="day" value="saturday">Samstag
+		<input type="radio" name="day" value="sunday">Sonntag<br><br>
+		
+	    <select name="selectDay" size="7">
+	      <option selected>Montag</option>
+	      <option>Dienstag</option>
+	      <option>Mittwoch</option>
+	      <option>Donnerstag</option>
+	      <option>Freitag</option>
+	      <option>Samstag</option>
+	      <option>Sonntag</option>
+	    </select><br><br>
+	    
+		Startzeit: <input type="text" name="startTime">
+		Endzeit: <input type="text" name="endTime"><br><br>
+		
+		<input type="radio" name="period" value="onetime" checked>einmalig
+		<input type="radio" name="period" value="weekly">wöchentlich
+		<input type="radio" name="period" value="twoWeekly">zweiwöchentlich
+		<input type="radio" name="period" value"="monthly">monatlich<br><br>
+		
+		Startdatum: <input type="text" name="startDate">
+		Enddatum: <input type="text" name="endDate"><br><br>
+		
+		<script language="JavaScript">
+			var idToClear = '';
+			function clearId(){
+				if (idToClear !== ''){
+					 document.getElementById(idToClear).style.display='none';
+				}
+			}
+		</script>
+		
+		<input type = "button" id="btn1" 
+		onclick="clearId(); document.getElementById('text1').style.display='block';
+		idToClear = 'text1'" value="zeige Text1"><br>
+		
+		<DIV id="text1" style="display: none">	
+			<input type="radio" name="day2" value="monday">Montag
+			<input type="radio" name="day2" value="tuesday">Dienstag
+			<input type="radio" name="day2" value="wednesday">Mittwoch
+			<input type="radio" name="day2" value="thursday">Donnerstag
+			<input type="radio" name="day2" value="friday">Freitag
+			<input type="radio" name="day2" value="saturday">Samstag
+			<input type="radio" name="day2" value="sunday">Sonntag<br><br>
+			
+		    <select name="selectDay2" size="7">
+		      <option>Montag</option>
+		      <option>Dienstag</option>
+		      <option>Mittwoch</option>
+		      <option>Donnerstag</option>
+		      <option>Freitag</option>
+		      <option>Samstag</option>
+		      <option>Sonntag</option>
+		    </select><br><br>
+		    
+			Startzeit: <input type="text" name="startTime">
+			Endzeit: <input type="text" name="endTime"><br><br>
+			
+			<input type="radio" name="period2" value="onetime">einmalig
+			<input type="radio" name="period2" value="weekly">wöchentlich
+			<input type="radio" name="period2" value="twoWeekly">zweiwöchentlich
+			<input type="radio" name="period2" value"="monthly">monatlich<br><br>
+			
+			Startdatum: <input type="text" name="startDate">
+			Enddatum: <input type="text" name="endDate"><br><br>		
+		</div>
+						
+		<input type="submit" value="Submit">
+	</form> 
+	
+	
+}
