@@ -1,12 +1,14 @@
 @(title : String)
-@head={}
+@head={
+<!doctype html>
+}
 
 @_Structure(title)(head){
 	<form action="/sendLecture" method="post">
 		Titel: <input type="text" name="titel"><br><br>
 		
 		<input type="radio" name="day" value="monday" checked>Montag
-		<input type="radio" name="day" value="tuesday">Dienstag
+		<input type="radio" name="day" value="thursday">Dienstag
 		<input type="radio" name="day" value="wednesday">Mittwoch
 		<input type="radio" name="day" value="thursday">Donnerstag
 		<input type="radio" name="day" value="friday">Freitag
@@ -31,7 +33,7 @@
 		<input type="radio" name="period" value="twoWeekly">zweiwöchentlich
 		<input type="radio" name="period" value"="monthly">monatlich<br><br>
 		
-		Startdatum: <input type="text" name="startDate">
+		Startdatum: <input type="number" name="startDate">
 		Enddatum: <input type="text" name="endDate"><br><br>
 		
 		<script language="JavaScript">

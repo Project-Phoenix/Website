@@ -19,8 +19,6 @@
 package controllers;
 
 
-import java.util.List;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,30 +26,25 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
+import views.html.createLecture;
+import views.html.createTask;
+import views.html.home;
+import views.html.showSubmissions;
+import views.html.showTasks;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-
-
-import javax.ws.rs.core.MediaType;
-
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
-import play.data.Form;
-import views.html.*;
-import de.phoenix.rs.entity.PhoenixTask;
 
 import de.phoenix.rs.PhoenixClient;
-import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
-import play.data.Form;
-import play.mvc.Controller;
-import play.mvc.Result;
-import views.html.*;
+
 
 
 /**
@@ -124,10 +117,38 @@ public class Application extends Controller {
     }
     
     public static Result sendLecture() {
+        String[] keyStrings = new String[] {"title", "day", "startTime", "endTime", "period", "startDate", "endDate"};
+        String[] requests = new String[6];
+        
+        String title = "";
+        int itemCount = 0;
+        boolean wrongInput = false;
+        for(String item: keyStrings){
+            String temp = Form.form().bindFromRequest().get(item);
+            if ( temp == null || temp.equals("")){
+                wrongInput = true;         //TODO: if (wrongInput == true) throw IOException;
+                break;                
+            }
+            else {
+                if (itemCount == 0) {
+                    title = temp;
+                    itemCount++;
+                }
+                else{
+                    requests[itemCount-1] = temp;
+                    itemCount++;               
+                }
+            }
+        }
+
+        
+        
+        
         System.out.println(Form.form().bindFromRequest().get("period2"));
         System.out.println(Form.form().bindFromRequest().get("selectDay"));
         System.out.println(Form.form().bindFromRequest().get("day"));
-        
+        System.out.println(Form.form().bindFromRequest().get("startTime"));
+       
         return ok();
     }
 }
