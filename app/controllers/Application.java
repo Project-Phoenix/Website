@@ -81,15 +81,15 @@ public class Application extends Controller {
         for (FilePart fp : form.getFiles()) {
             try {
                 if (fp.getKey().equals("binary"))
-                    attachmentLst.add(new PhoenixAttachment(fp.getFile()));
+                    attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename()));
                 else if (fp.getKey().equals("pattern"))
-                    patternLst.add(new PhoenixText(fp.getFile()));
+                    patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));
             } catch (IOException e) {}
         }  
 
         WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_CREATE);
                 
-        PhoenixTask task = new PhoenixTask(attachmentLst,new ArrayList<PhoenixText>(), Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"));
+        PhoenixTask task = new PhoenixTask(attachmentLst,patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"));
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
         System.out.println("CreateTask Status: "+post.getStatus());
 
@@ -116,6 +116,7 @@ public class Application extends Controller {
         return PhoenixTask.fromSendableList(resp);       
     }
     
+
     public static Result createLecture() {
         return ok(createLecture.render("Create Lecture"));
     }
@@ -157,4 +158,40 @@ public class Application extends Controller {
         
         return ok();
     }
+
+    public static Result download(String title, String filename, String type){
+        WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_GETBYTITLE);
+        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, title);
+        List<PhoenixTask> taskList = PhoenixTask.fromSendableList(post);
+        
+        if (!taskList.isEmpty()){
+            PhoenixTask task = taskList.get(0);
+            if (task != null){
+                try {
+                    response().setContentType("application/x-download");
+                    if (type.equals("attachment")) { 
+                        for(PhoenixAttachment a : task.getAttachments()) 
+                            if ((a.getName()+"."+a.getType()).equals(filename)) { 
+                                    //TODO: Filenames in HTML header without spaces?
+                                    response().setHeader("Content-disposition","attachment; filename="+a.getName().replace(" ", "_")+"."+a.getType()); 
+                                    response().setHeader("Content-Lenght", String.valueOf(a.getFile().length()));
+                                    return ok(a.getFile());
+                                }
+                    }
+                    else {
+                        for(PhoenixText t : task.getPattern()) 
+                            if ((t.getName()+"."+t.getType()).equals(filename)) { 
+                                    response().setHeader("Content-disposition","attachment; filename="+t.getName()+"."+t.getType()); 
+                                    response().setHeader("Content-Lenght", String.valueOf(t.getFile().length()));
+                                    return ok(t.getFile());
+                                }
+                    }
+                } catch (IOException e) { return internalServerError("File not found!"); }
+            }
+        }
+
+        return internalServerError();
+        
+    }
+
 }

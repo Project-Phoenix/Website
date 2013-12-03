@@ -3,7 +3,20 @@
 
 @_Structure(title)(head){
 		 @tasks.map { task =>
-		<p>@task.getTitle()</p>
-		<p>@Html(task.getDescription())</p>
+		<p><h2>@task.getTitle()</h2><br>
+		@Html(task.getDescription())</p><br>
+		<b>Anhänge</b>
+		<ul>
+		@task.getAttachments().map { attachment =>
+				<li><a href="/download/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+		}
+		</ul>
+		<b>Vorlagen</b><br>
+		<ul>
+		@task.getPattern().map { pattern =>
+				<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+		}
+		</ul>
+		<i>---------------------------------------------------------------------</i>
 		}
 }
