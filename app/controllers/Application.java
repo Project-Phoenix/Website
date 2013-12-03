@@ -19,9 +19,10 @@
 package controllers;
 
 
-import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -42,8 +43,11 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import de.phoenix.rs.PhoenixClient;
+import de.phoenix.rs.entity.PhoenixAttachment;
+import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
+import de.phoenix.rs.entity.PhoenixText;
 
 
 
@@ -72,22 +76,22 @@ public class Application extends Controller {
     public static Result sendTask() {
         MultipartFormData form = request().body().asMultipartFormData();
         
-        ArrayList<File> fileLst = new ArrayList<File>();
-        for (FilePart name : form.getFiles()) 
-            fileLst.add(name.getFile());
-
-        //TODO Antwortvorlagen muessen noch als Liste hinzugefuegt werden und es muss nach TXT geprueft werden
+        ArrayList<PhoenixAttachment> attachmentLst = new ArrayList<PhoenixAttachment>();
+        ArrayList<PhoenixText> patternLst = new ArrayList<PhoenixText>();
+        for (FilePart fp : form.getFiles()) {
+            try {
+                if (fp.getKey().equals("binary"))
+                    attachmentLst.add(new PhoenixAttachment(fp.getFile()));
+                else if (fp.getKey().equals("pattern"))
+                    patternLst.add(new PhoenixText(fp.getFile()));
+            } catch (IOException e) {}
+        }  
 
         WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_CREATE);
-        PhoenixTask task = null;
                 
-        try {
-            task = new PhoenixTask(Form.form().bindFromRequest().get("title"), Form.form().bindFromRequest().get("description"), fileLst, new ArrayList<File>());
-            ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
-            System.out.println("CreateTask Status: "+post.getStatus());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PhoenixTask task = new PhoenixTask(attachmentLst,new ArrayList<PhoenixText>(), Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"));
+        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
+        System.out.println("CreateTask Status: "+post.getStatus());
 
         return ok();
     }
@@ -117,11 +121,16 @@ public class Application extends Controller {
     }
     
     public static Result sendLecture() {
-        String[] keyStrings = new String[] {"title", "day", "startTime", "endTime", "period", "startDate", "endDate"};
-        String[] requests = new String[6];
+        String[] keyStrings = new String[] {"title", "room", "day", "startHours","startMinutes", "endHours", 
+                                            "endMinutes", "period", "startYear", "startMonth", "startDay",
+                                            "endYear", "endMonth", "endDay"};
+        String[] requests = new String[13];
+        WebResource ws = CLIENT.resource(BASE_URI).path(PhoenixLecture.WEB_RESOURCE_ROOT).path(PhoenixLecture.WEB_RESOURCE_CREATE);
         
         String title = "";
         int itemCount = 0;
+       
+        // TODO: exception handling
         boolean wrongInput = false;
         for(String item: keyStrings){
             String temp = Form.form().bindFromRequest().get(item);
@@ -133,6 +142,7 @@ public class Application extends Controller {
                 if (itemCount == 0) {
                     title = temp;
                     itemCount++;
+                    System.out.println(title);
                 }
                 else{
                     requests[itemCount-1] = temp;
@@ -140,15 +150,11 @@ public class Application extends Controller {
                 }
             }
         }
-
+        LectureCheck lectureCheck = new LectureCheck(requests);
+        PhoenixLecture lecture = new PhoenixLecture(title, Arrays.asList(lectureCheck.getPhoenixDetails()));
         
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
         
-        
-        System.out.println(Form.form().bindFromRequest().get("period2"));
-        System.out.println(Form.form().bindFromRequest().get("selectDay"));
-        System.out.println(Form.form().bindFromRequest().get("day"));
-        System.out.println(Form.form().bindFromRequest().get("startTime"));
-       
         return ok();
     }
 }

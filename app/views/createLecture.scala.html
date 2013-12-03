@@ -5,10 +5,11 @@
 
 @_Structure(title)(head){
 	<form action="/sendLecture" method="post">
-		Titel: <input type="text" name="titel"><br><br>
+		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title"><br><br>
+		Raum: <input type="text" name="room"><br><br>
 		
 		<input type="radio" name="day" value="monday" checked>Montag
-		<input type="radio" name="day" value="thursday">Dienstag
+		<input type="radio" name="day" value="tuesday">Dienstag
 		<input type="radio" name="day" value="wednesday">Mittwoch
 		<input type="radio" name="day" value="thursday">Donnerstag
 		<input type="radio" name="day" value="friday">Freitag
@@ -25,31 +26,37 @@
 	      <option>Sonntag</option>
 	    </select><br><br>
 	    
-		Startzeit: <input type="text" name="startTime">
-		Endzeit: <input type="text" name="endTime"><br><br>
+		Startzeit:<br>
+		Stunden: <input type="text" name="startHours" size="1" maxlength="2">
+		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2"><br><br>
+		Endzeit: <br>
+		Stunden: <input type="text" name="endHours" size="1" maxlength="2">
+		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2"><br><br>
 		
-		<input type="radio" name="period" value="onetime" checked>einmalig
+		<!-- ICloud Kalender als Beispiel nutzen! -->
+		<input type="radio" name="period" value="daily"checked>täglich
 		<input type="radio" name="period" value="weekly">wöchentlich
-		<input type="radio" name="period" value="twoWeekly">zweiwöchentlich
-		<input type="radio" name="period" value"="monthly">monatlich<br><br>
+		<input type="radio" name="period" value"="monthly">monatlich
+		<input type="radio" name="period" value="yearly">jährlich<br><br>
 		
-		Startdatum: <input type="number" name="startDate">
-		Enddatum: <input type="text" name="endDate"><br><br>
+		Startdatum:<br>
+		Jahr: <input type="number" name="startYear" size="3" maxlength="4">
+		Monat: <input type="number" name="startMonth" size="1" maxlength="2">
+		Tag: <input type="number" name="startDay" size="1" maxlength="2"><br><br>
 		
-		<script language="JavaScript">
-			var idToClear = '';
-			function clearId(){
-				if (idToClear !== ''){
-					 document.getElementById(idToClear).style.display='none';
-				}
-			}
-		</script>
+		Enddatum:<br>
+		Jahr: <input type="number" name="endYear" size="3" maxlength="4">
+		Monat: <input type="number" name="endMonth" size="1" maxlength="2">
+		Tag: <input type="number" name="endDay" size="1" maxlength="2"><br><br>
 		
-		<input type = "button" id="btn1" 
-		onclick="clearId(); document.getElementById('text1').style.display='block';
-		idToClear = 'text1'" value="zeige Text1"><br>
+
+		<input type = "button" id="btn1" onclick="document.getElementById('text1').style.display='block';" value="weitere Gruppe">
+<!--		onclick="clearId(); document.getElementById('text1').style.display='block';
+		idToClear = 'text1'" value="weitere Gruppe"><br> -->
 		
 		<DIV id="text1" style="display: none">	
+			Raum: <input type="text" name="room2"><br><br>
+		
 			<input type="radio" name="day2" value="monday">Montag
 			<input type="radio" name="day2" value="tuesday">Dienstag
 			<input type="radio" name="day2" value="wednesday">Mittwoch
@@ -68,19 +75,85 @@
 		      <option>Sonntag</option>
 		    </select><br><br>
 		    
-			Startzeit: <input type="text" name="startTime">
-			Endzeit: <input type="text" name="endTime"><br><br>
+			Startzeit:<br>
+			Stunden: <input type="text" name="startHours2" size="1" maxlength="2">
+			Minuten: <input type="text" name="startMinutes2" size="1" maxlength="2"><br><br>
+			Endzeit: <br>
+			Stunden: <input type="text" name="endHours2" size="1" maxlength="2">
+			Minuten: <input type="text" name="endMinutes2" size="1" maxlength="2"><br><br>
 			
-			<input type="radio" name="period2" value="onetime">einmalig
+			<input type="radio" name="period2" value="daily">täglich
 			<input type="radio" name="period2" value="weekly">wöchentlich
 			<input type="radio" name="period2" value="twoWeekly">zweiwöchentlich
 			<input type="radio" name="period2" value"="monthly">monatlich<br><br>
 			
-			Startdatum: <input type="text" name="startDate">
-			Enddatum: <input type="text" name="endDate"><br><br>		
+			Startdatum:<br>
+			Jahr: <input type="number" name="startYear2" size="3" maxlength="4">
+			Monat: <input type="number" name="startMonth2" size="1" maxlength="2">
+			Tag: <input type="number" name="startDay2" size="1" maxlength="2"><br><br>
+			
+			Enddatum:<br>
+			Jahr: <input type="number" name="endYear2" size="3" maxlength="4">
+			Monat: <input type="number" name="endMonth2" size="1" maxlength="2">
+			Tag: <input type="number" name="endDay2" size="1" maxlength="2"><br><br>	
 		</div>
-						
+		
+		<input type = "button" id="btn2" onclick="document.getElementById('text2').style.display='block';" value="noch eine weitere Gruppe">			
+		
+		<DIV id="text2" style="display: none">	
+			Raum: <input type="text" name="room3"><br><br>
+		
+			<input type="radio" name="day3" value="monday">Montag
+			<input type="radio" name="day3" value="tuesday">Dienstag
+			<input type="radio" name="day3" value="wednesday">Mittwoch
+			<input type="radio" name="day3" value="thursday">Donnerstag
+			<input type="radio" name="day3" value="friday">Freitag
+			<input type="radio" name="day3" value="saturday">Samstag
+			<input type="radio" name="day3" value="sunday">Sonntag<br><br>
+			
+		    <select name="selectDay3" size="7">
+		      <option>Montag</option>
+		      <option>Dienstag</option>
+		      <option>Mittwoch</option>
+		      <option>Donnerstag</option>
+		      <option>Freitag</option>
+		      <option>Samstag</option>
+		      <option>Sonntag</option>
+		    </select><br><br>
+		    
+			Startzeit:<br>
+			Stunden: <input type="text" name="startHours3" size="1" maxlength="2">
+			Minuten: <input type="text" name="startMinutes3" size="1" maxlength="2"><br><br>
+			Endzeit: <br>
+			Stunden: <input type="text" name="endHours3" size="1" maxlength="2">
+			Minuten: <input type="text" name="endMinutes3" size="1" maxlength="2"><br><br>
+			
+			<input type="radio" name="period3" value="daily">täglich
+			<input type="radio" name="period3" value="weekly">wöchentlich
+			<input type="radio" name="period3" value="twoWeekly">zweiwöchentlich
+			<input type="radio" name="period3" value"="monthly">monatlich<br><br>
+			
+			Startdatum:<br>
+			Jahr: <input type="number" name="startYear3" size="3" maxlength="4">
+			Monat: <input type="number" name="startMonth3" size="1" maxlength="2">
+			Tag: <input type="number" name="startDay3" size="1" maxlength="2"><br><br>
+			
+			Enddatum:<br>
+			Jahr: <input type="number" name="endYear3" size="3" maxlength="4">
+			Monat: <input type="number" name="endMonth3" size="1" maxlength="2">
+			Tag: <input type="number" name="endDay3" size="1" maxlength="2"><br><br>	
+		</div>
+		
 		<input type="submit" value="Submit">
+
+		<script language="JavaScript">
+			var idToClear = '';
+			function clearId(){
+				if (idToClear !== ''){
+					 document.getElementById(idToClear).style.display='none';
+				}
+			}
+		</script>		
 	</form> 
 	
 	
