@@ -1,0 +1,15 @@
+@(title : String)(tasks : List[String])
+@head={}
+
+@i={0}
+
+@_Structure(title)(head){
+	<form method="POST" action="#">
+		@tasks.map { taskname =>
+      		<input type="checkbox" name="@taskname" value="task@i"> @taskname<br>
+      		@i = i + 1
+      	}
+      	Aufgabenblattname: <br><input type="text" name="sheetname" value="">
+      	<input type="submit" name="submit" value="Erstellen">
+    </form>
+}

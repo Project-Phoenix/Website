@@ -23,7 +23,6 @@ package controllers;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -80,12 +79,14 @@ public class Application extends Controller {
         
         ArrayList<PhoenixAttachment> attachmentLst = new ArrayList<PhoenixAttachment>();
         ArrayList<PhoenixText> patternLst = new ArrayList<PhoenixText>();
+        System.out.println(form.getFiles());
         for (FilePart fp : form.getFiles()) {
             try {
-                if (fp.getKey().equals("binary"))
-                    attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename()));
-                else if (fp.getKey().equals("pattern"))
-                    patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));
+                if (!fp.getFilename().trim().equals("")) //silly fuck because of empty filenames when no files selected
+                    if (fp.getKey().equals("binary")) 
+                        attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename())); 
+                    else if (fp.getKey().equals("pattern")) 
+                        patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
             } catch (IOException e) {}
         }  
 
@@ -182,11 +183,9 @@ public class Application extends Controller {
     public static Result download(String title, String filename, String type){
         WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_GETBYTITLE);
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, title);
-        List<PhoenixTask> taskList = PhoenixTask.fromSendableList(post);
-        
-        if (!taskList.isEmpty()){
-            PhoenixTask task = taskList.get(0);
-            if (task != null){
+        PhoenixTask task = post.getEntity(PhoenixTask.class);
+
+            if (post.getStatus() != NO_CONTENT){
                 try {
                     response().setContentType("application/x-download");
                     if (type.equals("attachment")) { 
@@ -196,7 +195,7 @@ public class Application extends Controller {
                                     response().setHeader("Content-disposition","attachment; filename="+URI.create(a.getName()+"."+a.getType())); 
                                     response().setHeader("Content-Lenght", String.valueOf(a.getFile().length()));
                                     return ok(a.getFile());
-                                }
+                            }
                     }
                     else if (type.equals("pattern")) {
                         for(PhoenixText t : task.getPattern()) 
@@ -208,13 +207,19 @@ public class Application extends Controller {
                     }
                 } catch (IOException e) { return internalServerError("File not found!"); }
             }
-        }
 
         return internalServerError();
     }
     
     public static Result createTaskSheet() {
-        //TODO MACH WAS!
+        ArrayList<String> titles = new ArrayList<String>();
+        for(PhoenixTask t : getAllTasks())
+            titles.add(t.getTitle());
+        return ok(views.html.createTaskSheet.render("Create Task Sheet", titles));
+    }
+    
+    public static Result sendTaskSheet() {
+         //System.out.println(Form.form().bindFromRequest().ge;
         return ok();
     }
 
