@@ -123,6 +123,8 @@ public class Application extends Controller {
     }
     
     public static Result sendLecture() {
+        
+        //Arrays to get the inputs form CreateLecture
         String[] keyStrings = new String[] {"title", "room", "day", "startHours","startMinutes", "endHours", 
                                             "endMinutes", "period", "startYear", "startMonth", "startDay",
                                             "endYear", "endMonth", "endDay"};
@@ -133,21 +135,25 @@ public class Application extends Controller {
                                             "endMinutes3", "period3", "startYear3", "startMonth3", "startDay3",
                                             "endYear3", "endMonth3", "endDay3"};
         String[][] details = new String[][] {keyStrings, keyStrings2, keyStrings3};
+        //Arrays, which will be filled with the requeststrings
         String[][] requests = new String[3][13];
         WebResource ws = CLIENT.resource(BASE_URI).path(PhoenixLecture.WEB_RESOURCE_ROOT).path(PhoenixLecture.WEB_RESOURCE_CREATE);
         
         String title = "";
+        //if input is missing don't create a detail later
         boolean[] wrongInput = new boolean[] {false,false,false};
         int itemCount = 0;
         int arrayCount = 0;
         for(String[] stringArray: details){   
             // TODO: exception handling
+            // Get the requests and if something missing, set wronginput[arrayCount] to true and test the next detail
             for(String item: stringArray){
                 String temp = Form.form().bindFromRequest().get(item);
                 if ( temp == null || temp.equals("")){
                     wrongInput[arrayCount] = true;         //TODO: if (wrongInput == true) throw IOException;
                     break;                
                 }
+                //if everything's filled in, set title and put the rest in the requestarrays
                 else {
                     if (itemCount == 0) {
                         title = temp;
@@ -160,18 +166,23 @@ public class Application extends Controller {
                     }
                 }
             }
+            //just one title so start next loop at itemcount 1
             itemCount = 1;
             arrayCount++;
         } 
+        //PhoenixDetaillist
         List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
         int boolIndex = 0;
         for(String[] item: requests){
+            //only create LectureCheck if detail is complete
             if(!wrongInput[boolIndex]){
                 LectureCheck lectureCheck = new LectureCheck(item);
+                //add it to allDetails
                 allDetails.add(lectureCheck.getPhoenixDetails());
             }
             boolIndex++;
         }
+        //send it to server
         PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
         ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
         
