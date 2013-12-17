@@ -45,6 +45,7 @@ import com.sun.jersey.api.client.WebResource;
 
 import de.phoenix.rs.PhoenixClient;
 import de.phoenix.rs.entity.PhoenixAttachment;
+import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
@@ -126,35 +127,53 @@ public class Application extends Controller {
         String[] keyStrings = new String[] {"title", "room", "day", "startHours","startMinutes", "endHours", 
                                             "endMinutes", "period", "startYear", "startMonth", "startDay",
                                             "endYear", "endMonth", "endDay"};
-        String[] requests = new String[13];
+        String[] keyStrings2 = new String[] {"room2", "day2", "startHours2","startMinutes2", "endHours2", 
+                                            "endMinutes2", "period2", "startYear2", "startMonth2", "startDay2",
+                                            "endYear2", "endMonth2", "endDay2"};
+        String[] keyStrings3 = new String[] {"room3", "day3", "startHours3","startMinutes3", "endHours3", 
+                                            "endMinutes3", "period3", "startYear3", "startMonth3", "startDay3",
+                                            "endYear3", "endMonth3", "endDay3"};
+        String[][] details = new String[][] {keyStrings, keyStrings2, keyStrings3};
+        String[][] requests = new String[3][13];
         WebResource ws = CLIENT.resource(BASE_URI).path(PhoenixLecture.WEB_RESOURCE_ROOT).path(PhoenixLecture.WEB_RESOURCE_CREATE);
         
         String title = "";
+        boolean[] wrongInput = new boolean[] {false,false,false};
         int itemCount = 0;
-       
-        // TODO: exception handling
-        boolean wrongInput = false;
-        for(String item: keyStrings){
-            String temp = Form.form().bindFromRequest().get(item);
-            if ( temp == null || temp.equals("")){
-                wrongInput = true;         //TODO: if (wrongInput == true) throw IOException;
-                break;                
-            }
-            else {
-                if (itemCount == 0) {
-                    title = temp;
-                    itemCount++;
-                    System.out.println(title);
+        int arrayCount = 0;
+        for(String[] stringArray: details){   
+            // TODO: exception handling
+            for(String item: stringArray){
+                String temp = Form.form().bindFromRequest().get(item);
+                if ( temp == null || temp.equals("")){
+                    wrongInput[arrayCount] = true;         //TODO: if (wrongInput == true) throw IOException;
+                    break;                
                 }
-                else{
-                    requests[itemCount-1] = temp;
-                    itemCount++;               
+                else {
+                    if (itemCount == 0) {
+                        title = temp;
+                        itemCount++;
+                        System.out.println(title);
+                    }
+                    else{
+                        requests[arrayCount][itemCount-1] = temp;
+                        itemCount++;               
+                    }
                 }
             }
+            itemCount = 1;
+            arrayCount++;
+        } 
+        List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
+        int boolIndex = 0;
+        for(String[] item: requests){
+            if(!wrongInput[boolIndex]){
+                LectureCheck lectureCheck = new LectureCheck(item);
+                allDetails.add(lectureCheck.getPhoenixDetails());
+            }
+            boolIndex++;
         }
-        LectureCheck lectureCheck = new LectureCheck(requests);
-        PhoenixLecture lecture = new PhoenixLecture(title, Arrays.asList(lectureCheck.getPhoenixDetails()));
-        
+        PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
         ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
         
         return ok();
