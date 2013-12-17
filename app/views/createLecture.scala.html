@@ -1,10 +1,186 @@
 @(title : String)
 @head={
 <!doctype html>
+<script type="text/javascript">
+	var detail2 = false;
+	var detail3 = false;
+	function ValidateForm(frm) {
+		if (frm.title.value == "")
+			{alert('Titel ist erforderlich.'); 
+			frm.title.focus();
+			return false;}
+		if (frm.room.value == "")
+			{alert('Raum ist erforderlich.'); 
+			frm.room.focus();
+			return false;}
+		if (frm.startHours.value == "")
+			{alert('Startstunden sind erforderlich.'); 
+			frm.startHours.focus();
+			return false;}
+		if (frm.startMinutes.value == "")
+			{alert('Startminuten sind erforderlich.'); 
+			frm.startMinutes.focus();
+			return false;}
+		if (frm.endHours.value == "")
+			{alert('Endstunde sind erforderlich.'); 
+			frm.endHours.focus();
+			return false;}
+		if (frm.endMinutes.value == "")
+			{alert('Endminuten sind erforderlich.'); 
+			frm.endMinutes.focus();
+			return false;}
+		if (frm.startYear.value == "")
+			{alert('Startjahr ist erforderlich.'); 
+			frm.startYear.focus();
+			return false;}
+		if (frm.startMonth.value == "")
+			{alert('Startmonat ist erforderlich.'); 
+			frm.startMonth.focus();
+			return false;}
+		if (frm.startDay.value == "")
+			{alert('Starttag ist erforderlich.'); 
+			frm.startDay.focus();
+			return false;}
+		if (frm.endYear.value == "")
+			{alert('Endjahr ist erforderlich.'); 
+			frm.endYear.focus();
+			return false;}
+		if (frm.endMonth.value == "")
+			{alert('Endmonat ist erforderlich.'); 
+			frm.endMonth.focus();
+			return false;}
+		if (frm.endDay.value == "")
+			{alert('Endtag ist erforderlich.'); 
+			frm.endDay.focus();
+			return false;}
+		if (detail2){
+			if (frm.room2.value == "")
+				{alert('Raum ist erforderlich.'); 
+				frm.room2.focus();
+				return false;}
+			if (frm.startHours2.value == "")
+				{alert('Startstunden sind erforderlich.'); 
+				frm.startHours2.focus();
+				return false;}
+			if (frm.startMinutes2.value == "")
+				{alert('Startminuten sind erforderlich.'); 
+				frm.stratMinutes2.focus();
+				return false;}
+			if (frm.endHours2.value == "")
+				{alert('Endstunde sind erforderlich.'); 
+				frm.endHours2.focus();
+				return false;}
+			if (frm.endMinutes2.value == "")
+				{alert('Endminuten sind erforderlich.'); 
+				frm.endMinutes2.focus();
+				return false;}
+			if (frm.startYear2.value == "")
+				{alert('Startjahr ist erforderlich.'); 
+				frm.startYear2.focus();
+				return false;}
+			if (frm.startMonth2.value == "")
+				{alert('Startmonat ist erforderlich.'); 
+				frm.startMonth2.focus();
+				return false;}
+			if (frm.startDay2.value == "")
+				{alert('Starttag ist erforderlich.'); 
+				frm.startDay2.focus();
+				return false;}
+			if (frm.endYear2.value == "")
+				{alert('Endjahr ist erforderlich.'); 
+				frm.endYear2.focus();
+				return false;}
+			if (frm.endMonth2.value == "")
+				{alert('Endmonat ist erforderlich.'); 
+				frm.endMonth2.focus();
+				return false;}
+			if (frm.endDay2.value == "")
+				{alert('Endtag ist erforderlich.'); 
+				frm.endDay2.focus();
+				return false;}
+			}
+		if (detail3){
+			if (frm.room3.value == "")
+				{alert('Raum ist erforderlich.'); 
+				frm.room3.focus();
+				return false;}
+			if (frm.startHours3.value == "")
+				{alert('Startstunden sind erforderlich.'); 
+				frm.startHours3.focus();
+				return false;}
+			if (frm.startMinutes3.value == "")
+				{alert('Startminuten sind erforderlich.'); 
+				frm.stratMinutes3.focus();
+				return false;}
+			if (frm.endHours3.value == "")
+				{alert('Endstunde sind erforderlich.'); 
+				frm.endHours3.focus();
+				return false;}
+			if (frm.endMinutes3.value == "")
+				{alert('Endminuten sind erforderlich.'); 
+				frm.endMinutes3.focus();
+				return false;}
+			if (frm.startYear3.value == "")
+				{alert('Startjahr ist erforderlich.'); 
+				frm.startYear3.focus();
+				return false;}
+			if (frm.startMonth3.value == "")
+				{alert('Startmonat ist erforderlich.'); 
+				frm.startMonth3.focus();
+				return false;}
+			if (frm.startDay3.value == "")
+				{alert('Starttag ist erforderlich.'); 
+				frm.startDay3.focus();
+				return false;}
+			if (frm.endYear3.value == "")
+				{alert('Endjahr ist erforderlich.'); 
+				frm.endYear3.focus();
+				return false;}
+			if (frm.endMonth3.value == "")
+				{alert('Endmonat ist erforderlich.'); 
+				frm.endMonth3.focus();
+				return false;}
+			if (frm.endDay3.value == "")
+				{alert('Endtag ist erforderlich.'); 
+				frm.endDay3.focus();
+				return false;}						
+				}
+		return true;					
+		}
+		
+		var idToClear = '';
+		function clearId(){
+			if (idToClear !== ''){
+				 document.getElementById(idToClear).style.display='none';
+			}
+		}
+		
+		function doCheckBoxThings1(box){
+			if (box.checked){
+				document.getElementById('text1').style.display='block';
+				detail2 = true;
+			} else {
+				document.getElementById('text1').style.display='none';
+				detail2 = false;
+			}					
+		}
+		
+		function doCheckBoxThings2(box){
+			if (box.checked){
+				document.getElementById('text2').style.display='block';
+				detail3 = true;
+			} else {
+				document.getElementById('text2').style.display='none';
+				detail3 = false;
+			}					
+		}
+</script>
 }
 
 @_Structure(title)(head){
-	<form action="/sendLecture" method="post">
+	
+	<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);">
+
 		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title"><br><br>
 		Raum: <input type="text" name="room"><br><br>
 		
@@ -15,16 +191,6 @@
 		<input type="radio" name="day" value="friday">Freitag
 		<input type="radio" name="day" value="saturday">Samstag
 		<input type="radio" name="day" value="sunday">Sonntag<br><br>
-		
-	    <select name="selectDay" size="7">
-	      <option selected>Montag</option>
-	      <option>Dienstag</option>
-	      <option>Mittwoch</option>
-	      <option>Donnerstag</option>
-	      <option>Freitag</option>
-	      <option>Samstag</option>
-	      <option>Sonntag</option>
-	    </select><br><br>
 	    
 		Startzeit:<br>
 		Stunden: <input type="text" name="startHours" size="1" maxlength="2">
@@ -50,14 +216,14 @@
 		Tag: <input type="number" name="endDay" size="1" maxlength="2"><br><br>
 		
 
-		<input type = "button" id="btn1" onclick="document.getElementById('text1').style.display='block';" value="weitere Gruppe">
+		<input type = "Checkbox" name="box1" onclick="doCheckBoxThings1(this);" value="check1">weitere Gruppe
 <!--		onclick="clearId(); document.getElementById('text1').style.display='block';
 		idToClear = 'text1'" value="weitere Gruppe"><br> -->
 		
 		<DIV id="text1" style="display: none">	
 			Raum: <input type="text" name="room2"><br><br>
 		
-			<input type="radio" name="day2" value="monday">Montag
+			<input type="radio" name="day2" value="monday" checked>Montag
 			<input type="radio" name="day2" value="tuesday">Dienstag
 			<input type="radio" name="day2" value="wednesday">Mittwoch
 			<input type="radio" name="day2" value="thursday">Donnerstag
@@ -65,16 +231,6 @@
 			<input type="radio" name="day2" value="saturday">Samstag
 			<input type="radio" name="day2" value="sunday">Sonntag<br><br>
 			
-		    <select name="selectDay2" size="7">
-		      <option>Montag</option>
-		      <option>Dienstag</option>
-		      <option>Mittwoch</option>
-		      <option>Donnerstag</option>
-		      <option>Freitag</option>
-		      <option>Samstag</option>
-		      <option>Sonntag</option>
-		    </select><br><br>
-		    
 			Startzeit:<br>
 			Stunden: <input type="text" name="startHours2" size="1" maxlength="2">
 			Minuten: <input type="text" name="startMinutes2" size="1" maxlength="2"><br><br>
@@ -82,7 +238,7 @@
 			Stunden: <input type="text" name="endHours2" size="1" maxlength="2">
 			Minuten: <input type="text" name="endMinutes2" size="1" maxlength="2"><br><br>
 			
-			<input type="radio" name="period2" value="daily">täglich
+			<input type="radio" name="period2" value="daily" checked>täglich
 			<input type="radio" name="period2" value="weekly">wöchentlich
 			<input type="radio" name="period2" value="twoWeekly">zweiwöchentlich
 			<input type="radio" name="period2" value"="monthly">monatlich<br><br>
@@ -98,28 +254,18 @@
 			Tag: <input type="number" name="endDay2" size="1" maxlength="2"><br><br>	
 		</div>
 		
-		<input type = "button" id="btn2" onclick="document.getElementById('text2').style.display='block';" value="noch eine weitere Gruppe">			
+		<input type = "Checkbox" name="box2" onclick="doCheckBoxThings2(this);" value="check2">weitere gruppe			
 		
 		<DIV id="text2" style="display: none">	
 			Raum: <input type="text" name="room3"><br><br>
 		
-			<input type="radio" name="day3" value="monday">Montag
+			<input type="radio" name="day3" value="monday" checked>Montag
 			<input type="radio" name="day3" value="tuesday">Dienstag
 			<input type="radio" name="day3" value="wednesday">Mittwoch
 			<input type="radio" name="day3" value="thursday">Donnerstag
 			<input type="radio" name="day3" value="friday">Freitag
 			<input type="radio" name="day3" value="saturday">Samstag
 			<input type="radio" name="day3" value="sunday">Sonntag<br><br>
-			
-		    <select name="selectDay3" size="7">
-		      <option>Montag</option>
-		      <option>Dienstag</option>
-		      <option>Mittwoch</option>
-		      <option>Donnerstag</option>
-		      <option>Freitag</option>
-		      <option>Samstag</option>
-		      <option>Sonntag</option>
-		    </select><br><br>
 		    
 			Startzeit:<br>
 			Stunden: <input type="text" name="startHours3" size="1" maxlength="2">
@@ -128,7 +274,7 @@
 			Stunden: <input type="text" name="endHours3" size="1" maxlength="2">
 			Minuten: <input type="text" name="endMinutes3" size="1" maxlength="2"><br><br>
 			
-			<input type="radio" name="period3" value="daily">täglich
+			<input type="radio" name="period3" value="daily" checked>täglich
 			<input type="radio" name="period3" value="weekly">wöchentlich
 			<input type="radio" name="period3" value="twoWeekly">zweiwöchentlich
 			<input type="radio" name="period3" value"="monthly">monatlich<br><br>
@@ -144,16 +290,7 @@
 			Tag: <input type="number" name="endDay3" size="1" maxlength="2"><br><br>	
 		</div>
 		
-		<input type="submit" value="Submit">
-
-		<script language="JavaScript">
-			var idToClear = '';
-			function clearId(){
-				if (idToClear !== ''){
-					 document.getElementById(idToClear).style.display='none';
-				}
-			}
-		</script>		
+		<input id="skip_Submit" name="skip_Submit" type="submit" value="Submit" />
 	</form> 
 	
 	

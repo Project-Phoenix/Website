@@ -150,7 +150,7 @@ public class Application extends Controller {
             // Get the requests and if something missing, set wronginput[arrayCount] to true and test the next detail
             for(String item: stringArray){
                 String temp = Form.form().bindFromRequest().get(item);
-                if ( temp == null || temp.equals("")){
+                if ((Form.form().bindFromRequest().get("box1") == null) && (arrayCount == 1) ||(Form.form().bindFromRequest().get("box2") == null) && (arrayCount == 2)){
                     wrongInput[arrayCount] = true;         //TODO: if (wrongInput == true) throw IOException;
                     break;                
                 }
@@ -159,7 +159,6 @@ public class Application extends Controller {
                     if (itemCount == 0) {
                         title = temp;
                         itemCount++;
-                        System.out.println(title);
                     }
                     else{
                         requests[arrayCount][itemCount-1] = temp;
