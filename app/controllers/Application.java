@@ -21,6 +21,7 @@ package controllers;
 
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -154,7 +155,7 @@ public class Application extends Controller {
         LectureCheck lectureCheck = new LectureCheck(requests);
         PhoenixLecture lecture = new PhoenixLecture(title, Arrays.asList(lectureCheck.getPhoenixDetails()));
         
-        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
+        ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
         
         return ok();
     }
@@ -173,12 +174,12 @@ public class Application extends Controller {
                         for(PhoenixAttachment a : task.getAttachments()) 
                             if ((a.getName()+"."+a.getType()).equals(filename)) { 
                                     //TODO: Filenames in HTML header without spaces?
-                                    response().setHeader("Content-disposition","attachment; filename="+a.getName().replace(" ", "_")+"."+a.getType()); 
+                                    response().setHeader("Content-disposition","attachment; filename="+URI.create(a.getName()+"."+a.getType())); 
                                     response().setHeader("Content-Lenght", String.valueOf(a.getFile().length()));
                                     return ok(a.getFile());
                                 }
                     }
-                    else {
+                    else if (type.equals("pattern")) {
                         for(PhoenixText t : task.getPattern()) 
                             if ((t.getName()+"."+t.getType()).equals(filename)) { 
                                     response().setHeader("Content-disposition","attachment; filename="+t.getName()+"."+t.getType()); 
@@ -191,7 +192,11 @@ public class Application extends Controller {
         }
 
         return internalServerError();
-        
+    }
+    
+    public static Result createTaskSheet() {
+        //TODO MACH WAS!
+        return ok();
     }
 
 }
