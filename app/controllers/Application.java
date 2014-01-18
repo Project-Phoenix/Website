@@ -288,22 +288,22 @@ public class Application extends Controller {
         
         //Status BadRequest abfangen   
         if (!(response.getStatus() == 400)){
-        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
-        lec = lectures.get(0);
-        
-        // unique title
-        title = lecture + " - " + title;
-        
-        LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
-        //PhoenixDetaillist
-        List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
-        LectureCheck lectureCheck = new LectureCheck(requests);
-        //add it to allDetails
-        allDetails.add(lectureCheck.getPhoenixDetails());
-        //send it to server
-        WebResource ws2 = PhoenixLecture.addGroupResource(CLIENT, BASE_URI);
-        PhoenixLectureGroup group = new PhoenixLectureGroup(title, size, submitDay, submitTime, allDetails, lec);
-        response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec,  group));
+            List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
+            lec = lectures.get(0);
+            
+            // unique title
+            title = lecture + " - " + title;
+            
+            LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
+            //PhoenixDetaillist
+            List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
+            LectureCheck lectureCheck = new LectureCheck(requests);
+            //add it to allDetails
+            allDetails.add(lectureCheck.getPhoenixDetails());
+            //send it to server
+            WebResource ws2 = PhoenixLecture.addGroupResource(CLIENT, BASE_URI);
+            PhoenixLectureGroup group = new PhoenixLectureGroup(title, size, submitDay, submitTime, allDetails, lec);
+            response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec,  group));
         }
         else{
             //alert("Veranstaltung nicht vorhanden!");
