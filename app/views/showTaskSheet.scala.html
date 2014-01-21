@@ -1,0 +1,15 @@
+@(title : String)(sheets : List[de.phoenix.rs.entity.PhoenixTaskSheet]) 
+@head={}
+
+@_Structure(title)(head){
+		 @sheets.map { sheet =>
+			<p><h2>@sheet.getTitle() </h2><i> (@sheet.getCreationDate())</i><br>
+			<ul>
+				@sheet.getTasks().map { task =>
+					<li>@task.getTitle()</li>
+				}
+			</ul>
+			<br>
+		}
+		
+}
