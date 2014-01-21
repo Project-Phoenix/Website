@@ -9,7 +9,11 @@ GET		/showTasks					controllers.Application.showTasks()
 GET		/showSubmissions			controllers.Application.showSubmissions()
 GET		/createLecture				controllers.Application.createLecture()
 GET		/createTaskSheet			controllers.Application.createTaskSheet()
+<<<<<<< HEAD
 GET		/showTaskSheet				controllers.Application.showTaskSheets()
+=======
+GET 	/addGroup					controllers.Application.addGroup()
+>>>>>>> eed6904ae84cca5d6f5678239645bf1d20fff9a4
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
@@ -23,5 +27,9 @@ GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Applicat
 
 POST	/sendTask					controllers.Application.sendTask()
 POST	/sendLecture				controllers.Application.sendLecture()
+<<<<<<< HEAD
 POST 	/sendTaskSheet				controllers.Application.sendTaskSheet()
 
+=======
+POST 	/sendGroup					controllers.Application.sendGroup()
+>>>>>>> eed6904ae84cca5d6f5678239645bf1d20fff9a4

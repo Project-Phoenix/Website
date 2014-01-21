@@ -28,11 +28,15 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalTime;
+
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+
 import views.html.*;
 
 import com.sun.jersey.api.client.Client;
@@ -44,6 +48,7 @@ import de.phoenix.rs.PhoenixClient;
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
+import de.phoenix.rs.entity.PhoenixLectureGroup;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
@@ -125,8 +130,8 @@ public class Application extends Controller {
         return ok(createLecture.render("Create Lecture"));
     }
     
-    public static Result sendLecture() {
-        
+    
+    public static Result sendLecture() {        
         //Arrays to get the inputs form CreateLecture
         String[] keyStrings = new String[] {"title", "room", "day", "startHours","startMinutes", "endHours", 
                                             "endMinutes", "period", "startYear", "startMonth", "startDay",
@@ -190,7 +195,120 @@ public class Application extends Controller {
         
         return ok();
     }
+    
+    public static Result addGroup() {
+        return ok(addGroup.render("add Group"));
+    }
 
+    public static Result sendGroup() {        
+        //Array to get the inputs form addGroup
+        String[] keyStrings = new String[] {"title","lecture", "size", "room", "day", "startHours","startMinutes", "endHours", 
+                                            "endMinutes", "period", "startYear", "startMonth", "startDay",
+                                            "endYear", "endMonth", "endDay", "submitDay", "submitHours", "submitMinutes"};
+
+        //Array, which will be filled with the requeststrings
+        String[] requests = new String[13];
+        
+        String title = "";
+        String lecture = "";
+        //if input is missing don't create a detail later
+        int itemCount = 0;
+        int submitDay = 0;
+        int submitHours = 0;
+        int submitMinutes = 0;
+        int size = 0;
+        PhoenixLecture lec;
+        // TODO: exception handling
+        // Get the requests and if something missing, set wronginput[arrayCount] to true and test the next detail
+        for(String item: keyStrings){
+            String temp = Form.form().bindFromRequest().get(item);
+            //if everything's filled in, set title and put the rest in the requestarrays
+            switch(itemCount){
+            case 0:    
+                title = temp;
+                itemCount++;
+                break;
+            case 1:    
+                lecture = temp;
+                itemCount++;
+                break;
+            case 2:
+                size = Integer.parseInt(temp);
+                itemCount++;
+                break;
+            case 16:
+                switch(temp){
+                case "monday":
+                    submitDay = DateTimeConstants.MONDAY;
+                    break;
+                case "tuesday":
+                    submitDay = DateTimeConstants.TUESDAY;
+                    break;
+                case "wednesday":
+                    submitDay = DateTimeConstants.WEDNESDAY;
+                    break;
+                case "thursday":
+                    submitDay = DateTimeConstants.THURSDAY;
+                    break;
+                case "friday":
+                    submitDay = DateTimeConstants.FRIDAY;
+                    break;
+                case "saturday":
+                    submitDay = DateTimeConstants.SATURDAY;
+                    break;
+                case "sunday":
+                    submitDay = DateTimeConstants.SUNDAY;
+                    break;
+                default:
+                    //throw invalid input exception
+                    System.out.println("null, dafuq?!");
+                }
+                itemCount++;
+                break;
+            case 17:
+                submitHours = Integer.parseInt(temp);
+                itemCount++;
+                break;
+            case 18:
+                submitMinutes = Integer.parseInt(temp);
+                break;
+            default:
+                requests[itemCount-3] = temp;
+                itemCount++;
+                break;
+            }
+        }
+        
+        WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        // Get single lecture
+        SelectEntity<PhoenixLecture> selectLecture = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectLecture);
+        
+        //Status BadRequest abfangen   
+        if (!(response.getStatus() == 400)){
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
+        lec = lectures.get(0);
+        
+        // unique title
+        title = lecture + " - " + title;
+        
+        LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
+        //PhoenixDetaillist
+        List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
+        LectureCheck lectureCheck = new LectureCheck(requests);
+        //add it to allDetails
+        allDetails.add(lectureCheck.getPhoenixDetails());
+        //send it to server
+        WebResource ws2 = PhoenixLecture.addGroupResource(CLIENT, BASE_URI);
+        PhoenixLectureGroup group = new PhoenixLectureGroup(title, size, submitDay, submitTime, allDetails, lec);
+        response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec,  group));
+        }
+        else{
+            //alert("Veranstaltung nicht vorhanden!");
+        }
+        return ok();
+    }
+    
     public static Result download(String title, String filename, String type){
         WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
         SelectEntity<PhoenixTask> selectByTitle = new SelectEntity<PhoenixTask>().addKey("title", title);

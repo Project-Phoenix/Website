@@ -1,0 +1,134 @@
+@(title : String)
+@head={
+<!doctype html>
+<script type="text/javascript">
+	function ValidateForm(frm) {
+		if (frm.title.value == "")
+			{alert('Titel ist erforderlich.'); 
+			frm.title.focus();
+			return false;}
+		if (frm.lecture.value == "")
+			{alert('Veranstaltung ist erforderlich')
+			frm.lecture.focus();
+			return false;}
+		if (frm.size.value == "")
+			{alert('Maximal Gr&ouml;&szlig;e ist erforderlich')
+			frm.size.focus();
+			return false;}
+		if (frm.room.value == "")
+			{alert('Raum ist erforderlich.'); 
+			frm.room.focus();
+			return false;}
+		if (frm.startHours.value == "")
+			{alert('Startstunden sind erforderlich.'); 
+			frm.startHours.focus();
+			return false;}
+		if (frm.startMinutes.value == "")
+			{alert('Startminuten sind erforderlich.'); 
+			frm.startMinutes.focus();
+			return false;}
+		if (frm.endHours.value == "")
+			{alert('Endstunde sind erforderlich.'); 
+			frm.endHours.focus();
+			return false;}
+		if (frm.endMinutes.value == "")
+			{alert('Endminuten sind erforderlich.'); 
+			frm.endMinutes.focus();
+			return false;}
+		if (frm.startYear.value == "")
+			{alert('Startjahr ist erforderlich.'); 
+			frm.startYear.focus();
+			return false;}
+		if (frm.startMonth.value == "")
+			{alert('Startmonat ist erforderlich.'); 
+			frm.startMonth.focus();
+			return false;}
+		if (frm.startDay.value == "")
+			{alert('Starttag ist erforderlich.'); 
+			frm.startDay.focus();
+			return false;}
+		if (frm.endYear.value == "")
+			{alert('Endjahr ist erforderlich.'); 
+			frm.endYear.focus();
+			return false;}
+		if (frm.endMonth.value == "")
+			{alert('Endmonat ist erforderlich.'); 
+			frm.endMonth.focus();
+			return false;}
+		if (frm.endDay.value == "")
+			{alert('Endtag ist erforderlich.'); 
+			frm.endDay.focus();
+			return false;}
+		if (frm.submitDay.value == "")
+			{alert('Abgabetag ist erforderlich.'); 
+			frm.endDay.focus();
+			return false;}
+		if (frm.submitHours.value == "")
+			{alert('Abgabestunden sind erforderlich.'); 
+			frm.endDay.focus();
+			return false;}
+		if (frm.submitMinutes.value == "")
+			{alert('Abgabeminuten sind erforderlich.'); 
+			frm.endDay.focus();
+			return false;}
+		return true;
+		}
+	</script>
+}
+
+@_Structure(title)(head){
+	
+	<form action="/sendGroup" method="post" onsubmit="return ValidateForm(this);">
+
+		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title"><br><br>
+		Zugeh&ouml;rige Veranstaltung:&nbsp;&nbsp;&nbsp;<input type="text" name="lecture"><br><br>
+		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size"><br><br>
+		Raum: <input type="text" name="room"><br><br>
+		
+		<input type="radio" name="day" value="monday" checked>Montag
+		<input type="radio" name="day" value="tuesday">Dienstag
+		<input type="radio" name="day" value="wednesday">Mittwoch
+		<input type="radio" name="day" value="thursday">Donnerstag
+		<input type="radio" name="day" value="friday">Freitag
+		<input type="radio" name="day" value="saturday">Samstag
+		<input type="radio" name="day" value="sunday">Sonntag<br><br>
+	    
+		Startzeit:<br>
+		Stunden: <input type="text" name="startHours" size="1" maxlength="2">
+		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2"><br><br>
+		Endzeit: <br>
+		Stunden: <input type="text" name="endHours" size="1" maxlength="2">
+		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2"><br><br>
+		
+		<!-- ICloud Kalender als Beispiel nutzen! -->
+		<input type="radio" name="period" value="daily"checked>täglich
+		<input type="radio" name="period" value="weekly">wöchentlich
+		<input type="radio" name="period" value"="monthly">monatlich
+		<input type="radio" name="period" value="yearly">jährlich<br><br>
+		
+		Startdatum:<br>
+		Jahr: <input type="number" name="startYear" size="3" maxlength="4">
+		Monat: <input type="number" name="startMonth" size="1" maxlength="2">
+		Tag: <input type="number" name="startDay" size="1" maxlength="2"><br><br>
+		
+		Enddatum:<br>
+		Jahr: <input type="number" name="endYear" size="3" maxlength="4">
+		Monat: <input type="number" name="endMonth" size="1" maxlength="2">
+		Tag: <input type="number" name="endDay" size="1" maxlength="2"><br><br>
+			
+		Abgabetag:<br>		
+		<input type="radio" name="submitDay" value="monday" checked>Montag
+		<input type="radio" name="submitDay" value="tuesday">Dienstag
+		<input type="radio" name="submitDay" value="wednesday">Mittwoch
+		<input type="radio" name="submitDay" value="thursday">Donnerstag
+		<input type="radio" name="submitDay" value="friday">Freitag
+		<input type="radio" name="submitDay" value="saturday">Samstag
+		<input type="radio" name="submitDay" value="sunday">Sonntag<br><br>
+	    
+		Abgabezeit:<br>
+		Stunden: <input type="text" name="submitHours" size="1" maxlength="2">
+		Minuten: <input type="text" name="submitMinutes" size="1" maxlength="2"><br><br>		
+		<input id="skip_Submit" name="skip_Submit" type="submit" value="Submit" />
+	</form> 	
+}
+		
