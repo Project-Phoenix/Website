@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
@@ -36,7 +37,6 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html.*;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -49,8 +49,11 @@ import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
+import de.phoenix.rs.entity.PhoenixTaskSheet;
 import de.phoenix.rs.entity.PhoenixText;
+import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.KeyReader;
+import de.phoenix.rs.key.SelectAllEntity;
 import de.phoenix.rs.key.SelectEntity;
 
 
@@ -85,7 +88,7 @@ public class Application extends Controller {
         System.out.println(form.getFiles());
         for (FilePart fp : form.getFiles()) {
             try {
-                if (!fp.getFilename().trim().equals("")) //silly fuck because of empty filenames when no files selected
+                if (!fp.getFilename().trim().equals(""))
                     if (fp.getKey().equals("binary")) 
                         attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename())); 
                     else if (fp.getKey().equals("pattern")) 
@@ -103,23 +106,22 @@ public class Application extends Controller {
     }
       
     public static Result showTasks() {
-        List<PhoenixTask> tasks = getAllTasks();
-        return ok(showTasks.render("showTasks", tasks));
+        return ok(showTasks.render("showTasks", getAllTasks()));
     }
     
     public static Result showSubmissions() {
-        WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixSubmission.WEB_RESOURCE_ROOT).path(PhoenixSubmission.WEB_RESOURCE_GET_TASK_SUBMISSIONS);
+        WebResource wr = PhoenixSubmission.getByTaskResource(CLIENT, BASE_URI);
         List<PhoenixTask> tasks = getAllTasks();
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, tasks.get(0));
-        List<PhoenixSubmission> submissions = PhoenixSubmission.fromSendableList(post);
+        List<PhoenixSubmission> submissions = EntityUtil.extractEntityList(post);
         return ok(showSubmissions.render("showSubmissions", submissions));
     }
 
-    public static List<PhoenixTask> getAllTasks(){
-        WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_GETALL);
-        ClientResponse resp = wr.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-        
-        return PhoenixTask.fromSendableList(resp);       
+    public static List<PhoenixTask> getAllTasks(){        
+        WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
+        ClientResponse resp = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixTask>());
+
+        return EntityUtil.extractEntityList(resp);      
     }
     
 
@@ -304,9 +306,10 @@ public class Application extends Controller {
     }
     
     public static Result download(String title, String filename, String type){
-        WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_GETBYTITLE);
-        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, title);
-        PhoenixTask task = post.getEntity(PhoenixTask.class);
+        WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
+        SelectEntity<PhoenixTask> selectByTitle = new SelectEntity<PhoenixTask>().addKey("title", title);
+        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectByTitle);
+        PhoenixTask task = EntityUtil.extractEntity(post);
 
             if (post.getStatus() != NO_CONTENT){
                 try {
@@ -314,8 +317,7 @@ public class Application extends Controller {
                     if (type.equals("attachment")) { 
                         for(PhoenixAttachment a : task.getAttachments()) 
                             if ((a.getName()+"."+a.getType()).equals(filename)) { 
-                                    //TODO: Filenames in HTML header without spaces?
-                                    response().setHeader("Content-disposition","attachment; filename="+URI.create(a.getName()+"."+a.getType())); 
+                                    response().setHeader("Content-disposition","attachment; filename="+URI.create(a.getName().replace(" ", "_")+"."+a.getType())); 
                                     response().setHeader("Content-Lenght", String.valueOf(a.getFile().length()));
                                     return ok(a.getFile());
                             }
@@ -338,11 +340,27 @@ public class Application extends Controller {
         ArrayList<String> titles = new ArrayList<String>();
         for(PhoenixTask t : getAllTasks())
             titles.add(t.getTitle());
-        return ok(views.html.createTaskSheet.render("Create Task Sheet", titles));
+        return ok(createTaskSheet.render("Create Task Sheet", titles));
     }
     
     public static Result sendTaskSheet() {
-         //System.out.println(Form.form().bindFromRequest().ge;
+        Map<String, String> raw = Form.form().bindFromRequest().data();
+        raw.remove("submit");
+        String sheetname = raw.get("sheetname");
+        raw.remove("sheetname");
+        
+        ConnectionEntity entity = new ConnectionEntity();
+        List<SelectEntity<PhoenixTask>> list = new ArrayList<SelectEntity<PhoenixTask>>();
+        for(String key : raw.keySet()) {
+            list.add(new SelectEntity<PhoenixTask>().addKey("title", key));
+        }
+        entity.addSelectEntities(PhoenixTask.class, list);
+        entity.addAttribute("title", sheetname);
+        
+        WebResource wr = PhoenixTaskSheet.connectTaskSheetWithTaskResource(CLIENT, BASE_URI);
+        ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, entity);
+         
+        System.out.println("CreateTaskSheet Status: "+response.getStatus());
         return ok();
     }
     
@@ -359,7 +377,6 @@ public class Application extends Controller {
         SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
 
         groupSelector.addKey("lecture", lectureSelector);
-
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
         List<PhoenixLectureGroup> groups = EntityUtil.extractEntityList(response);
         for (PhoenixLectureGroup phoenixLectureGroup : groups) {
@@ -368,6 +385,13 @@ public class Application extends Controller {
         System.out.println(groups);*/
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
         return ok(showGroups.render("show Groups", empty));
+    }
+    
+    public static Result showTaskSheets() {
+        WebResource wr = PhoenixTaskSheet.getResource(CLIENT, BASE_URI);
+        ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixTaskSheet>());
+        List<PhoenixTaskSheet> result = EntityUtil.extractEntityList(response);
+        return ok(showTaskSheet.render("Show Task Sheets", result));
     }
 
     public static Result deleteGroups(){

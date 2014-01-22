@@ -9,6 +9,7 @@ GET		/showTasks					controllers.Application.showTasks()
 GET		/showSubmissions			controllers.Application.showSubmissions()
 GET		/createLecture				controllers.Application.createLecture()
 GET		/createTaskSheet			controllers.Application.createTaskSheet()
+GET		/showTaskSheet				controllers.Application.showTaskSheets()
 GET 	/addGroup					controllers.Application.addGroup()
 GET		/showGroups					controllers.Application.showGroups()
 
@@ -24,6 +25,7 @@ GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Applicat
 
 POST	/sendTask					controllers.Application.sendTask()
 POST	/sendLecture				controllers.Application.sendLecture()
+POST 	/sendTaskSheet				controllers.Application.sendTaskSheet()
 POST 	/sendGroup					controllers.Application.sendGroup()
 POST	/showLectureGroups			controllers.Application.showLectureGroups()
 POST	/deleteGroups				controllers.Application.deleteGroups()

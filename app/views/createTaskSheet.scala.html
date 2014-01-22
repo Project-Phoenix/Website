@@ -1,14 +1,14 @@
 @(title : String)(tasks : List[String])
 @head={}
 
-@i={0}
 
 @_Structure(title)(head){
-	<form method="POST" action="#">
-		@tasks.map { taskname =>
-      		<input type="checkbox" name="@taskname" value="task@i"> @taskname<br>
-      		@i = i + 1
+	<b>Aufgaben</b><br>
+	<form method="POST" action="/sendTaskSheet">
+		@for(i <- 0 until tasks.size()){
+      		<input type="checkbox" name="@tasks.get(i)"> @tasks.get(i)<br>
       	}
+      	<br>
       	Aufgabenblattname: <br><input type="text" name="sheetname" value="">
       	<input type="submit" name="submit" value="Erstellen">
     </form>
