@@ -1,0 +1,17 @@
+@(title : String)(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup]) 
+@head={}
+
+@_Structure(title)(head){
+	<form action="/showLectureGroups" method="post">
+		Alle Gruppen der folgenden Veranstaltung anezigen:<input type="text" name="lecture">
+		<input id="Submit" name="Submit" type="submit" value="Submit" /><br><br>
+	</form>
+		<form action="/deleteGroups" method="post">
+			@for(group <- groups) {
+				<p><h2>@group.getName()</h2>
+				&bspn;&bspn;&bspn;&bspn;delete?<input type = "Checkbox" name=@group.getName()><br>
+				</p>
+			}
+			<input id="Delete" name="Delete" type="submit" value="Delete" />
+		</form>
+}

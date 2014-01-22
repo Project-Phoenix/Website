@@ -3,5 +3,26 @@
 @head = {}
 
 @_Structure(title)(head){
-	<h2>Es geht!</h2><br>
+	<h2>Home</h2><br>
+	<form action="/createLecture" method="get">
+    	<input type="submit" value="Create Lecture" name="Submit" id="frm1_submit" />
+	</form><br>
+	<form action="/addGroup" method="get">
+    	<input type="submit" value="Add Group" name="Submit" id="frm2_submit" />
+	</form><br>
+	<form action="/createTask" method="get">
+    	<input type="submit" value="Create Task" name="Submit" id="frm3_submit" />
+	</form><br>
+	<form action="/createTaskSheet" method="get">
+    	<input type="submit" value="Create Task Sheet" name="Submit" id="frm4_submit" />
+	</form><br>
+	<form action="/showGroups" method="get">
+    	<input type="submit" value="Show Groups" name="Submit" id="frm5_submit" />
+	</form><br>
+	<form action="/showSubmissions" method="get">
+    	<input type="submit" value="Show Submissions" name="Submit" id="frm6_submit" />
+	</form><br>
+	<form action="/showTasks" method="get">
+    	<input type="submit" value="Show Tasks" name="Submit" id="frm7_submit" />
+	</form><br>		
 }

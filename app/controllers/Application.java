@@ -35,12 +35,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import views.html.addGroup;
-import views.html.createLecture;
-import views.html.createTask;
-import views.html.home;
-import views.html.showSubmissions;
-import views.html.showTasks;
+import views.html.*;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -210,16 +205,14 @@ public class Application extends Controller {
 
         //Array, which will be filled with the requeststrings
         String[] requests = new String[13];
-        
         String title = "";
         String lecture = "";
-        //if input is missing don't create a detail later
         int itemCount = 0;
+        int size = 0;
         int submitDay = 0;
         int submitHours = 0;
         int submitMinutes = 0;
-        int size = 0;
-        PhoenixLecture lec;
+
         // TODO: exception handling
         // Get the requests and if something missing, set wronginput[arrayCount] to true and test the next detail
         for(String item: keyStrings){
@@ -239,32 +232,7 @@ public class Application extends Controller {
                 itemCount++;
                 break;
             case 16:
-                switch(temp){
-                case "monday":
-                    submitDay = DateTimeConstants.MONDAY;
-                    break;
-                case "tuesday":
-                    submitDay = DateTimeConstants.TUESDAY;
-                    break;
-                case "wednesday":
-                    submitDay = DateTimeConstants.WEDNESDAY;
-                    break;
-                case "thursday":
-                    submitDay = DateTimeConstants.THURSDAY;
-                    break;
-                case "friday":
-                    submitDay = DateTimeConstants.FRIDAY;
-                    break;
-                case "saturday":
-                    submitDay = DateTimeConstants.SATURDAY;
-                    break;
-                case "sunday":
-                    submitDay = DateTimeConstants.SUNDAY;
-                    break;
-                default:
-                    //throw invalid input exception
-                    System.out.println("null, dafuq?!");
-                }
+                submitDay = checkDay(temp);
                 itemCount++;
                 break;
             case 17:
@@ -287,11 +255,15 @@ public class Application extends Controller {
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectLecture);
         
         //Status BadRequest abfangen   
-        if (!(response.getStatus() == 400)){
+        if ((response.getStatus() == 404)){
+            //alert("Veranstaltung nicht vorhanden!");
+            System.out.println("404er Bitch!");  
+        }
+        else{
             List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
-            lec = lectures.get(0);
+            PhoenixLecture lec = lectures.get(0);
             
-            // unique title
+            // unique title (maybe not necessary)
             title = lecture + " - " + title;
             
             LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
@@ -305,10 +277,30 @@ public class Application extends Controller {
             PhoenixLectureGroup group = new PhoenixLectureGroup(title, size, submitDay, submitTime, allDetails, lec);
             response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec,  group));
         }
-        else{
-            //alert("Veranstaltung nicht vorhanden!");
-        }
         return ok();
+    }
+    
+    private static int checkDay(String day){
+        switch(day){
+            case "monday":
+                return DateTimeConstants.MONDAY;
+            case "tuesday":
+                return DateTimeConstants.TUESDAY;
+            case "wednesday":
+                return DateTimeConstants.WEDNESDAY;
+            case "thursday":
+                return DateTimeConstants.THURSDAY;
+            case "friday":
+                return DateTimeConstants.FRIDAY;
+            case "saturday":
+                return DateTimeConstants.SATURDAY;
+            case "sunday":
+                return DateTimeConstants.SUNDAY;
+            default:
+                //throw invalid input exception
+                System.out.println("null, dafuq?!");
+                return -1;
+        }
     }
     
     public static Result download(String title, String filename, String type){
@@ -353,5 +345,33 @@ public class Application extends Controller {
          //System.out.println(Form.form().bindFromRequest().ge;
         return ok();
     }
+    
+    public static Result showGroups() {
+        List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
+        return ok(showGroups.render("show Groups", empty));
+    } 
+    
+    public static Result showLectureGroups(){
+        String lecture = Form.form().bindFromRequest().get("lecture");
+        /*WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        // Get single lecture
+        SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
+        SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
 
+        groupSelector.addKey("lecture", lectureSelector);
+
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
+        List<PhoenixLectureGroup> groups = EntityUtil.extractEntityList(response);
+        for (PhoenixLectureGroup phoenixLectureGroup : groups) {
+            System.out.println(phoenixLectureGroup.getName());
+        }
+        System.out.println(groups);*/
+        List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
+        return ok(showGroups.render("show Groups", empty));
+    }
+
+    public static Result deleteGroups(){
+        
+        return ok();
+    }
 }
