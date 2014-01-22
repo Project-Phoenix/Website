@@ -371,20 +371,21 @@ public class Application extends Controller {
     
     public static Result showLectureGroups(){
         String lecture = Form.form().bindFromRequest().get("lecture");
-        /*WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        WebResource ws = PhoenixLectureGroup.getResource(CLIENT, BASE_URI);
         // Get single lecture
         SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
         SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
 
         groupSelector.addKey("lecture", lectureSelector);
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
-        List<PhoenixLectureGroup> groups = EntityUtil.extractEntityList(response);
-        for (PhoenixLectureGroup phoenixLectureGroup : groups) {
-            System.out.println(phoenixLectureGroup.getName());
+        List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
+        if (response.getStatus()== 404){
+            groups = EntityUtil.extractEntityList(response);
+            System.out.println(groups);
+        }else{
+            groups = new ArrayList<PhoenixLectureGroup>();
         }
-        System.out.println(groups);*/
-        List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
-        return ok(showGroups.render("show Groups", empty));
+        return ok(showGroups.render("show Groups", groups));
     }
     
     public static Result showTaskSheets() {
