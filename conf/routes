@@ -13,6 +13,7 @@ GET		/showTaskSheet				controllers.Application.showTaskSheets()
 GET 	/addGroup					controllers.Application.addGroup()
 GET		/showGroups					controllers.Application.showGroups()
 GET 	/showLectures				controllers.Application.showLectures()
+GET 	/stringShower				controllers.Application.stringShower()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -93,7 +93,9 @@ public class Application extends Controller {
                         attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename())); 
                     else if (fp.getKey().equals("pattern")) 
                         patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                return ok(stringShower.render("strings to show", "Bad News!"));
+            }
         }  
 
         WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_CREATE);
@@ -102,7 +104,7 @@ public class Application extends Controller {
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
         System.out.println("CreateTask Status: "+post.getStatus());
 
-        return ok();
+        return ok(stringShower.render("strings to show", "Good News!"));
     }
       
     public static Result showTasks() {
@@ -192,7 +194,7 @@ public class Application extends Controller {
         PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
         ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
         
-        return ok();
+        return ok(stringShower.render("strings to show", "Good News!"));
     }
     
     public static Result addGroup() {
@@ -260,6 +262,7 @@ public class Application extends Controller {
         if ((response.getStatus() == 404)){
             //alert("Veranstaltung nicht vorhanden!");
             System.out.println("404er Bitch!");  
+            return ok(stringShower.render("strings to show", "Bad News!"));
         }
         else{
             List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
@@ -277,9 +280,9 @@ public class Application extends Controller {
             //send it to server
             WebResource ws2 = PhoenixLecture.addGroupResource(CLIENT, BASE_URI);
             PhoenixLectureGroup group = new PhoenixLectureGroup(title, size, submitDay, submitTime, allDetails, lec);
-            response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec,  group));
+            response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec, group));
+            return ok(stringShower.render("strings to show", "Good News!"));
         }
-        return ok();
     }
     
     private static int checkDay(String day){
@@ -361,7 +364,12 @@ public class Application extends Controller {
         ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, entity);
          
         System.out.println("CreateTaskSheet Status: "+response.getStatus());
-        return ok();
+        if(response.getStatus() == 200){
+            return ok(stringShower.render("strings to show", "Good News!"));
+        }
+        else{
+            return ok(stringShower.render("strings to show", "Bad News!"));
+        }
     }
     
     public static Result showGroups() {
@@ -419,5 +427,8 @@ public class Application extends Controller {
 
         List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);   
         return ok(showLectures.render("show Lectures", lectures));
+    }
+    public static Result stringShower(){
+        return ok();
     }
 }
