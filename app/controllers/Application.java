@@ -365,11 +365,23 @@ public class Application extends Controller {
     }
     
     public static Result showGroups() {
+        //show lectures
+        WebResource wsLec = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse responseLec = wsLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
+
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(responseLec);   
+        //empty group
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
-        return ok(showGroups.render("show Groups", empty));
+        return ok(showGroups.render("show Groups", empty, lectures));
     } 
     
     public static Result showLectureGroups(){
+        //show lectures
+        WebResource wsLec = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse responseLec = wsLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
+
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(responseLec);   
+        //show groups
         String lecture = Form.form().bindFromRequest().get("lecture");
         WebResource ws = PhoenixLectureGroup.getResource(CLIENT, BASE_URI);
         // Get single lecture
@@ -379,13 +391,14 @@ public class Application extends Controller {
         groupSelector.addKey("lecture", lectureSelector);
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
         List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
-        if (response.getStatus()== 404){
+        if (response.getStatus() == 200){
             groups = EntityUtil.extractEntityList(response);
-            System.out.println(groups);
+            System.out.println("Kilian ist behindert!");
         }else{
             groups = new ArrayList<PhoenixLectureGroup>();
+            System.out.println("Ich bin behindert!");
         }
-        return ok(showGroups.render("show Groups", groups));
+        return ok(showGroups.render("show Groups", groups, lectures));
     }
     
     public static Result showTaskSheets() {
@@ -396,7 +409,15 @@ public class Application extends Controller {
     }
 
     public static Result deleteGroups(){
-        
+        //deleteResource
         return ok();
+    }
+    
+    public static Result showLectures(){
+        WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
+
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);   
+        return ok(showLectures.render("show Lectures", lectures));
     }
 }
