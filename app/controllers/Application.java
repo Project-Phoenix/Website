@@ -95,7 +95,7 @@ public class Application extends Controller {
                     else if (fp.getKey().equals("pattern")) 
                         patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
             } catch (IOException e) {
-                return ok(stringShower.render("strings to show", "Bad News!"));
+                return ok(stringShower.render("ERROR", e.toString()));
             }
         }  
 
@@ -105,7 +105,7 @@ public class Application extends Controller {
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
         System.out.println("CreateTask Status: "+post.getStatus());
 
-        return ok(stringShower.render("strings to show", "Good News!"));
+        return ok(stringShower.render("Task created", "Task has been created successfully"));
     }
       
     public static Result showTasks() {
@@ -374,10 +374,10 @@ public class Application extends Controller {
          
         System.out.println("CreateTaskSheet Status: "+response.getStatus());
         if(response.getStatus() == 200){
-            return ok(stringShower.render("strings to show", "Good News!"));
+            return ok(stringShower.render("TaskSheet created", "Your Tasksheet has been created successfully!"));
         }
         else{
-            return ok(stringShower.render("strings to show", "Bad News!"));
+            return ok(stringShower.render("ERROR", "ERROR: "+response.getStatus()));
         }
     }
     
