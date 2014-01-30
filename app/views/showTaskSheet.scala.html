@@ -6,7 +6,7 @@
 			<p><h2>@sheet.getTitle() </h2><i> (@sheet.getCreationDate())</i><br>
 			<ul>
 				@sheet.getTasks().map { task =>
-					<li>@task.getTitle()</li>
+					<li><a href="/showTasks?option=@task.getTitle()">@task.getTitle()</a></li>
 				}
 			</ul>
 			<br>

@@ -23,6 +23,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -106,7 +107,12 @@ public class Application extends Controller {
     }
       
     public static Result showTasks() {
-        return ok(showTasks.render("showTasks", getAllTasks()));
+        if (request().queryString().get("option") != null)
+            if (request().queryString().get("option")[0].equals("all"))
+                return ok(showTasks.render("showTasks", getAllTasks()));
+            else
+                return ok(showTasks.render("showTasks", Arrays.asList(getTaskByTitle(request().queryString().get("option")[0]))));
+        return ok();
     }
     
     public static Result showSubmissions() {
@@ -122,6 +128,14 @@ public class Application extends Controller {
         ClientResponse resp = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixTask>());
 
         return EntityUtil.extractEntityList(resp);      
+    }
+    
+    public static PhoenixTask getTaskByTitle(String title) {
+        WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
+        SelectEntity<PhoenixTask> selectByTitle = new SelectEntity<PhoenixTask>().addKey("title", title);
+        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectByTitle);
+        PhoenixTask task = EntityUtil.extractEntity(post);
+        return task;
     }
     
 
@@ -306,32 +320,27 @@ public class Application extends Controller {
     }
     
     public static Result download(String title, String filename, String type){
-        WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
-        SelectEntity<PhoenixTask> selectByTitle = new SelectEntity<PhoenixTask>().addKey("title", title);
-        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectByTitle);
-        PhoenixTask task = EntityUtil.extractEntity(post);
+            PhoenixTask task = getTaskByTitle(title);
 
-            if (post.getStatus() != NO_CONTENT){
-                try {
-                    response().setContentType("application/x-download");
-                    if (type.equals("attachment")) { 
-                        for(PhoenixAttachment a : task.getAttachments()) 
-                            if ((a.getName()+"."+a.getType()).equals(filename)) { 
-                                    response().setHeader("Content-disposition","attachment; filename="+URI.create(a.getName().replace(" ", "_")+"."+a.getType())); 
-                                    response().setHeader("Content-Lenght", String.valueOf(a.getFile().length()));
-                                    return ok(a.getFile());
+            try {
+                response().setContentType("application/x-download");
+                if (type.equals("attachment")) { 
+                    for(PhoenixAttachment a : task.getAttachments()) 
+                        if ((a.getName()+"."+a.getType()).equals(filename)) { 
+                                response().setHeader("Content-disposition","attachment; filename="+URI.create(a.getName().replace(" ", "_")+"."+a.getType())); 
+                                response().setHeader("Content-Lenght", String.valueOf(a.getFile().length()));
+                                return ok(a.getFile());
+                        }
+                }
+                else if (type.equals("pattern")) {
+                    for(PhoenixText t : task.getPattern()) 
+                        if ((t.getName()+"."+t.getType()).equals(filename)) { 
+                                response().setHeader("Content-disposition","attachment; filename="+t.getName()+"."+t.getType()); 
+                                response().setHeader("Content-Lenght", String.valueOf(t.getFile().length()));
+                                return ok(t.getFile());
                             }
-                    }
-                    else if (type.equals("pattern")) {
-                        for(PhoenixText t : task.getPattern()) 
-                            if ((t.getName()+"."+t.getType()).equals(filename)) { 
-                                    response().setHeader("Content-disposition","attachment; filename="+t.getName()+"."+t.getType()); 
-                                    response().setHeader("Content-Lenght", String.valueOf(t.getFile().length()));
-                                    return ok(t.getFile());
-                                }
-                    }
-                } catch (IOException e) { return internalServerError("File not found!"); }
-            }
+                }
+            } catch (IOException e) { return internalServerError("File not found!"); }
 
         return internalServerError();
     }

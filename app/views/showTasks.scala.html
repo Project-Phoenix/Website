@@ -2,21 +2,39 @@
 @head={}
 
 @_Structure(title)(head){
-		 @tasks.map { task =>
-		<p><h2>@task.getTitle()</h2><br>
-		@Html(task.getDescription())</p><br>
-		<b>Anhänge</b>
-		<ul>
-		@task.getAttachments().map { attachment =>
-				<li><a href="/download/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+		 @if(tasks.size() > 1) {
+			 @tasks.map { task =>
+				<p><h2>@task.getTitle()</h2><br>
+				@Html(task.getDescription())</p><br>
+				<b>Anhänge</b>
+				<ul>
+				@task.getAttachments().map { attachment =>
+						<li><a href="/download/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+				}
+				</ul>
+				<b>Vorlagen</b><br>
+				<ul>
+				@task.getPattern().map { pattern =>
+						<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+				}
+				</ul>
+				<i>---------------------------------------------------------------------</i>
+			}
 		}
-		</ul>
-		<b>Vorlagen</b><br>
-		<ul>
-		@task.getPattern().map { pattern =>
-				<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
-		}
-		</ul>
-		<i>---------------------------------------------------------------------</i>
+		@if(tasks.size() == 1) {
+				<p><h2>@tasks.get(0).getTitle()</h2><br>
+				@Html(tasks.get(0).getDescription())</p><br>
+				<b>Anhänge</b>
+				<ul>
+				@tasks.get(0).getAttachments().map { attachment =>
+						<li><a href="/download/@tasks.get(0).getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+				}
+				</ul>
+				<b>Vorlagen</b><br>
+				<ul>
+				@tasks.get(0).getPattern().map { pattern =>
+						<li><a href="/download/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+				}
+				</ul>
 		}
 }
