@@ -94,7 +94,9 @@ public class Application extends Controller {
                         attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename())); 
                     else if (fp.getKey().equals("pattern")) 
                         patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                return ok(stringShower.render("strings to show", "Bad News!"));
+            }
         }  
 
         WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_CREATE);
@@ -103,7 +105,7 @@ public class Application extends Controller {
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
         System.out.println("CreateTask Status: "+post.getStatus());
 
-        return ok();
+        return ok(stringShower.render("strings to show", "Good News!"));
     }
       
     public static Result showTasks() {
@@ -206,7 +208,7 @@ public class Application extends Controller {
         PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
         ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
         
-        return ok();
+        return ok(stringShower.render("strings to show", "Good News!"));
     }
     
     public static Result addGroup() {
@@ -274,6 +276,7 @@ public class Application extends Controller {
         if ((response.getStatus() == 404)){
             //alert("Veranstaltung nicht vorhanden!");
             System.out.println("404er Bitch!");  
+            return ok(stringShower.render("strings to show", "Bad News!"));
         }
         else{
             List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
@@ -291,9 +294,9 @@ public class Application extends Controller {
             //send it to server
             WebResource ws2 = PhoenixLecture.addGroupResource(CLIENT, BASE_URI);
             PhoenixLectureGroup group = new PhoenixLectureGroup(title, size, submitDay, submitTime, allDetails, lec);
-            response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec,  group));
+            response = ws2.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, KeyReader.createAddTo(lec, group));
+            return ok(stringShower.render("strings to show", "Good News!"));
         }
-        return ok();
     }
     
     private static int checkDay(String day){
@@ -370,30 +373,49 @@ public class Application extends Controller {
         ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, entity);
          
         System.out.println("CreateTaskSheet Status: "+response.getStatus());
-        return ok();
+        if(response.getStatus() == 200){
+            return ok(stringShower.render("strings to show", "Good News!"));
+        }
+        else{
+            return ok(stringShower.render("strings to show", "Bad News!"));
+        }
     }
     
     public static Result showGroups() {
+        //show lectures
+        WebResource wsLec = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse responseLec = wsLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
+
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(responseLec);   
+        //empty group
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
-        return ok(showGroups.render("show Groups", empty));
+        return ok(showGroups.render("show Groups", empty, lectures));
     } 
     
     public static Result showLectureGroups(){
+        //show lectures
+        WebResource wsLec = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse responseLec = wsLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
+
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(responseLec);   
+        //show groups
         String lecture = Form.form().bindFromRequest().get("lecture");
-        /*WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        WebResource ws = PhoenixLectureGroup.getResource(CLIENT, BASE_URI);
         // Get single lecture
         SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
         SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
 
         groupSelector.addKey("lecture", lectureSelector);
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
-        List<PhoenixLectureGroup> groups = EntityUtil.extractEntityList(response);
-        for (PhoenixLectureGroup phoenixLectureGroup : groups) {
-            System.out.println(phoenixLectureGroup.getName());
+        List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
+        if (response.getStatus() == 200){
+            groups = EntityUtil.extractEntityList(response);
+            System.out.println("Kilian ist behindert!");
+        }else{
+            groups = new ArrayList<PhoenixLectureGroup>();
+            System.out.println("Ich bin behindert!");
         }
-        System.out.println(groups);*/
-        List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
-        return ok(showGroups.render("show Groups", empty));
+        return ok(showGroups.render("show Groups", groups, lectures));
     }
     
     public static Result showTaskSheets() {
@@ -404,7 +426,18 @@ public class Application extends Controller {
     }
 
     public static Result deleteGroups(){
-        
+        //deleteResource
+        return ok();
+    }
+    
+    public static Result showLectures(){
+        WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
+
+        List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);   
+        return ok(showLectures.render("show Lectures", lectures));
+    }
+    public static Result stringShower(){
         return ok();
     }
 }

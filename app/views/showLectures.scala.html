@@ -1,0 +1,8 @@
+@(title : String)(lectures : List[de.phoenix.rs.entity.PhoenixLecture]) 
+@head={}
+
+@_Structure(title)(head){
+	@for(lecture <- lectures) {
+		<h2>-@lecture.getTitle()</h2>
+	}
+}

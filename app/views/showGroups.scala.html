@@ -1,7 +1,11 @@
-@(title : String)(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup]) 
+@(title : String)(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup])(lectures : List[de.phoenix.rs.entity.PhoenixLecture])
 @head={}
 
 @_Structure(title)(head){
+	existierende Veranstaltungen:<br>
+	@for(lecture <- lectures) {
+		<h2>-@lecture.getTitle()</h2>
+	}
 	<form action="/showLectureGroups" method="post">
 		Alle Gruppen der folgenden Veranstaltung anezigen:<input type="text" name="lecture">
 		<input id="Submit" name="Submit" type="submit" value="Submit" /><br><br>
@@ -9,7 +13,7 @@
 		<form action="/deleteGroups" method="post">
 			@for(group <- groups) {
 				<p><h2>@group.getName()</h2>
-				&bspn;&bspn;&bspn;&bspn;delete?<input type = "Checkbox" name=@group.getName()><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;delete?<input type = "Checkbox" name=@group.getName()><br>
 				</p>
 			}
 			<input id="Delete" name="Delete" type="submit" value="Delete" />
