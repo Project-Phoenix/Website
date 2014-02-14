@@ -429,6 +429,7 @@ public class Application extends Controller {
 
     //TODO:
     //- Exceptions(?)
+    //- Statushandling
     public static Result deleteGroups(){
         //deleteResource
         Map<String, String> boxes = Form.form().bindFromRequest().data();
@@ -453,7 +454,7 @@ public class Application extends Controller {
             // Send delete response
             ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
         }
-        return ok(stringShower.render("strings to show", "Good News!"));
+        return ok(stringShower.render("Groups deleted", "Groups deleted!"));
     }
     
     public static Result showLectures(){
