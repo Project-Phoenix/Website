@@ -269,7 +269,7 @@ public class Application extends Controller {
             PhoenixLecture lec = lectures.get(0);
             
             // unique title (maybe not necessary)
-            title = lecture + " - " + title;
+            //title = lecture + " - " + title;
             
             LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
             //PhoenixDetaillist
@@ -351,6 +351,7 @@ public class Application extends Controller {
         raw.remove("submit");
         String sheetname = raw.get("sheetname");
         raw.remove("sheetname");
+        System.out.println(sheetname);
         
         ConnectionEntity entity = new ConnectionEntity();
         List<SelectEntity<PhoenixTask>> list = new ArrayList<SelectEntity<PhoenixTask>>();
@@ -406,6 +407,7 @@ public class Application extends Controller {
             groups = new ArrayList<PhoenixLectureGroup>();
             System.out.println("Ich bin behindert!");
         }
+        List<Integer> ints = new ArrayList<Integer>();
         return ok(showGroups.render("show Groups", groups, lectures));
     }
     
@@ -416,9 +418,33 @@ public class Application extends Controller {
         return ok(showTaskSheet.render("Show Task Sheets", result));
     }
 
+    //TODO:
+    //- Exceptions(?)
     public static Result deleteGroups(){
         //deleteResource
-        return ok();
+        Map<String, String> boxes = Form.form().bindFromRequest().data();
+        boxes.remove("Delete");
+        WebResource ws = PhoenixLectureGroup.deleteResource(CLIENT, BASE_URI);
+        String lecture = boxes.get("lecture").replaceAll("_", " ");
+        for(String key : boxes.keySet()) {
+            key = key.replaceAll("_", " ");                
+            System.out.println(key);
+            // Create Lecture Group Selector
+            SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
+            // Add Lecture Group Key - the name
+            groupSelector.addKey("name", key);
+
+            // Create Lecture Selector
+            SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>();
+            // Add Lecture Key - the title
+            lectureSelector.addKey("title", lecture);
+            // Add lecture selector to group selector (only groups from this lecture are selected)
+            groupSelector.addKey("lecture", lectureSelector);
+
+            // Send delete response
+            ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
+        }
+        return ok(stringShower.render("strings to show", "Good News!"));
     }
     
     public static Result showLectures(){
