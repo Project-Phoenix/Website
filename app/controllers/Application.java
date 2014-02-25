@@ -106,8 +106,11 @@ public class Application extends Controller {
         PhoenixTask task = new PhoenixTask(attachmentLst,patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"));
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
         System.out.println("CreateTask Status: "+post.getStatus());
-
-        return ok(stringShower.render("Task created", "Task has been created successfully"));
+        if(post.getStatus() == 200){
+            return ok(stringShower.render("Task created", "Task has been created successfully"));
+        }else{
+            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + post.getStatus() + ")"));
+        }
     }
       
     public static Result showTasks() {
@@ -124,7 +127,11 @@ public class Application extends Controller {
         List<PhoenixTask> tasks = getAllTasks();
         ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, tasks.get(0));
         List<PhoenixSubmission> submissions = EntityUtil.extractEntityList(post);
-        return ok(showSubmissions.render("showSubmissions", submissions));
+        if (post.getStatus() == 200){
+            return ok(showSubmissions.render("showSubmissions", submissions));
+        }else{
+            return ok(stringShower.render("show Submissions", "Ups, da ist ein Fehler aufgetreten!(" + post.getStatus() + ")"));
+        }
     }
 
     public static List<PhoenixTask> getAllTasks(){        
@@ -208,9 +215,12 @@ public class Application extends Controller {
         }
         //send it to server
         PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
-        ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
-        
-        return ok(stringShower.render("strings to show", "Good News!"));
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
+        if(response.getStatus() == 200){
+            return ok(stringShower.render("strings to show", "Good News!"));
+        }else{
+            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+        }
     }
     
     public static Result addGroup() {
@@ -275,17 +285,16 @@ public class Application extends Controller {
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectLecture);
         
         //Status BadRequest abfangen   
-        if ((response.getStatus() == 404)){
+        if ((response.getStatus() != 200)){
             //alert("Veranstaltung nicht vorhanden!");
-            System.out.println("404er Bitch!");  
-            return ok(stringShower.render("strings to show", "Bad News!"));
+            return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
         }
         else{
             List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);
             PhoenixLecture lec = lectures.get(0);
             
             // unique title (maybe not necessary)
-            title = lecture + " - " + title;
+            //title = lecture + " - " + title;
             
             LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
             //PhoenixDetaillist
@@ -362,6 +371,7 @@ public class Application extends Controller {
         raw.remove("submit");
         String sheetname = raw.get("sheetname");
         raw.remove("sheetname");
+        System.out.println(sheetname);
         
         ConnectionEntity entity = new ConnectionEntity();
         List<SelectEntity<PhoenixTask>> list = new ArrayList<SelectEntity<PhoenixTask>>();
@@ -391,7 +401,11 @@ public class Application extends Controller {
         List<PhoenixLecture> lectures = EntityUtil.extractEntityList(responseLec);   
         //empty group
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
-        return ok(showGroups.render("show Groups", empty, lectures));
+        if (responseLec.getStatus() == 200){
+            return ok(showGroups.render("show Groups", empty, lectures));
+        }else{
+            return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + responseLec.getStatus() + ")"));
+        }
     } 
     
     private static List<PhoenixLectureGroup> getAllGroups(String lecture) {
@@ -448,13 +462,12 @@ public class Application extends Controller {
         List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
         if (response.getStatus() == 200){
             groups = EntityUtil.extractEntityList(response);
-            System.out.println("Kilian ist behindert!");
+            System.out.println("Gruppen gefunden");
+            return ok(showGroups.render("show Groups", groups, lectures));
         }else{
-            groups = new ArrayList<PhoenixLectureGroup>();
-            System.out.println("Ich bin behindert!");
+            return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
         }
-        return ok(showGroups.render("show Groups", groups, lectures));
-    }
+  }
     
     private static List<PhoenixTaskSheet> getAllTaskSheets() {
         WebResource wr = PhoenixTaskSheet.getResource(CLIENT, BASE_URI);
@@ -467,9 +480,37 @@ public class Application extends Controller {
         return ok(showTaskSheet.render("Show Task Sheets", getAllTaskSheets()));
     }
 
+    //TODO:
+    //- Exceptions(?)
+    //- Statushandling
     public static Result deleteGroups(){
         //deleteResource
-        return ok();
+        Map<String, String> boxes = Form.form().bindFromRequest().data();
+        boxes.remove("Delete");
+        WebResource ws = PhoenixLectureGroup.deleteResource(CLIENT, BASE_URI);
+        String lecture = boxes.get("lecture").replaceAll("_", " ");
+        for(String key : boxes.keySet()) {
+            key = key.replaceAll("_", " ");                
+            System.out.println(key);
+            // Create Lecture Group Selector
+            SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
+            // Add Lecture Group Key - the name
+            groupSelector.addKey("name", key);
+
+            // Create Lecture Selector
+            SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>();
+            // Add Lecture Key - the title
+            lectureSelector.addKey("title", lecture);
+            // Add lecture selector to group selector (only groups from this lecture are selected)
+            groupSelector.addKey("lecture", lectureSelector);
+
+            // Send delete response
+            ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
+            if (response.getStatus() != 200){
+                return ok(stringShower.render("Groups deleted", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+            }
+        }
+        return ok(stringShower.render("Groups deleted", "Groups deleted!"));
     }
     
     public static Result showLectures(){
@@ -477,7 +518,11 @@ public class Application extends Controller {
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());
 
         List<PhoenixLecture> lectures = EntityUtil.extractEntityList(response);   
-        return ok(showLectures.render("show Lectures", lectures));
+        if (response.getStatus() == 200){
+            return ok(showLectures.render("show Lectures", lectures));
+        }else{
+            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+        }
     }
     public static Result stringShower(){
         return ok();
