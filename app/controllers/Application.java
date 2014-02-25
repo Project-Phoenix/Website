@@ -29,6 +29,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
@@ -58,6 +59,7 @@ import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectAllEntity;
 import de.phoenix.rs.key.SelectEntity;
+import de.phoenix.rs.entity.connection.LectureGroupTaskSheetConnection;
 
 
 
@@ -476,6 +478,16 @@ public class Application extends Controller {
         return result;
     }
     
+    private static PhoenixTaskSheet getTaskSheet(String title) {
+        WebResource wr = PhoenixTaskSheet.getResource(CLIENT, BASE_URI);
+        ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectEntity<PhoenixTaskSheet>().addKey("title", title));
+        PhoenixTaskSheet result = EntityUtil.extractEntity(response);
+        System.out.println("=>>>"+response.getStatus());
+        return result;
+    }
+    
+    
+    
     public static Result showTaskSheets() {
         return ok(showTaskSheet.render("Show Task Sheets", getAllTaskSheets()));
     }
@@ -537,15 +549,17 @@ public class Application extends Controller {
         return lecture;
     }
     
+    
+    
     public static Result addTaskSheetToGroupProcess() {
-        //SEND Lecture-titel via hidden input !!
         List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
         Map<String, String> data = Form.form().bindFromRequest().data();
         String lectureTitle = data.get("lecture");
         data.remove("lecture");
-        String tasksheet = data.get("tasksheet");
-        if (tasksheet != null) {
+        String tasksheetName = data.get("tasksheet");
+        if (tasksheetName != null) {
             data.remove("tasksheet");
+            PhoenixTaskSheet tasksheet = getTaskSheet(tasksheetName);
             if (!data.isEmpty()) {
                 PhoenixLectureGroup group = null;
                 for(String g : data.keySet()) {
@@ -555,9 +569,17 @@ public class Application extends Controller {
                      groups.add(group);
                 }   
             }
-            for (PhoenixLectureGroup plg : groups) {
-                //HOLE TASKSHEET UND HÄNGE AN JEDE GRUPPE TASKSHEET AN => SELECTENTITY
+            ConnectionEntity connectionEntity = new LectureGroupTaskSheetConnection(DateTime.now(), DateTime.now().plusWeeks(1), tasksheet, groups);
+        
+            WebResource createLectureGroupTaskSheet = PhoenixLectureGroupTaskSheet.createResource(CLIENT, BASE_URI);
+            ClientResponse response = createLectureGroupTaskSheet.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, connectionEntity);
+            
+            if (response.getStatus() == 200){
+                return ok(stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
+            }else{
+                return ok(stringShower.render("FAIL!", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
             }
+            
         }
         
         return ok(stringShower.render("Erfolg!","Test läuft!"));
