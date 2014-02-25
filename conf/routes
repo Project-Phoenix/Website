@@ -16,11 +16,8 @@ GET 	/stringShower				controllers.Application.stringShower()
 GET		/addTaskSheetToGroup		controllers.Application.addTaskSheetToGroup()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
-
-#title <=> Task title
-#filename <=> trivial
-#type <=> either attachment or pattern
+GET     /assets/*file               									controllers.Assets.at(path="/public", file)
+GET  	/images/*file             										controllers.Assets.at("public/images", file)
 GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Application.download(title:String, filename:String, type:String)
 
 #POST
