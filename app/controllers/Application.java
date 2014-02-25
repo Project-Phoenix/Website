@@ -513,6 +513,22 @@ public class Application extends Controller {
         return ok(stringShower.render("Groups deleted", "Groups deleted!"));
     }
     
+    public static Result deleteLecture(){
+        Map<String, String> dataMap = Form.form().bindFromRequest().data();
+        WebResource ws = PhoenixLecture.deleteResource(CLIENT, BASE_URI);
+        // Create Lecture Selector
+        SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>();
+        System.out.println(dataMap.get("lecture"));
+        // Add Lecture Key - the title
+        lectureSelector.addKey("title", dataMap.get("lecture"));
+        // Send delete response
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lectureSelector);
+        if (response.getStatus() != 200){
+            return ok(stringShower.render("lecture delete", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+        }
+    return ok(stringShower.render("Lecture deleted", "Lecture deleted!"));
+    }
+    
     public static Result showLectures(){
         WebResource ws = PhoenixLecture.getResource(CLIENT, BASE_URI);
         ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixLecture>());

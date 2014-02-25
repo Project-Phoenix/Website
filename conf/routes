@@ -32,5 +32,6 @@ POST 	/sendTaskSheet				controllers.Application.sendTaskSheet()
 POST 	/sendGroup					controllers.Application.sendGroup()
 POST	/showLectureGroups			controllers.Application.showLectureGroups()
 POST	/deleteGroups				controllers.Application.deleteGroups()
+POST	/deleteLecture				controllers.Application.deleteLecture()
 POST 	/addTaskSheetToGroupProcess controllers.Application.addTaskSheetToGroupProcess()
 
