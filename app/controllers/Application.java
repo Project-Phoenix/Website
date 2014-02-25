@@ -38,6 +38,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html.*;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -48,6 +49,7 @@ import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
+import de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
@@ -363,9 +365,9 @@ public class Application extends Controller {
         
         ConnectionEntity entity = new ConnectionEntity();
         List<SelectEntity<PhoenixTask>> list = new ArrayList<SelectEntity<PhoenixTask>>();
-        for(String key : raw.keySet()) {
+        for(String key : raw.keySet()) 
             list.add(new SelectEntity<PhoenixTask>().addKey("title", key));
-        }
+        
         entity.addSelectEntities(PhoenixTask.class, list);
         entity.addAttribute("title", sheetname);
         
@@ -391,6 +393,42 @@ public class Application extends Controller {
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
         return ok(showGroups.render("show Groups", empty, lectures));
     } 
+    
+    private static List<PhoenixLectureGroup> getAllGroups(String lecture) {
+        WebResource wsGroups = PhoenixLectureGroup.getResource(CLIENT, BASE_URI);
+        // Get single lecture
+        SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
+        SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
+
+        groupSelector.addKey("lecture", lectureSelector);
+        ClientResponse response = wsGroups.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
+        List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
+        
+        if (response.getStatus() == 200)
+            groups = EntityUtil.extractEntityList(response);
+        
+        System.out.println("Get-all-Groups Status: "+response.getStatus());
+        
+        return groups;
+    }
+    
+    private static PhoenixLectureGroup getGroup(String lecture, String groupName) {
+        WebResource wsGroups = PhoenixLectureGroup.getResource(CLIENT, BASE_URI);
+        // Get single lecture
+        SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>().addKey("name", groupName);
+        SelectEntity<PhoenixLecture> lectureSelector = new SelectEntity<PhoenixLecture>().addKey("title", lecture);
+
+        groupSelector.addKey("lecture", lectureSelector);
+        ClientResponse response = wsGroups.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, groupSelector);
+        PhoenixLectureGroup group = null;
+        
+        if (response.getStatus() == 200)
+            group = EntityUtil.extractEntity(response);
+        
+        System.out.println("Get-all-Groups Status: "+response.getStatus());
+        
+        return group;
+    }
     
     public static Result showLectureGroups(){
         //show lectures
@@ -418,11 +456,15 @@ public class Application extends Controller {
         return ok(showGroups.render("show Groups", groups, lectures));
     }
     
-    public static Result showTaskSheets() {
+    private static List<PhoenixTaskSheet> getAllTaskSheets() {
         WebResource wr = PhoenixTaskSheet.getResource(CLIENT, BASE_URI);
         ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixTaskSheet>());
         List<PhoenixTaskSheet> result = EntityUtil.extractEntityList(response);
-        return ok(showTaskSheet.render("Show Task Sheets", result));
+        return result;
+    }
+    
+    public static Result showTaskSheets() {
+        return ok(showTaskSheet.render("Show Task Sheets", getAllTaskSheets()));
     }
 
     public static Result deleteGroups(){
@@ -440,4 +482,55 @@ public class Application extends Controller {
     public static Result stringShower(){
         return ok();
     }
+    
+    private static PhoenixLecture getLecture(String lectureTitle) {
+        SelectEntity<PhoenixLecture> lectureEntity = new SelectAllEntity<PhoenixLecture>();
+        lectureEntity.addKey("title", lectureTitle);
+        WebResource wsLec = PhoenixLecture.getResource(CLIENT, BASE_URI);
+        ClientResponse responseLec = wsLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lectureEntity);
+        PhoenixLecture lecture = EntityUtil.extractEntity(responseLec);
+        return lecture;
+    }
+    
+    public static Result addTaskSheetToGroupProcess() {
+        //SEND Lecture-titel via hidden input !!
+        List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
+        Map<String, String> data = Form.form().bindFromRequest().data();
+        String lectureTitle = data.get("lecture");
+        data.remove("lecture");
+        String tasksheet = data.get("tasksheet");
+        if (tasksheet != null) {
+            data.remove("tasksheet");
+            if (!data.isEmpty()) {
+                PhoenixLectureGroup group = null;
+                for(String g : data.keySet()) {
+                     group = getGroup(lectureTitle, g);
+                     if (group == null)
+                         return ok(stringShower.render("FEHLER!","Gruppe "+g+" existiert nicht!!"));
+                     groups.add(group);
+                }   
+            }
+            for (PhoenixLectureGroup plg : groups) {
+                //HOLE TASKSHEET UND HÄNGE AN JEDE GRUPPE TASKSHEET AN => SELECTENTITY
+            }
+        }
+        
+        return ok(stringShower.render("Erfolg!","Test läuft!"));
+    }
+    
+    public static Result addTaskSheetToGroup() {
+        if (request().queryString().get("lecture") != null) {
+            String lecture = request().queryString().get("lecture")[0];
+            if (lecture != null) {
+                List<PhoenixLectureGroup> groups = getAllGroups(lecture);
+                List<PhoenixTaskSheet> tasksheets = getAllTaskSheets();
+                return ok(addTaskSheetToGroup.render("Add Sheet to Group",lecture,tasksheets,groups));
+            } else {
+                return ok(stringShower.render("ERROR", "This Lecture does not exist!"));
+            }
+        } else {
+            return ok(stringShower.render("ERROR", "No Lecture selected!"));
+        }    
+    }
+    
 }

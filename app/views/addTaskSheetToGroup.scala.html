@@ -1,0 +1,34 @@
+@(title : String)(lectureTitle : String)(sheets : List[de.phoenix.rs.entity.PhoenixTaskSheet])(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup]) 
+@head={}
+
+@_Structure(title)(head){
+		<h1>Aufgabenblatt Auswahl</h1>
+		<i>Wählen Sie ein Blatt aus, das Sie den verschiedenen Gruppen hinzufügen möchten</i><br><br><br>
+		
+		<form method="POST" action="/addTaskSheetToGroupProcess">
+			<table cellpadding="10px">
+				<tr>
+					<th style="text-align: left">
+						Aufgabenblätter
+					</th>
+					<th style="text-align: left">
+						Gruppen (@lectureTitle)
+					</th>
+				</tr>
+				<tr>
+					<td>
+			 		  @for(i <- 0 until sheets.size()){
+	      				<input type="radio" name="tasksheet" value="@sheets.get(i).getTitle()"> @sheets.get(i).getTitle()<br> 
+	      	 		  }
+	    			</td>
+	    			<td>
+	    			  @for(i <- 0 until groups.size()){
+	      				<input type="checkbox" name="@groups.get(i).getName()" value="@groups.get(i).getName()"> @groups.get(i).getName()<br> 
+	      	 		  }
+	   				</td>	
+	      	 	</tr>
+	      	 </table>
+	      	 <input type="hidden" name="lecture" value="@lectureTitle">
+	      	 <input type="submit" value="Senden">
+		</form>
+}
