@@ -18,6 +18,10 @@
 						<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
 				}
 				</ul>
+				<form action="/showSubmissions" method="post">
+					<input type="hidden" value="@task.getTitle() name="task">
+					<input type="submit" value="show Submissions" name="submissions"/>
+				</form>
 				<i>---------------------------------------------------------------------</i>
 			}
 		}
@@ -36,5 +40,9 @@
 						<li><a href="/download/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
 				}
 				</ul>
+				<form action="/showSubmissions" method="post">
+					<input type="hidden" value="@task.getTitle() name="task">
+					<input type="submit" value="show Submissions" name="submissions"/>
+				</form>
 		}
 }

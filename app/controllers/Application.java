@@ -123,9 +123,19 @@ public class Application extends Controller {
     }
     
     public static Result showSubmissions() {
-        WebResource wr = PhoenixSubmission.getByTaskResource(CLIENT, BASE_URI);
-        List<PhoenixTask> tasks = getAllTasks();
-        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, tasks.get(0));
+        Map<String, String> dataMap = Form.form().bindFromRequest().data();
+        String taskTitle = dataMap.get("task");
+        
+        SelectEntity<PhoenixTask> taskSelector = new SelectEntity<PhoenixTask>();
+        taskSelector.addKey("title", taskTitle);
+        
+        WebResource wrGetSubmissions = PhoenixSubmission.getResource(CLIENT, BASE_URI);
+        
+        SelectEntity<PhoenixSubmission> submissionSelector = new SelectEntity<PhoenixSubmission>();
+        submissionSelector.addKey("task", taskSelector);
+        
+        ClientResponse post = wrGetSubmissions.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, submissionSelector);
+        
         List<PhoenixSubmission> submissions = EntityUtil.extractEntityList(post);
         if (post.getStatus() == 200){
             return ok(showSubmissions.render("showSubmissions", submissions));
@@ -137,8 +147,8 @@ public class Application extends Controller {
     public static List<PhoenixTask> getAllTasks(){        
         WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
         ClientResponse resp = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixTask>());
-
-        return EntityUtil.extractEntityList(resp);      
+        List<PhoenixTask> taskList = EntityUtil.extractEntityList(resp);
+        return taskList;     
     }
     
     public static PhoenixTask getTaskByTitle(String title) {

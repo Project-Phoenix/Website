@@ -4,10 +4,10 @@
 @_Structure(title)(head){
 	@for(lecture <- lectures) {
 		<form action="/deleteLecture" method="post">
-		-@lecture.getTitle()
-		<input type="hidden" name="lecture" value=@lecture.getTitle>
-    	<input type="submit" value="delete?" name="delete"/>
-		<br>
+			-@lecture.getTitle()
+			<input type="hidden" name="lecture" value=@lecture.getTitle>
+	    	<input type="submit" value="delete?" name="delete"/>
+			<br>
 		</form>
 	}
 }
