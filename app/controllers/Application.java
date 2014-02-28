@@ -138,8 +138,8 @@ public class Application extends Controller {
         
         ClientResponse post = wrGetSubmissions.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, submissionSelector);
         
-        List<PhoenixSubmission> submissions = EntityUtil.extractEntityList(post);
         if (post.getStatus() == 200){
+            List<PhoenixSubmission> submissions = EntityUtil.extractEntityList(post);
             return ok(showSubmissions.render("showSubmissions", submissions));
         }else{
             return ok(stringShower.render("show Submissions", "Ups, da ist ein Fehler aufgetreten!(" + post.getStatus() + ")"));
