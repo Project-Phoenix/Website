@@ -3,6 +3,7 @@
 <!doctype html>
 <script type="text/javascript">
 	function ValidateForm(frm) {
+		var notNumber = /(\D+)/
 		if (frm.title.value == "")
 			{alert('Titel ist erforderlich.'); 
 			frm.title.focus();
@@ -11,65 +12,65 @@
 			{alert('Veranstaltung ist erforderlich')
 			frm.lecture.focus();
 			return false;}
-		if (frm.size.value == "")
-			{alert('Maximal Gr&ouml;&szlig;e ist erforderlich')
+		if (notNumber.test(frm.size.value))
+			{alert(unescape("Maximale Gr%F6%DFe muss eine Zahl sein"));
 			frm.size.focus();
 			return false;}
 		if (frm.room.value == "")
 			{alert('Raum ist erforderlich.'); 
 			frm.room.focus();
 			return false;}
-		if (frm.startHours.value == "")
+		if (notNumber.test(frm.startHours.value))
 			{alert('Startstunden sind erforderlich.'); 
 			frm.startHours.focus();
 			return false;}
-		if (frm.startMinutes.value == "")
+		if (notNumber.test(frm.startMinutes.value))
 			{alert('Startminuten sind erforderlich.'); 
 			frm.startMinutes.focus();
 			return false;}
-		if (frm.endHours.value == "")
+		if (notNumber.test(frm.endHours.value))
 			{alert('Endstunde sind erforderlich.'); 
 			frm.endHours.focus();
 			return false;}
-		if (frm.endMinutes.value == "")
+		if (notNumber.test(frm.endMinutes.value))
 			{alert('Endminuten sind erforderlich.'); 
 			frm.endMinutes.focus();
 			return false;}
-		if (frm.startYear.value == "")
+		if (notNumber.test(frm.startYear.value))
 			{alert('Startjahr ist erforderlich.'); 
 			frm.startYear.focus();
 			return false;}
-		if (frm.startMonth.value == "")
+		if (notNumber.test(frm.startMonth.value))
 			{alert('Startmonat ist erforderlich.'); 
 			frm.startMonth.focus();
 			return false;}
-		if (frm.startDay.value == "")
+		if (notNumber.test(frm.startDay.value))
 			{alert('Starttag ist erforderlich.'); 
 			frm.startDay.focus();
 			return false;}
-		if (frm.endYear.value == "")
+		if (notNumber.test(frm.endYear.value))
 			{alert('Endjahr ist erforderlich.'); 
 			frm.endYear.focus();
 			return false;}
-		if (frm.endMonth.value == "")
+		if (notNumber.test(frm.endMonth.value))
 			{alert('Endmonat ist erforderlich.'); 
 			frm.endMonth.focus();
 			return false;}
-		if (frm.endDay.value == "")
+		if (notNumber.test(frm.endDay.value))
 			{alert('Endtag ist erforderlich.'); 
 			frm.endDay.focus();
 			return false;}
 		if (frm.submitDay.value == "")
 			{alert('Abgabetag ist erforderlich.'); 
-			frm.endDay.focus();
+			frm.submitDay.focus();
 			return false;}
-		if (frm.submitHours.value == "")
+		if (notNumber.test(frm.submitHours.value))
 			{alert('Abgabestunden sind erforderlich.'); 
-			frm.endDay.focus();
+			frm.submitHours.focus();
 			return false;}
-		if (frm.submitMinutes.value == "")
+		if (notNumber.test(frm.submitMinutes.value))
 			{alert('Abgabeminuten sind erforderlich.'); 
-			frm.endDay.focus();
+			frm.submitMinutes.focus();
 			return false;}
 		return true;
 		}

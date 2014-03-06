@@ -5,6 +5,7 @@
 	var detail2 = false;
 	var detail3 = false;
 	function ValidateForm(frm) {
+		var notNumber = /(\D+)/
 		if (frm.title.value == "")
 			{alert('Titel ist erforderlich.'); 
 			frm.title.focus();
@@ -13,27 +14,27 @@
 			{alert('Raum ist erforderlich.'); 
 			frm.room.focus();
 			return false;}
-		if (frm.startHours.value == "")
+		if (notNumber.test(frm.startHours.value))
 			{alert('Startstunden sind erforderlich.'); 
 			frm.startHours.focus();
 			return false;}
-		if (frm.startMinutes.value == "")
+		if (notNumber.test(frm.startMinutes.value))
 			{alert('Startminuten sind erforderlich.'); 
 			frm.startMinutes.focus();
 			return false;}
-		if (frm.endHours.value == "")
+		if (notNumber.test(frm.endHours.value))
 			{alert('Endstunde sind erforderlich.'); 
 			frm.endHours.focus();
 			return false;}
-		if (frm.endMinutes.value == "")
+		if (notNumber.test(frm.endMinutes.value))
 			{alert('Endminuten sind erforderlich.'); 
 			frm.endMinutes.focus();
 			return false;}
-		if (frm.startYear.value == "")
+		if (notNumber.test(frm.startYear.value))
 			{alert('Startjahr ist erforderlich.'); 
 			frm.startYear.focus();
 			return false;}
-		if (frm.startMonth.value == "")
+		if (notNumber.test(frm.startMonth.value))
 			{alert('Startmonat ist erforderlich.'); 
 			frm.startMonth.focus();
 			return false;}
@@ -41,11 +42,11 @@
 			{alert('Starttag ist erforderlich.'); 
 			frm.startDay.focus();
 			return false;}
-		if (frm.endYear.value == "")
+		if (notNumber.test(frm.endYear.value))
 			{alert('Endjahr ist erforderlich.'); 
 			frm.endYear.focus();
 			return false;}
-		if (frm.endMonth.value == "")
+		if (notNumber.test(frm.endMonth.value))
 			{alert('Endmonat ist erforderlich.'); 
 			frm.endMonth.focus();
 			return false;}
@@ -58,43 +59,43 @@
 				{alert('Raum ist erforderlich.'); 
 				frm.room2.focus();
 				return false;}
-			if (frm.startHours2.value == "")
+			if (notNumber.test(frm.startHours2.value))
 				{alert('Startstunden sind erforderlich.'); 
 				frm.startHours2.focus();
 				return false;}
-			if (frm.startMinutes2.value == "")
+			if (notNumber.test(frm.startMinutes2.value))
 				{alert('Startminuten sind erforderlich.'); 
 				frm.stratMinutes2.focus();
 				return false;}
-			if (frm.endHours2.value == "")
+			if (notNumber.test(frm.endHours2.value))
 				{alert('Endstunde sind erforderlich.'); 
 				frm.endHours2.focus();
 				return false;}
-			if (frm.endMinutes2.value == "")
+			if (notNumber.test(frm.endMinutes2.value))
 				{alert('Endminuten sind erforderlich.'); 
 				frm.endMinutes2.focus();
 				return false;}
-			if (frm.startYear2.value == "")
+			if (notNumber.test(frm.startYear2.value))
 				{alert('Startjahr ist erforderlich.'); 
 				frm.startYear2.focus();
 				return false;}
-			if (frm.startMonth2.value == "")
+			if (notNumber.test(frm.startMonth2.value))
 				{alert('Startmonat ist erforderlich.'); 
 				frm.startMonth2.focus();
 				return false;}
-			if (frm.startDay2.value == "")
+			if (notNumber.test(frm.startDay2.value))
 				{alert('Starttag ist erforderlich.'); 
 				frm.startDay2.focus();
 				return false;}
-			if (frm.endYear2.value == "")
+			if (notNumber.test(frm.endYear2.value))
 				{alert('Endjahr ist erforderlich.'); 
 				frm.endYear2.focus();
 				return false;}
-			if (frm.endMonth2.value == "")
+			if (notNumber.test(frm.endMonth2.value))
 				{alert('Endmonat ist erforderlich.'); 
 				frm.endMonth2.focus();
 				return false;}
-			if (frm.endDay2.value == "")
+			if (notNumber.test(frm.endDay2.value))
 				{alert('Endtag ist erforderlich.'); 
 				frm.endDay2.focus();
 				return false;}
@@ -104,43 +105,43 @@
 				{alert('Raum ist erforderlich.'); 
 				frm.room3.focus();
 				return false;}
-			if (frm.startHours3.value == "")
+			if (notNumber.test(frm.startHours3.value))
 				{alert('Startstunden sind erforderlich.'); 
 				frm.startHours3.focus();
 				return false;}
-			if (frm.startMinutes3.value == "")
+			if (notNumber.test(frm.startMinutes3.value))
 				{alert('Startminuten sind erforderlich.'); 
 				frm.stratMinutes3.focus();
 				return false;}
-			if (frm.endHours3.value == "")
+			if (notNumber.test(frm.endHours3.value))
 				{alert('Endstunde sind erforderlich.'); 
 				frm.endHours3.focus();
 				return false;}
-			if (frm.endMinutes3.value == "")
+			if (notNumber.test(frm.endMinutes3.value))
 				{alert('Endminuten sind erforderlich.'); 
 				frm.endMinutes3.focus();
 				return false;}
-			if (frm.startYear3.value == "")
+			if (notNumber.test(frm.startYear3.value))
 				{alert('Startjahr ist erforderlich.'); 
 				frm.startYear3.focus();
 				return false;}
-			if (frm.startMonth3.value == "")
+			if (notNumber.test(frm.startMonth3.value))
 				{alert('Startmonat ist erforderlich.'); 
 				frm.startMonth3.focus();
 				return false;}
-			if (frm.startDay3.value == "")
+			if (notNumber.test(frm.startDay3.value))
 				{alert('Starttag ist erforderlich.'); 
 				frm.startDay3.focus();
 				return false;}
-			if (frm.endYear3.value == "")
+			if (notNumber.test(frm.endYear3.value))
 				{alert('Endjahr ist erforderlich.'); 
 				frm.endYear3.focus();
 				return false;}
-			if (frm.endMonth3.value == "")
+			if (notNumber.test(frm.endMonth3.value))
 				{alert('Endmonat ist erforderlich.'); 
 				frm.endMonth3.focus();
 				return false;}
-			if (frm.endDay3.value == "")
+			if (notNumber.test(frm.endDay3.value))
 				{alert('Endtag ist erforderlich.'); 
 				frm.endDay3.focus();
 				return false;}						
