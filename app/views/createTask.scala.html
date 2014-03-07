@@ -27,6 +27,9 @@
 				</table>
 				<input type="submit" value="Aufgabe erstellen">
 			</form>
+			@if(flash.get("maliciousChar") == "true") {
+				<i><font color="red">Verbotenes Zeichen wurde benutzt !!</font></i>
+			}
 		</p>
 	</center>
 }

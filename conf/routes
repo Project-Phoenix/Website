@@ -2,33 +2,52 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# GET
+
 GET 	/							controllers.Application.home()
-GET 	/createTask					controllers.Application.createTask()
-GET		/showTasks					controllers.Application.showTasks()
+GET 	/stringShower				controllers.Application.stringShower()
+
+# TASK
+GET 	/createTask					controllers.TaskApplication.createTask()
+GET		/showTasks					controllers.TaskApplication.showTasks()
+POST	/sendTask					controllers.TaskApplication.sendTask()
+
+# LECTURE
 GET		/createLecture				controllers.Application.createLecture()
-GET		/createTaskSheet			controllers.Application.createTaskSheet()
-GET		/showTaskSheet				controllers.Application.showTaskSheets()
+GET 	/showLectures				controllers.Application.showLectures()
+POST	/sendLecture				controllers.Application.sendLecture()
+POST	/deleteLecture				controllers.Application.deleteLecture()
+
+# GROUP
 GET 	/addGroup					controllers.Application.addGroup()
 GET		/showGroups					controllers.Application.showGroups()
-GET 	/showLectures				controllers.Application.showLectures()
-GET 	/stringShower				controllers.Application.stringShower()
+POST	/showLectureGroups			controllers.Application.showLectureGroups()
+POST 	/sendGroup					controllers.Application.sendGroup()
+POST	/deleteGroups				controllers.Application.deleteGroups()
+
+# TASKSHEET
+GET		/createTaskSheet			controllers.TaskSheetApplication.createTaskSheet()
+GET		/showTaskSheet				controllers.TaskSheetApplication.showTaskSheets()
 GET		/addTaskSheetToGroup		controllers.Application.addTaskSheetToGroup()
+POST 	/sendTaskSheet				controllers.TaskSheetApplication.sendTaskSheet()
+POST 	/addTaskSheetToGroupProcess controllers.Application.addTaskSheetToGroupProcess()
+
+# SUBMISSION
+POST	/showSubmissions			controllers.Application.showSubmissions()
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               									controllers.Assets.at(path="/public", file)
 GET  	/images/*file             										controllers.Assets.at(path="public/images", file)
 GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Application.download(title:String, filename:String, type:String)
 
-#POST
 
-POST	/sendTask					controllers.Application.sendTask()
-POST	/sendLecture				controllers.Application.sendLecture()
-POST 	/sendTaskSheet				controllers.Application.sendTaskSheet()
-POST 	/sendGroup					controllers.Application.sendGroup()
-POST	/showLectureGroups			controllers.Application.showLectureGroups()
-POST	/showSubmissions			controllers.Application.showSubmissions()
-POST	/deleteGroups				controllers.Application.deleteGroups()
-POST	/deleteLecture				controllers.Application.deleteLecture()
-POST 	/addTaskSheetToGroupProcess controllers.Application.addTaskSheetToGroupProcess()
+
+
+
+
+
+
+
+
 

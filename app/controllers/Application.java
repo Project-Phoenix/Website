@@ -23,11 +23,12 @@ package controllers;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
+
+import meta.TaskElement;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -72,6 +73,7 @@ public class Application extends Controller {
     
     private final static String BASE_URI = "http://meldanor.dyndns.org:8080/PhoenixWebService/rest";
     private final static Client CLIENT = PhoenixClient.create();
+    private static TaskElement TASK = new TaskElement();
     /**
      * Displays the home page
      * @return play.mvc.Results.Status
@@ -79,49 +81,6 @@ public class Application extends Controller {
     
     public static Result home() {
         return ok(home.render("Home"));
-    }
-    
-    public static Result createTask() {
-        return ok(createTask.render("Create Task"));
-    }
-    
-    public static Result sendTask() {
-        MultipartFormData form = request().body().asMultipartFormData();
-        
-        ArrayList<PhoenixAttachment> attachmentLst = new ArrayList<PhoenixAttachment>();
-        ArrayList<PhoenixText> patternLst = new ArrayList<PhoenixText>();
-        System.out.println(form.getFiles());
-        for (FilePart fp : form.getFiles()) {
-            try {
-                if (!fp.getFilename().trim().equals(""))
-                    if (fp.getKey().equals("binary")) 
-                        attachmentLst.add(new PhoenixAttachment(fp.getFile(), fp.getFilename())); 
-                    else if (fp.getKey().equals("pattern")) 
-                        patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
-            } catch (IOException e) {
-                return ok(stringShower.render("ERROR", e.toString()));
-            }
-        }  
-
-        WebResource wr = CLIENT.resource(BASE_URI).path(PhoenixTask.WEB_RESOURCE_ROOT).path(PhoenixTask.WEB_RESOURCE_CREATE);
-                
-        PhoenixTask task = new PhoenixTask(attachmentLst,patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"));
-        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, task);
-        System.out.println("CreateTask Status: "+post.getStatus());
-        if(post.getStatus() == 200){
-            return ok(stringShower.render("Task created", "Task has been created successfully"));
-        }else{
-            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + post.getStatus() + ")"));
-        }
-    }
-      
-    public static Result showTasks() {
-        if (request().queryString().get("option") != null)
-            if (request().queryString().get("option")[0].equals("all"))
-                return ok(showTasks.render("showTasks", getAllTasks()));
-            else
-                return ok(showTasks.render("showTasks", Arrays.asList(getTaskByTitle(request().queryString().get("option")[0]))));
-        return ok();
     }
     
     public static Result showSubmissions() {
@@ -146,20 +105,8 @@ public class Application extends Controller {
         }
     }
 
-    public static List<PhoenixTask> getAllTasks(){        
-        WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
-        ClientResponse resp = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<PhoenixTask>());
-        List<PhoenixTask> taskList = EntityUtil.extractEntityList(resp);
-        return taskList;     
-    }
     
-    public static PhoenixTask getTaskByTitle(String title) {
-        WebResource wr = PhoenixTask.getResource(CLIENT, BASE_URI);
-        SelectEntity<PhoenixTask> selectByTitle = new SelectEntity<PhoenixTask>().addKey("title", title);
-        ClientResponse post = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectByTitle);
-        PhoenixTask task = EntityUtil.extractEntity(post);
-        return task;
-    }
+
     
 
     public static Result createLecture() {
@@ -346,7 +293,8 @@ public class Application extends Controller {
     }
     
     public static Result download(String title, String filename, String type){
-            PhoenixTask task = getTaskByTitle(title);
+            System.out.println(title);
+            PhoenixTask task = TASK.get(title);
 
             try {
                 response().setContentType("application/x-download");
@@ -371,39 +319,9 @@ public class Application extends Controller {
         return internalServerError();
     }
     
-    public static Result createTaskSheet() {
-        ArrayList<String> titles = new ArrayList<String>();
-        for(PhoenixTask t : getAllTasks())
-            titles.add(t.getTitle());
-        return ok(createTaskSheet.render("Create Task Sheet", titles));
-    }
+
     
-    public static Result sendTaskSheet() {
-        Map<String, String> raw = Form.form().bindFromRequest().data();
-        raw.remove("submit");
-        String sheetname = raw.get("sheetname");
-        raw.remove("sheetname");
-        System.out.println(sheetname);
-        
-        ConnectionEntity entity = new ConnectionEntity();
-        List<SelectEntity<PhoenixTask>> list = new ArrayList<SelectEntity<PhoenixTask>>();
-        for(String key : raw.keySet()) 
-            list.add(new SelectEntity<PhoenixTask>().addKey("title", key));
-        
-        entity.addSelectEntities(PhoenixTask.class, list);
-        entity.addAttribute("title", sheetname);
-        
-        WebResource wr = PhoenixTaskSheet.connectTaskSheetWithTaskResource(CLIENT, BASE_URI);
-        ClientResponse response = wr.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, entity);
-         
-        System.out.println("CreateTaskSheet Status: "+response.getStatus());
-        if(response.getStatus() == 200){
-            return ok(stringShower.render("TaskSheet created", "Your Tasksheet has been created successfully!"));
-        }
-        else{
-            return ok(stringShower.render("ERROR", "ERROR: "+response.getStatus()));
-        }
-    }
+    
     
     public static Result showGroups() {
         //show lectures
@@ -495,12 +413,6 @@ public class Application extends Controller {
         System.out.println("=>>>"+response.getStatus());
         return result;
     }
-    
-    
-    
-    public static Result showTaskSheets() {
-        return ok(showTaskSheet.render("Show Task Sheets", getAllTaskSheets()));
-    }
 
     //TODO:
     //- Exceptions(?)
@@ -565,7 +477,8 @@ public class Application extends Controller {
     public static Result stringShower(){
         return ok();
     }
-    
+
+    /*
     private static PhoenixLecture getLecture(String lectureTitle) {
         SelectEntity<PhoenixLecture> lectureEntity = new SelectAllEntity<PhoenixLecture>();
         lectureEntity.addKey("title", lectureTitle);
@@ -574,7 +487,7 @@ public class Application extends Controller {
         PhoenixLecture lecture = EntityUtil.extractEntity(responseLec);
         return lecture;
     }
-    
+    */
     
     
     public static Result addTaskSheetToGroupProcess() {
@@ -604,8 +517,7 @@ public class Application extends Controller {
                 return ok(stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
             }else{
                 return ok(stringShower.render("FAIL!", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
-            }
-            
+            } 
         }
         
         return ok(stringShower.render("Erfolg!","Test läuft!"));
