@@ -4,7 +4,7 @@
 
 
 GET 	/							controllers.Application.home()
-GET 	/stringShower				controllers.Application.stringShower()
+#GET 	/stringShower				controllers.Application.stringShower()
 
 # TASK
 GET 	/createTask					controllers.TaskApplication.createTask()
@@ -12,27 +12,28 @@ GET		/showTasks					controllers.TaskApplication.showTasks()
 POST	/sendTask					controllers.TaskApplication.sendTask()
 
 # LECTURE
-GET		/createLecture				controllers.Application.createLecture()
-GET 	/showLectures				controllers.Application.showLectures()
-POST	/sendLecture				controllers.Application.sendLecture()
-POST	/deleteLecture				controllers.Application.deleteLecture()
+GET		/createLecture				controllers.LectureApplication.createLecture()
+GET 	/showLectures				controllers.LectureApplication.showLectures()
+POST	/sendLecture				controllers.LectureApplication.sendLecture()
+POST	/deleteLecture				controllers.LectureApplication.deleteLecture()
 
 # GROUP
-GET 	/addGroup					controllers.Application.addGroup()
-GET		/showGroups					controllers.Application.showGroups()
-POST	/showLectureGroups			controllers.Application.showLectureGroups()
-POST 	/sendGroup					controllers.Application.sendGroup()
+GET 	/addGroup					controllers.GroupApplication.addGroup()
+GET		/showGroups					controllers.GroupApplication.choseGroups()
+POST	/showLectureGroups			controllers.GroupApplication.showLectureGroups()
+POST 	/sendGroup					controllers.GroupApplication.sendGroup()
 POST	/deleteGroups				controllers.Application.deleteGroups()
+POST 	/sendTaskSheetToGroup 		controllers.GroupApplication.sendTaskSheetToGroup()
+GET		/addTaskSheetToGroup		controllers.GroupApplication.addTaskSheetToGroup()
 
 # TASKSHEET
 GET		/createTaskSheet			controllers.TaskSheetApplication.createTaskSheet()
 GET		/showTaskSheet				controllers.TaskSheetApplication.showTaskSheets()
-GET		/addTaskSheetToGroup		controllers.Application.addTaskSheetToGroup()
 POST 	/sendTaskSheet				controllers.TaskSheetApplication.sendTaskSheet()
-POST 	/addTaskSheetToGroupProcess controllers.Application.addTaskSheetToGroupProcess()
+
 
 # SUBMISSION
-POST	/showSubmissions			controllers.Application.showSubmissions()
+POST	/showSubmissions			controllers.SubmissionApplication.showSubmissions()
 
 
 

@@ -9,13 +9,15 @@ import de.phoenix.rs.entity.PhoenixTaskSheet;
 import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.SelectEntity;
 
+/**
+ * Request class for the PhoenixTaskSheet Entity.<br>
+ * It "wrappes" the methods from the PhoenixRequest class <br>
+ * and provides specific methods for the PhoenixTaskSheet Entity.<br>
+ * 
+ * @author Matthias Eiserloh; Markus Wolf
+ *
+ */
 public class TaskSheetElement extends PhoenixRequest {
-    
-    private int status;
-    
-    public TaskSheetElement() {
-        this.status = 0;
-    }
     
     public int create(String taskSheetName, List<String> taskTitles) {
         ConnectionEntity connectionEntity = new ConnectionEntity();
@@ -26,16 +28,12 @@ public class TaskSheetElement extends PhoenixRequest {
         connectionEntity.addSelectEntities(PhoenixTask.class, list);
         connectionEntity.addAttribute("title", taskSheetName);
         
-        this.status = this.create(PhoenixTaskSheet.connectTaskSheetWithTaskResource(CLIENT, BASE_URI), connectionEntity);
-        return this.status;
+        this.create(PhoenixTaskSheet.connectTaskSheetWithTaskResource(CLIENT, BASE_URI), connectionEntity);
+        return this.getStatus();
     }
     
-    private PhoenixTaskSheet get(SelectEntity<PhoenixTaskSheet> selectEntity) {
-        return this.get(PhoenixTaskSheet.getResource(CLIENT, BASE_URI), selectEntity);
-    }
-    
-    public PhoenixTaskSheet get(String Tasktitle) {
-        PhoenixTaskSheet result = this.get(new SelectEntity<PhoenixTaskSheet>().addKey("title", Tasktitle));
+    public PhoenixTaskSheet get(String TaskSheettitle) {
+        PhoenixTaskSheet result = this.get(PhoenixTaskSheet.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixTaskSheet>().addKey("title", TaskSheettitle));
         return result;
     }
     
@@ -51,9 +49,4 @@ public class TaskSheetElement extends PhoenixRequest {
     public int update(SelectEntity<PhoenixTaskSheet> selectEntity) {
         throw new UnsupportedOperationException(); //TODO implement update (TaskSheet)
     }
-    
-    public int getStatus() {
-        return this.status;
-    }
-
 }

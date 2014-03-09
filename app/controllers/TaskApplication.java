@@ -28,7 +28,7 @@ public class TaskApplication extends Controller {
         ArrayList<PhoenixAttachment> attachmentLst = new ArrayList<PhoenixAttachment>();
         ArrayList<PhoenixText> patternLst = new ArrayList<PhoenixText>();
 
-        if (!Form.form().bindFromRequest().get("title").matches("[a-zA-Z0-9_äÄöÖüÜ!-]*")) {
+        if (!Form.form().bindFromRequest().get("title").matches("[a-zA-Z0-9_äÄöÖüÜ!\\-\\s]*")) {
             flash("maliciousChar","true");
             return createTask();
         }
