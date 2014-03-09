@@ -2,33 +2,53 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# GET
+
 GET 	/							controllers.Application.home()
-GET 	/createTask					controllers.Application.createTask()
-GET		/showTasks					controllers.Application.showTasks()
-GET		/createLecture				controllers.Application.createLecture()
-GET		/createTaskSheet			controllers.Application.createTaskSheet()
-GET		/showTaskSheet				controllers.Application.showTaskSheets()
-GET 	/addGroup					controllers.Application.addGroup()
-GET		/showGroups					controllers.Application.showGroups()
-GET 	/showLectures				controllers.Application.showLectures()
-GET 	/stringShower				controllers.Application.stringShower()
-GET		/addTaskSheetToGroup		controllers.Application.addTaskSheetToGroup()
+#GET 	/stringShower				controllers.Application.stringShower()
+
+# TASK
+GET 	/createTask					controllers.TaskApplication.createTask()
+GET		/showTasks					controllers.TaskApplication.showTasks()
+POST	/sendTask					controllers.TaskApplication.sendTask()
+
+# LECTURE
+GET		/createLecture				controllers.LectureApplication.createLecture()
+GET 	/showLectures				controllers.LectureApplication.showLectures()
+POST	/sendLecture				controllers.LectureApplication.sendLecture()
+POST	/deleteLecture				controllers.LectureApplication.deleteLecture()
+
+# GROUP
+GET 	/addGroup					controllers.GroupApplication.addGroup()
+GET		/showGroups					controllers.GroupApplication.choseGroups()
+POST	/showLectureGroups			controllers.GroupApplication.showLectureGroups()
+POST 	/sendGroup					controllers.GroupApplication.sendGroup()
+POST	/deleteGroups				controllers.Application.deleteGroups()
+POST 	/sendTaskSheetToGroup 		controllers.GroupApplication.sendTaskSheetToGroup()
+GET		/addTaskSheetToGroup		controllers.GroupApplication.addTaskSheetToGroup()
+
+# TASKSHEET
+GET		/createTaskSheet			controllers.TaskSheetApplication.createTaskSheet()
+GET		/showTaskSheet				controllers.TaskSheetApplication.showTaskSheets()
+POST 	/sendTaskSheet				controllers.TaskSheetApplication.sendTaskSheet()
+
+
+# SUBMISSION
+POST	/showSubmissions			controllers.SubmissionApplication.showSubmissions()
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               									controllers.Assets.at(path="/public", file)
 GET  	/images/*file             										controllers.Assets.at(path="public/images", file)
 GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Application.download(title:String, filename:String, type:String)
 
-#POST
 
-POST	/sendTask					controllers.Application.sendTask()
-POST	/sendLecture				controllers.Application.sendLecture()
-POST 	/sendTaskSheet				controllers.Application.sendTaskSheet()
-POST 	/sendGroup					controllers.Application.sendGroup()
-POST	/showLectureGroups			controllers.Application.showLectureGroups()
-POST	/showSubmissions			controllers.Application.showSubmissions()
-POST	/deleteGroups				controllers.Application.deleteGroups()
-POST	/deleteLecture				controllers.Application.deleteLecture()
-POST 	/addTaskSheetToGroupProcess controllers.Application.addTaskSheetToGroupProcess()
+
+
+
+
+
+
+
+
 

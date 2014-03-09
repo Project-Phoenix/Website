@@ -22,11 +22,14 @@
 					</tr>
 					<tr>
 						<td>Antwortvorlage</td>
-						<td><input type="file" accept="text/*" name="pattern" multiple/></td>
+						<td><input type="file" accept="binary" name="pattern" multiple/></td>
 					</tr>
 				</table>
 				<input type="submit" value="Aufgabe erstellen">
 			</form>
+			@if(flash.get("maliciousChar") == "true") {
+				<i><font color="red">Verbotenes Zeichen wurde benutzt !!</font></i>
+			}
 		</p>
 	</center>
 }
