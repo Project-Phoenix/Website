@@ -3,9 +3,20 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
+
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
 import meta.Requester;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
+import de.phoenix.rs.key.SelectEntity;
+import de.phoenix.rs.key.UpdateEntity;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,7 +27,14 @@ import views.html.stringShower;
 public class LectureApplication extends Controller {
 
     public static Result createLecture() {
-        return ok(createLecture.render("Create Lecture"));
+        LocalTime time = new LocalTime(0,0); 
+        LocalDate date = new LocalDate(1,1,1);
+        Period period = Period.ZERO;
+        PhoenixDetails details = new PhoenixDetails("",0,time, time, period, date, date);
+        List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
+        listDetails.add(details);
+        PhoenixLecture lecture = new PhoenixLecture("", listDetails);
+        return ok(createLecture.render("Create Lecture", lecture));
     }
     
     public static Result sendLecture() {        
@@ -76,7 +94,6 @@ public class LectureApplication extends Controller {
             }
             boolIndex++;
         }
-        //send it to server
         Requester.Lecture.create(title, allDetails);
         
         if(Requester.Lecture.getStatus() == 200){
@@ -84,6 +101,55 @@ public class LectureApplication extends Controller {
         }else{
             return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));
         }
+        
+        /************************ OLD STUFF !!!
+        
+        PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
+        if(Form.form().bindFromRequest().get("submit").equals("Create")){
+            WebResource ws = PhoenixLecture.createResource(CLIENT, BASE_URI);
+            //send it to server
+            ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
+            if(response.getStatus() == 200){
+                return ok(stringShower.render("strings to show", "Good News!"));
+            }else{
+                return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+            }
+        }
+        else if (Form.form().bindFromRequest().get("submit").equals("Update")){
+            
+            SelectEntity<PhoenixLecture> selectLecture = new SelectEntity<PhoenixLecture>().addKey("title", Form.form().bindFromRequest().get("oldLecture"));
+            UpdateEntity<PhoenixLecture> updateLecture = new UpdateEntity<PhoenixLecture>(lecture, selectLecture);
+            //Lecture Webresources
+            WebResource wsUpdateLec = PhoenixLecture.updateResource(CLIENT, BASE_URI);  
+            
+             Update Details throws 500-error.
+            WebResource wsGetLec = PhoenixLecture.getResource(CLIENT, BASE_URI);   
+            //Detail Webresources
+            WebResource wsDetails = PhoenixDetails.updateResource(CLIENT, BASE_URI);
+            //Lecture ClientResponses
+            ClientResponse resGetLec= wsGetLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectLecture);
+            
+            //old Stuff
+            PhoenixLecture oldLecture = EntityUtil.extractEntity(resGetLec);
+            List<PhoenixDetails> oldDetails = oldLecture.getLectureDetails();
+            //Update Details
+            UpdateEntity<PhoenixDetails> updateDetails = KeyReader.createUpdate(oldDetails.get(0), allDetails.get(0));
+            ClientResponse responseDetails = wsDetails.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateDetails);
+            if (responseDetails.getStatus() != 200) return ok(stringShower.render("update Lecture", "Fehler bei Detail-Update(" + responseDetails.getStatus() + ")"));
+            
+            //Update Lecture
+            ClientResponse resUpdateLec= wsUpdateLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateLecture);
+            if(resUpdateLec.getStatus() == 200){
+                return ok(stringShower.render("send Lecture", "Good News!"));
+            }else{
+                return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + resUpdateLec.getStatus() + ")"));
+            }
+        }else return ok(stringShower.render("send Lecture", "Etwas unerwartetes ist passiert"));
+        
+        
+        *****/
+        
+        
     }
     
     public static Result showLectures(){

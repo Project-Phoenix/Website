@@ -4,7 +4,6 @@
 
 
 GET 	/							controllers.Application.home()
-#GET 	/stringShower				controllers.Application.stringShower()
 
 # TASK
 GET 	/createTask					controllers.TaskApplication.createTask()
@@ -30,25 +29,15 @@ GET		/addTaskSheetToGroup		controllers.GroupApplication.addTaskSheetToGroup()
 GET		/createTaskSheet			controllers.TaskSheetApplication.createTaskSheet()
 GET		/showTaskSheet				controllers.TaskSheetApplication.showTaskSheets()
 POST 	/sendTaskSheet				controllers.TaskSheetApplication.sendTaskSheet()
+#POST	/showLectureGroupTaskSheet	controllers.Application.showLectureGroupTaskSheet()
 
 
 # SUBMISSION
 POST	/showSubmissions			controllers.SubmissionApplication.showSubmissions()
 
 
-
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               									controllers.Assets.at(path="/public", file)
 GET  	/images/*file             										controllers.Assets.at(path="public/images", file)
 GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Application.download(title:String, filename:String, type:String)
-
-
-
-
-
-
-
-
-
-
 
