@@ -5,8 +5,9 @@
 	@for(lecture <- lectures) {
 		<form action="/deleteLecture" method="post">
 			-@lecture.getTitle()
-			<input type="hidden" name="lecture" value=@lecture.getTitle>
+			<input type="hidden" name="lecture" value="@lecture.getTitle()">
 	    	<input type="submit" value="delete?" name="delete"/>
+	    	<input type="submit" value="update" name="update" onclick='this.form.action="/updateLecture"'/>
 			<br>
 		</form>
 	}

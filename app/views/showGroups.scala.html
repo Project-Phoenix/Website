@@ -4,21 +4,23 @@
 @_Structure(title)(head){
 	existierende Veranstaltungen:<br>
 	@for(lecture <- lectures) {
-		<h2>-@lecture.getTitle()</h2>
+		<form id="@lecture.getTitle()" action="/showLectureGroups" method="post">
+			<input type="hidden" name="lecture" value="@lecture.getTitle()"/>
+			<a href="#" onclick="document.getElementById('@lecture.getTitle()').submit()"><h2>-@lecture.getTitle()</h2></a>
+		</form>
 	}
-	<form action="/showLectureGroups" method="post">
-		Alle Gruppen der folgenden Veranstaltung anezigen:<input type="text" name="lecture">
-		<input id="Submit" name="Submit" type="submit" value="Submit" /><br><br>
-	</form>
 	<form action="/deleteGroups" method="post">
 		@if(groups.size()> 0 ){
-			<input type=hidden name=lecture value=@groups.get(0).getLecture().getTitle().replace(" ", "_")>
+			<input type="hidden" name="lecture" value="@groups.get(0).getLecture().getTitle()">
+			<input type="hidden" name="group" id=hiddenGroup>
+			@for(group <- groups){
+				<p><h2>@group.getName()</h2>
+	    		<input type="submit" value="update" name="update" id="update" onclick='this.form.action="/updateGroup"'/>
+	    		<input type="submit" value="show Tasksheets" name="showTaskSheets" id="showTaskSheets" onclick='this.form.action="/showGroupTaskSheets"; document.getElementById("hiddenGroup").value="@group.getName()"'>
+				&nbsp;&nbsp;&nbsp;&nbsp;delete?<input type="checkbox" name="@group.getName()"><br>
+				</p>
+			}
 		}
-		@for(group <- groups){
-			<p><h2>@group.getName()</h2>
-			&nbsp;&nbsp;&nbsp;&nbsp;delete?<input type="checkbox" name=@group.getName().replace(" ", "_")><br>
-			</p>
-		}
-		<input id="Delete" name="Delete" type="submit" value="Delete" />
+		<input id="delete" name="Delete" type="submit" value="Delete" />
 	</form>
 }

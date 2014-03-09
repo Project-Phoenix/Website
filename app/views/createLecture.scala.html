@@ -1,4 +1,4 @@
-@(title : String)
+@(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
 @head={
 <!doctype html>
 <script type="text/javascript">
@@ -181,9 +181,10 @@
 @_Structure(title)(head){
 	
 	<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);">
-
-		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title"><br><br>
-		Raum: <input type="text" name="room"><br><br>
+	
+		<input type="hidden" name="oldLecture" value="@lecture.getTitle()"/>
+		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" value="@lecture.getTitle()"><br><br>
+		Raum: <input type="text" name="room" value="@lecture.getLectureDetails.get(0).getRoom()"><br><br>
 		
 		<input type="radio" name="day" value="monday" checked>Montag
 		<input type="radio" name="day" value="tuesday">Dienstag
@@ -194,11 +195,11 @@
 		<input type="radio" name="day" value="sunday">Sonntag<br><br>
 	    
 		Startzeit:<br>
-		Stunden: <input type="text" name="startHours" size="1" maxlength="2">
-		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2"><br><br>
+		Stunden: <input type="text" name="startHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getHourOfDay()">
+		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()"><br><br>
 		Endzeit: <br>
-		Stunden: <input type="text" name="endHours" size="1" maxlength="2">
-		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2"><br><br>
+		Stunden: <input type="text" name="endHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndTime.getHourOfDay()">
+		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()"><br><br>
 		
 		<!-- ICloud Kalender als Beispiel nutzen! -->
 		<input type="radio" name="period" value="daily"checked>täglich
@@ -207,14 +208,14 @@
 		<input type="radio" name="period" value="yearly">jährlich<br><br>
 		
 		Startdatum:<br>
-		Jahr: <input type="number" name="startYear" size="3" maxlength="4">
-		Monat: <input type="number" name="startMonth" size="1" maxlength="2">
-		Tag: <input type="number" name="startDay" size="1" maxlength="2"><br><br>
+		Jahr: <input type="number" name="startYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getStartDate.getYear()">
+		Monat: <input type="number" name="startMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getMonthOfYear()">
+		Tag: <input type="number" name="startDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getDayOfMonth()"><br><br>
 		
 		Enddatum:<br>
-		Jahr: <input type="number" name="endYear" size="3" maxlength="4">
-		Monat: <input type="number" name="endMonth" size="1" maxlength="2">
-		Tag: <input type="number" name="endDay" size="1" maxlength="2"><br><br>
+		Jahr: <input type="number" name="endYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getEndDate.getYear()">
+		Monat: <input type="number" name="endMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getMonthOfYear()">
+		Tag: <input type="number" name="endDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getDayOfMonth()"><br><br>
 		
 
 		<input type = "Checkbox" name="box1" onclick="doCheckBoxThings1(this);" value="check1">weitere Gruppe
@@ -289,9 +290,9 @@
 			Jahr: <input type="number" name="endYear3" size="3" maxlength="4">
 			Monat: <input type="number" name="endMonth3" size="1" maxlength="2">
 			Tag: <input type="number" name="endDay3" size="1" maxlength="2"><br><br>	
-		</div>
-		
-		<input id="skip_Submit" name="skip_Submit" type="submit" value="Submit" />
+		</div>	
+		<input id="Create" name="submit" type="submit" value="Create" />
+		<input id="Update" name="submit" type="submit" value="Update" />	
 	</form> 
 	
 	

@@ -31,14 +31,27 @@ import javax.ws.rs.core.MediaType;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import views.html.*;
+import views.html.addGroup;
+import views.html.addTaskSheetToGroup;
+import views.html.createLecture;
+import views.html.createTask;
+import views.html.createTaskSheet;
+import views.html.home;
+import views.html.showGroups;
+import views.html.showLectures;
+import views.html.showSubmissions;
+import views.html.showTaskSheet;
+import views.html.showTasks;
+import views.html.stringShower;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -55,11 +68,12 @@ import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
 import de.phoenix.rs.entity.PhoenixText;
+import de.phoenix.rs.entity.connection.LectureGroupTaskSheetConnection;
 import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectAllEntity;
 import de.phoenix.rs.key.SelectEntity;
-import de.phoenix.rs.entity.connection.LectureGroupTaskSheetConnection;
+import de.phoenix.rs.key.UpdateEntity;
 
 
 
@@ -124,6 +138,7 @@ public class Application extends Controller {
         return ok();
     }
     
+    //better: show submissions to one tasksheet
     public static Result showSubmissions() {
         Map<String, String> dataMap = Form.form().bindFromRequest().data();
         String taskTitle = dataMap.get("task");
@@ -163,10 +178,18 @@ public class Application extends Controller {
     
 
     public static Result createLecture() {
-        return ok(createLecture.render("Create Lecture"));
+        LocalTime time = new LocalTime(0,0); 
+        LocalDate date = new LocalDate(1,1,1);
+        Period period = Period.ZERO;
+        PhoenixDetails details = new PhoenixDetails("",0,time, time, period, date, date);
+        List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
+        listDetails.add(details);
+        PhoenixLecture lecture = new PhoenixLecture("", listDetails);
+        return ok(createLecture.render("Create Lecture", lecture));
     }
     
     
+    //Fehler 500?!
     public static Result sendLecture() {        
         //Arrays to get the inputs form CreateLecture
         String[] keyStrings = new String[] {"title", "room", "day", "startHours","startMinutes", "endHours", 
@@ -181,8 +204,6 @@ public class Application extends Controller {
         String[][] details = new String[][] {keyStrings, keyStrings2, keyStrings3};
         //Arrays, which will be filled with the requeststrings
         String[][] requests = new String[3][13];
-        WebResource ws = CLIENT.resource(BASE_URI).path(PhoenixLecture.WEB_RESOURCE_ROOT).path(PhoenixLecture.WEB_RESOURCE_CREATE);
-        
         String title = "";
         //if input is missing don't create a detail later
         boolean[] wrongInput = new boolean[] {false,false,false};
@@ -225,14 +246,47 @@ public class Application extends Controller {
             }
             boolIndex++;
         }
-        //send it to server
         PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
-        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
-        if(response.getStatus() == 200){
-            return ok(stringShower.render("strings to show", "Good News!"));
-        }else{
-            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+        if(Form.form().bindFromRequest().get("submit").equals("Create")){
+            WebResource ws = PhoenixLecture.createResource(CLIENT, BASE_URI);
+            //send it to server
+            ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
+            if(response.getStatus() == 200){
+                return ok(stringShower.render("strings to show", "Good News!"));
+            }else{
+                return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
+            }
         }
+        else if (Form.form().bindFromRequest().get("submit").equals("Update")){
+            
+            SelectEntity<PhoenixLecture> selectLecture = new SelectEntity<PhoenixLecture>().addKey("title", Form.form().bindFromRequest().get("oldLecture"));
+            UpdateEntity<PhoenixLecture> updateLecture = new UpdateEntity<PhoenixLecture>(lecture, selectLecture);
+            //Lecture Webresources
+            WebResource wsUpdateLec = PhoenixLecture.updateResource(CLIENT, BASE_URI);  
+            
+            /* Update Details throws 500-error.
+            WebResource wsGetLec = PhoenixLecture.getResource(CLIENT, BASE_URI);   
+            //Detail Webresources
+            WebResource wsDetails = PhoenixDetails.updateResource(CLIENT, BASE_URI);
+            //Lecture ClientResponses
+            ClientResponse resGetLec= wsGetLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectLecture);
+            
+            //old Stuff
+            PhoenixLecture oldLecture = EntityUtil.extractEntity(resGetLec);
+            List<PhoenixDetails> oldDetails = oldLecture.getLectureDetails();
+            //Update Details
+            UpdateEntity<PhoenixDetails> updateDetails = KeyReader.createUpdate(oldDetails.get(0), allDetails.get(0));
+            ClientResponse responseDetails = wsDetails.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateDetails);
+            if (responseDetails.getStatus() != 200) return ok(stringShower.render("update Lecture", "Fehler bei Detail-Update(" + responseDetails.getStatus() + ")"));
+            */
+            //Update Lecture
+            ClientResponse resUpdateLec= wsUpdateLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateLecture);
+            if(resUpdateLec.getStatus() == 200){
+                return ok(stringShower.render("send Lecture", "Good News!"));
+            }else{
+                return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + resUpdateLec.getStatus() + ")"));
+            }
+        }else return ok(stringShower.render("send Lecture", "Etwas unerwartetes ist passiert"));
     }
     
     public static Result addGroup() {
@@ -479,7 +533,9 @@ public class Application extends Controller {
         }else{
             return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
         }
-  }
+    }
+    
+    
     
     private static List<PhoenixTaskSheet> getAllTaskSheets() {
         WebResource wr = PhoenixTaskSheet.getResource(CLIENT, BASE_URI);
@@ -508,12 +564,10 @@ public class Application extends Controller {
     public static Result deleteGroups(){
         //deleteResource
         Map<String, String> boxes = Form.form().bindFromRequest().data();
-        boxes.remove("Delete");
+        boxes.remove("delete");
         WebResource ws = PhoenixLectureGroup.deleteResource(CLIENT, BASE_URI);
-        String lecture = boxes.get("lecture").replaceAll("_", " ");
-        for(String key : boxes.keySet()) {
-            key = key.replaceAll("_", " ");                
-            System.out.println(key);
+        String lecture = boxes.get("lecture");
+        for(String key : boxes.keySet()) {              
             // Create Lecture Group Selector
             SelectEntity<PhoenixLectureGroup> groupSelector = new SelectEntity<PhoenixLectureGroup>();
             // Add Lecture Group Key - the name
@@ -535,6 +589,41 @@ public class Application extends Controller {
         return ok(stringShower.render("Groups deleted", "Groups deleted!"));
     }
     
+//  TODO: Kilian has to add an update resource for lectureGroup
+    public static Result updateGroup(){
+      /*  Map<String, String> boxes = Form.form().bindFromRequest().data();
+        WebResource ws = PhoenixLectureGroup.updateResource(CLIENT, BASE_URI);
+        String lecture = boxes.get("lecture");
+        String Group = boxes.get("group");
+        for(String key : boxes.keySet()) {
+            System.out.println(key);
+        }*/
+        return ok(stringShower.render("YESSSS", "no update method for groups yet"));       
+    }
+    
+    public static Result showGroupTaskSheets(){
+        String group = Form.form().bindFromRequest().get("group");
+        // get Group
+        SelectEntity<PhoenixLectureGroup> lectureGroupSelector = new SelectEntity<PhoenixLectureGroup>().addKey("name", group);
+        WebResource wsGroup = PhoenixLectureGroup.getResource(CLIENT, BASE_URI);
+        ClientResponse responseGroup = wsGroup.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lectureGroupSelector);
+        if(responseGroup.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der Gruppe aufgetreten("+responseGroup.getStatus()+")"));
+        PhoenixLectureGroup lectureGroup = EntityUtil.extractEntity(responseGroup);
+        System.out.println(lectureGroup);
+        
+        // get LectureGroupTaskSheet
+        SelectEntity<PhoenixLectureGroupTaskSheet> lectureGroupTaskSheetSelector = new SelectEntity<PhoenixLectureGroupTaskSheet>().addKey("lectureGroup", lectureGroup);
+        WebResource ws = PhoenixLectureGroupTaskSheet.getResource(CLIENT, BASE_URI);
+        ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lectureGroupTaskSheetSelector);
+        if(responseGroup.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+responseGroup.getStatus()+")"));
+        List<PhoenixLectureGroupTaskSheet> listLectureGroupTaskSheet = EntityUtil.extractEntityList(response);
+        List<PhoenixTaskSheet> taskSheets = new ArrayList<PhoenixTaskSheet>();
+        for(PhoenixLectureGroupTaskSheet lectureGroupTaskSheet: listLectureGroupTaskSheet){
+            taskSheets.add(lectureGroupTaskSheet.getTaskSheet());
+        }
+        return ok(showTaskSheet.render("show TaskSheet", taskSheets));
+    }
+    
     public static Result deleteLecture(){
         Map<String, String> dataMap = Form.form().bindFromRequest().data();
         WebResource ws = PhoenixLecture.deleteResource(CLIENT, BASE_URI);
@@ -549,6 +638,13 @@ public class Application extends Controller {
             return ok(stringShower.render("lecture delete", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
         }
     return ok(stringShower.render("Lecture deleted", "Lecture deleted!"));
+    }
+    
+    public static Result updateLecture(){
+        String title = Form.form().bindFromRequest().get("lecture");
+        System.out.println(title);
+        PhoenixLecture lecture = getLecture(title);
+        return ok(createLecture.render("Create Lecture", lecture));
     }
     
     public static Result showLectures(){
@@ -567,7 +663,7 @@ public class Application extends Controller {
     }
     
     private static PhoenixLecture getLecture(String lectureTitle) {
-        SelectEntity<PhoenixLecture> lectureEntity = new SelectAllEntity<PhoenixLecture>();
+        SelectEntity<PhoenixLecture> lectureEntity = new SelectEntity<PhoenixLecture>();
         lectureEntity.addKey("title", lectureTitle);
         WebResource wsLec = PhoenixLecture.getResource(CLIENT, BASE_URI);
         ClientResponse responseLec = wsLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lectureEntity);
