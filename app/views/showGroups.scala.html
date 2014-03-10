@@ -11,13 +11,13 @@
 	}
 	<form action="/deleteGroups" method="post">
 		@if(groups.size()> 0 ){
-			<input type="hidden" name="lecture" value="@groups.get(0).getLecture().getTitle()">
-			<input type="hidden" name="group" id=hiddenGroup>
+			<input type="hidden" name="lectureTitle" value="@groups.get(0).getLecture().getTitle()">
+			<input type="hidden" name="groupName" id=hiddenGroup>
 			@for(group <- groups){
 				<p><h2>@group.getName()</h2>
 	    		<input type="submit" value="update" name="update" id="update" onclick='this.form.action="/updateGroup"'/>
 	    		<input type="submit" value="show Tasksheets" name="showTaskSheets" id="showTaskSheets" onclick='this.form.action="/showGroupTaskSheets"; document.getElementById("hiddenGroup").value="@group.getName()"'>
-				&nbsp;&nbsp;&nbsp;&nbsp;delete?<input type="checkbox" name="@group.getName()"><br>
+	    		<input type="submit" value="delete Group" name="deleteGroup" id="deleteGroup" onclick='this.form.action="/deleteGroup"; document.getElementById("hiddenGroup").value="@group.getName()"'>
 				</p>
 			}
 		}

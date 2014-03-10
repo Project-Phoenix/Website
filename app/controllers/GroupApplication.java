@@ -11,9 +11,12 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
 
+
+
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
+import de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
 import play.data.Form;
 import play.mvc.Controller;
@@ -21,6 +24,7 @@ import play.mvc.Result;
 import views.html.addGroup;
 import views.html.addTaskSheetToGroup;
 import views.html.showGroups;
+import views.html.showTaskSheet;
 import views.html.stringShower;
 
 public class GroupApplication extends Controller {
@@ -144,6 +148,20 @@ public class GroupApplication extends Controller {
             return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Group.getStatus() + ")"));
     }
     
+    public static Result showGroupTaskSheets(){
+        String groupName = Form.form().bindFromRequest().get("groupName");
+        String lectureTitle = Form.form().bindFromRequest().get("lectureTitle");
+        PhoenixLectureGroup group = Requester.Group.get(lectureTitle, groupName);
+        if(Requester.Group.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der Gruppe aufgetreten("+ Requester.Group.getStatus()+")"));
+        
+        if(Requester.Group.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
+        List<PhoenixTaskSheet> taskSheets = new ArrayList<PhoenixTaskSheet>();
+        for(PhoenixLectureGroupTaskSheet lectureGroupTaskSheet: Requester.Group.getGroupTaskSheets(group)){
+            taskSheets.add(lectureGroupTaskSheet.getTaskSheet());
+        }
+        return ok(showTaskSheet.render("show TaskSheet", taskSheets));
+    }
+    
     public static Result addTaskSheetToGroup() {
         if (request().queryString().get("lecture") != null) {
             String lecture = request().queryString().get("lecture")[0];
@@ -187,5 +205,28 @@ public class GroupApplication extends Controller {
         }
         return ok(stringShower.render("FAIL!", "Kein TaskSheet angegeben!!"));
     } 
+    
+    public static Result deleteGroup(){
+        //deleteResource
+        String groupName = Form.form().bindFromRequest().get("groupName");
+        String lectureTitle = Form.form().bindFromRequest().get("lectureTitle");
+        Requester.Group.delete(lectureTitle, groupName);
+        if (Requester.Group.getStatus() == 200){
+            return ok(showGroups.render("show Group", Requester.Group.getAll(lectureTitle), Requester.Lecture.getAll()));
+        }
+        else return ok(stringShower.render("Groups deleted", "Error while deleting a Group(" + Requester.Group.getStatus() + ")"));
+    }
+    
+//  TODO: Kilian has to add an update resource for lectureGroup
+    public static Result updateGroup(){
+      /*  Map<String, String> boxes = Form.form().bindFromRequest().data();
+        WebResource ws = PhoenixLectureGroup.updateResource(CLIENT, BASE_URI);
+        String lecture = boxes.get("lecture");
+        String Group = boxes.get("group");
+        for(String key : boxes.keySet()) {
+            System.out.println(key);
+        }*/
+        return ok(stringShower.render("YESSSS", "no update method for groups yet"));       
+    }
 
 }
