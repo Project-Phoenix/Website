@@ -31,17 +31,8 @@ import meta.Requester;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.addGroup;
-import views.html.addTaskSheetToGroup;
 import views.html.createLecture;
-import views.html.createTask;
-import views.html.createTaskSheet;
 import views.html.home;
-import views.html.showGroups;
-import views.html.showLectures;
-import views.html.showSubmissions;
-import views.html.showTaskSheet;
-import views.html.showTasks;
 import views.html.stringShower;
 
 import com.sun.jersey.api.client.Client;
@@ -55,12 +46,7 @@ import de.phoenix.rs.entity.PhoenixLectureGroup;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixText;
 
-import de.phoenix.rs.entity.connection.LectureGroupTaskSheetConnection;
-import de.phoenix.rs.key.ConnectionEntity;
-import de.phoenix.rs.key.KeyReader;
-import de.phoenix.rs.key.SelectAllEntity;
 import de.phoenix.rs.key.SelectEntity;
-import de.phoenix.rs.key.UpdateEntity;
 
 
 

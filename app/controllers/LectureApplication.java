@@ -3,20 +3,15 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.MediaType;
+
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
 import meta.Requester;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
-import de.phoenix.rs.key.SelectEntity;
-import de.phoenix.rs.key.UpdateEntity;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
