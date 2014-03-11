@@ -10,6 +10,7 @@ import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
 import meta.Requester;
+import de.phoenix.date.Weekday;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import play.data.Form;
@@ -25,7 +26,7 @@ public class LectureApplication extends Controller {
         LocalTime time = new LocalTime(0,0); 
         LocalDate date = new LocalDate(1,1,1);
         Period period = Period.ZERO;
-        PhoenixDetails details = new PhoenixDetails("",0,time, time, period, date, date);
+        PhoenixDetails details = new PhoenixDetails("",Weekday.MONDAY, time, time, period, date, date);
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
         PhoenixLecture lecture = new PhoenixLecture("", listDetails);

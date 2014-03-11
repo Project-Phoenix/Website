@@ -1,13 +1,17 @@
 @(title : String)
 
-@head = {}
+@head = {
+
+<script src="/assets/javascripts/jquery-1.9.0.min.js"></script>
+<script src="/assets/javascripts/multipleInputs.js"></script>
+
+}
 
 @_Structure(title)(head){
 	<center>
 		<p style="margin-top: 50px">
-			<h2>Erstelle eine Aufgabe</h2><br>
-			<a href="/createAutomaticTask">zum automatischen Test</a>
-			<form enctype="multipart/form-data" action="/sendTask" method="POST">
+			<h2>Erstelle eine Aufgabe (automatischer Test)</h2>
+			<form enctype="multipart/form-data" action="/sendAutomaticTask" method="POST">
 				<table cellspacing="25" style="width:50%">
 					<tr>
 						<td>Aufgabentitel</td>
@@ -17,6 +21,16 @@
 						<td>Beschreibung</td>
 						<td><textarea name="description" style="width: 100%" rows="8" ></textarea></td>
 					</tr>
+						<td>Unit Tests</td>
+						<td>
+							<h4><a href="#" id="AddMoreTestBox" >+ Weiteren Test</a></h4>
+							<div id="InputsWrapperTest">
+								<div><textarea name="test_1" style="width: 100%" rows="8" ></textarea>
+								<a href="#" class="removeclassTest">&times; entfernen</a></div>
+							</div>
+						</td>
+					<tr>
+					</tr>
 					<tr>
 						<td>Anhang</td>
 						<td><input type="file" name="binary" multiple/></td>
@@ -25,7 +39,7 @@
 						<td>Antwortvorlage</td>
 						<td><input type="file" accept="binary" name="pattern" multiple/></td>
 					</tr>
-				</table>
+				</table><br>
 				<input type="submit" value="Aufgabe erstellen">
 			</form>
 			@if(flash.get("maliciousChar") == "true") {

@@ -21,4 +21,5 @@ public class SubmissionApplication extends Controller {
         return ok(stringShower.render("show Submissions", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Submission.getStatus() + ")"));
     }
 
+
 }
