@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -164,5 +165,12 @@ public class LectureApplication extends Controller {
         
         return ok(stringShower.render("Lecture deleted", "Lecture deleted!"));
     } 
+    
+    public static Result updateLecture(){
+        String title = Form.form().bindFromRequest().get("lecture");
+        System.out.println(title);
+        PhoenixLecture lecture = Requester.Lecture.get(title);
+        return ok(createLecture.render("Create Lecture", lecture));
+    }
     
 }
