@@ -3,12 +3,11 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
+
+import com.sun.jersey.api.client.ClientHandlerException;
 
 import meta.Requester;
 import de.phoenix.rs.entity.PhoenixDetails;
@@ -23,6 +22,10 @@ import views.html.stringShower;
 public class LectureApplication extends Controller {
 
     public static Result createLecture() {
+        List<String> listLectureTitles = new ArrayList<String>();
+        for(PhoenixLecture lecture: Requester.Lecture.getAll()){
+            listLectureTitles.add(lecture.getTitle());
+        }
         LocalTime time = new LocalTime(0,0); 
         LocalDate date = new LocalDate(1,1,1);
         Period period = Period.ZERO;
@@ -30,7 +33,7 @@ public class LectureApplication extends Controller {
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
         PhoenixLecture lecture = new PhoenixLecture("", listDetails);
-        return ok(createLecture.render("Create Lecture", lecture));
+        return ok(createLecture.render("Create Lecture", lecture, listLectureTitles));
     }
     
     public static Result sendLecture() {        
@@ -144,8 +147,17 @@ public class LectureApplication extends Controller {
         
         
         *****/
-        
-        
+    }
+    
+    public static Result existLecture(){
+        String lectureTitle = request().queryString().get("title")[0];
+        try{
+            Requester.Lecture.get(lectureTitle);
+        }catch(ClientHandlerException e){
+            return ok("false");
+        }
+        if(Requester.Lecture.getStatus()==200)return ok("true");
+        else return ok("false");
     }
     
     public static Result showLectures(){
@@ -166,10 +178,14 @@ public class LectureApplication extends Controller {
     } 
     
     public static Result updateLecture(){
+        List<String> listLectureTitles = new ArrayList<String>();
+        for(PhoenixLecture lecture: Requester.Lecture.getAll()){
+            listLectureTitles.add(lecture.getTitle());
+        }
         String title = Form.form().bindFromRequest().get("lecture");
         System.out.println(title);
         PhoenixLecture lecture = Requester.Lecture.get(title);
-        return ok(createLecture.render("Create Lecture", lecture));
+        return ok(createLecture.render("Create Lecture", lecture, listLectureTitles));
     }
     
 }

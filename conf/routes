@@ -13,6 +13,7 @@ POST	/sendTask					controllers.TaskApplication.sendTask()
 # LECTURE
 GET		/createLecture				controllers.LectureApplication.createLecture()
 GET 	/showLectures				controllers.LectureApplication.showLectures()
+GET		/existLecture				controllers.LectureApplication.existLecture()
 POST	/sendLecture				controllers.LectureApplication.sendLecture()
 POST	/deleteLecture				controllers.LectureApplication.deleteLecture()
 POST	/updateLecture				controllers.LectureApplication.updateLecture()

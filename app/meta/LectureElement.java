@@ -26,7 +26,7 @@ public class LectureElement extends PhoenixRequest {
     }
 
     public PhoenixLecture get(String Lecturetitle) {
-        PhoenixLecture result = this.get(PhoenixLectureGroup.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixLecture>().addKey("title", Lecturetitle));
+        PhoenixLecture result = this.get(PhoenixLecture.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixLecture>().addKey("title", Lecturetitle));
         return result;
     }
     
