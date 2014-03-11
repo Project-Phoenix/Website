@@ -8,6 +8,7 @@ import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixTaskTest;
 import de.phoenix.rs.entity.PhoenixText;
 import de.phoenix.rs.key.SelectEntity;
+import de.phoenix.submission.DisallowedContent;
 
 /**
  * Request class for the PhoenixTask Entity.<br>
@@ -25,9 +26,12 @@ public class TaskElement extends PhoenixRequest{
         return this.getStatus();
     }
     
-    public int createAutomatic(List<PhoenixAttachment> attachments, List<PhoenixText> answerPattern, String description, String title, String backend, List<PhoenixTaskTest> tests) {
+    public int createAutomatic(List<PhoenixAttachment> attachments, List<PhoenixText> answerPattern, String description, String title, String backend, List<PhoenixTaskTest> tests, List<String> disallowed) {
         PhoenixAutomaticTask toSend = new PhoenixAutomaticTask(attachments, answerPattern, description, title, backend, tests);
-        //toSend.setDisallowedContent(content);
+        DisallowedContent de = new DisallowedContent();
+        for (String d : disallowed)
+            de.disallow(d);
+        toSend.setDisallowedContent(de);
         this.create(PhoenixTask.createResource(CLIENT, BASE_URI), toSend);
         return this.getStatus();
     }

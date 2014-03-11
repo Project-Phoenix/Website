@@ -21,6 +21,27 @@
 						<td>Beschreibung</td>
 						<td><textarea name="description" style="width: 100%" rows="8" ></textarea></td>
 					</tr>
+					<tr>
+						<td>
+							Backend
+						</td>
+						<td>
+							<select name="backend">
+  								<option value="Java">Java</option>
+  								<option value="Python">Python</option>
+  								<option value="C++">C++</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Nicht zugelasse Packages
+						</td>
+						<td>
+							<input type="checkbox" name="javaio" checked="checked" value="java.io,java.nio,java.net,javax.net"> java.io, java.nio, java.net, javax.net<br>
+							<input type="text" name="disallowed" style="width:100%"><i>Nicht erlaubte Strings (durch Komma getrennt) </i>
+						</td> 
+					</tr>
 						<td>Unit Tests</td>
 						<td>
 							<h4><a href="#" id="AddMoreTestBox" >+ Weiteren Test</a></h4>

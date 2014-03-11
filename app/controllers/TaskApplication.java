@@ -3,6 +3,8 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixTaskTest;
@@ -64,7 +66,18 @@ public class TaskApplication extends Controller {
         return ok(stringShower.render("Show Tasks", "So nicht! ;PP"));
     }
     
+    private static List<String> getDisallowedContent(Map<String, String> data) {
+        ArrayList<String> result = new ArrayList<String>();
+        if (data.get("javaio") != null)
+            result.addAll(Arrays.asList(data.get("javaio").split(",")));
+        if (!data.get("disallowed").isEmpty())
+            result.addAll(Arrays.asList(data.get("disallowed").replace(" ", "").split(",")));
+        return result;
+    }
+    
     public static Result sendAutomaticTask () {
+        String backend = Form.form().bindFromRequest().data().get("backend");
+
         MultipartFormData form = request().body().asMultipartFormData();
 
         ArrayList<PhoenixAttachment> attachmentLst = new ArrayList<PhoenixAttachment>();
@@ -86,14 +99,13 @@ public class TaskApplication extends Controller {
                 return ok(stringShower.render("ERROR", e.toString()));
             }
         }  
-        
+        System.out.println(getDisallowedContent(Form.form().bindFromRequest().data()));
         ArrayList<PhoenixTaskTest> testList = new ArrayList<PhoenixTaskTest>();
         for (int testnr = 1; Form.form().bindFromRequest().data().get("test_"+testnr) != null; testnr++) 
             testList.add(new PhoenixTaskTest( new PhoenixText(Form.form().bindFromRequest().data().get("test_"+testnr), "Test"+testnr))); 
-        
-        String backend = "";
-        
-        Requester.Task.createAutomatic(attachmentLst, patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title") , backend, testList );   
+
+        Requester.Task.createAutomatic(attachmentLst, patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"),
+                backend, testList, getDisallowedContent(Form.form().bindFromRequest().data()) );   
         if(Requester.Task.getStatus() == 200)
             return ok(stringShower.render("Task created", "Task has been created successfully"));
         else
