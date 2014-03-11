@@ -1,4 +1,4 @@
-@(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)(titleList: List[String])
+@(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
 @head={
 <!doctype html>
 <script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
@@ -6,7 +6,7 @@
 	var detail2 = false;
 	var detail3 = false;
 	var notNumber = /(\D+)/
-	var words = /(\w+)/
+	var words = /(.*Object.*)/
 	
 
 	$(document).ready(function(){
@@ -17,19 +17,18 @@
 			}
 		});	
 	});
-	
+
 	function checkLecture(inhalt)
 	{
 		$.get('/existLecture',
-			      {'title': inhalt},
-			      function(data) {
-			          if(data.search(words)>=0){
-			        	  alert(data);
-			        	  $("#title").val("");
-			          });
-			      });
+			      {'title': inhalt})
+			      .success(function(data) {
+		    		  	alert("Diese Veranstaltung ist schon vorhanden!");
+		        	  	$("#title").val("");
+			      })
 	}
-	
+
+	//test Textfields on not allowed chars(";", "=", "&"...) dynamically
 	function ValidateForm(frm) {
 		if (frm.title.value == "")
 			{alert('Titel ist erforderlich.'); 
