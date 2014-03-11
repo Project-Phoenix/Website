@@ -3,9 +3,6 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -145,8 +142,21 @@ public class LectureApplication extends Controller {
         
         
         *****/
-        
-        
+    }
+    
+
+    public static Result existLecture(){
+        String lectureTitle = request().queryString().get("title")[0];
+//        try{
+            Requester.Lecture.get(lectureTitle);
+//        }catch(ClientHandlerException e){
+//            return ok();
+//        }
+        if(Requester.Lecture.getStatus()==200){
+            System.out.println("habe Veranstaltung gefunden!");
+        }
+            return ok();
+            
     }
     
     public static Result showLectures(){

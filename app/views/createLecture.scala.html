@@ -1,11 +1,35 @@
 @(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
 @head={
 <!doctype html>
+<script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
 <script type="text/javascript">
 	var detail2 = false;
 	var detail3 = false;
+	var notNumber = /(\D+)/
+	var words = /(.*Object.*)/
+	
+
+	$(document).ready(function(){
+		$(".Number").change(function(){	
+			if(notNumber.test($(this).value)){
+				$(this).val("0");
+				alert('Bitte hier eine Nummer eingeben.'); 
+			}
+		});	
+	});
+
+	function checkLecture(inhalt)
+	{
+		$.get('/existLecture',
+			      {'title': inhalt})
+			      .success(function(data) {
+		    		  	alert("Diese Veranstaltung ist schon vorhanden!");
+		        	  	$("#title").val("");
+			      })
+	}
+
+	//test Textfields on not allowed chars(";", "=", "&"...) dynamically
 	function ValidateForm(frm) {
-		var notNumber = /(\D+)/
 		if (frm.title.value == "")
 			{alert('Titel ist erforderlich.'); 
 			frm.title.focus();
@@ -14,138 +38,18 @@
 			{alert('Raum ist erforderlich.'); 
 			frm.room.focus();
 			return false;}
-		if (notNumber.test(frm.startHours.value))
-			{alert('Startstunden sind erforderlich.'); 
-			frm.startHours.focus();
-			return false;}
-		if (notNumber.test(frm.startMinutes.value))
-			{alert('Startminuten sind erforderlich.'); 
-			frm.startMinutes.focus();
-			return false;}
-		if (notNumber.test(frm.endHours.value))
-			{alert('Endstunde sind erforderlich.'); 
-			frm.endHours.focus();
-			return false;}
-		if (notNumber.test(frm.endMinutes.value))
-			{alert('Endminuten sind erforderlich.'); 
-			frm.endMinutes.focus();
-			return false;}
-		if (notNumber.test(frm.startYear.value))
-			{alert('Startjahr ist erforderlich.'); 
-			frm.startYear.focus();
-			return false;}
-		if (notNumber.test(frm.startMonth.value))
-			{alert('Startmonat ist erforderlich.'); 
-			frm.startMonth.focus();
-			return false;}
-		if (frm.startDay.value == "")
-			{alert('Starttag ist erforderlich.'); 
-			frm.startDay.focus();
-			return false;}
-		if (notNumber.test(frm.endYear.value))
-			{alert('Endjahr ist erforderlich.'); 
-			frm.endYear.focus();
-			return false;}
-		if (notNumber.test(frm.endMonth.value))
-			{alert('Endmonat ist erforderlich.'); 
-			frm.endMonth.focus();
-			return false;}
-		if (frm.endDay.value == "")
-			{alert('Endtag ist erforderlich.'); 
-			frm.endDay.focus();
-			return false;}
 		if (detail2){
 			if (frm.room2.value == "")
 				{alert('Raum ist erforderlich.'); 
 				frm.room2.focus();
 				return false;}
-			if (notNumber.test(frm.startHours2.value))
-				{alert('Startstunden sind erforderlich.'); 
-				frm.startHours2.focus();
-				return false;}
-			if (notNumber.test(frm.startMinutes2.value))
-				{alert('Startminuten sind erforderlich.'); 
-				frm.stratMinutes2.focus();
-				return false;}
-			if (notNumber.test(frm.endHours2.value))
-				{alert('Endstunde sind erforderlich.'); 
-				frm.endHours2.focus();
-				return false;}
-			if (notNumber.test(frm.endMinutes2.value))
-				{alert('Endminuten sind erforderlich.'); 
-				frm.endMinutes2.focus();
-				return false;}
-			if (notNumber.test(frm.startYear2.value))
-				{alert('Startjahr ist erforderlich.'); 
-				frm.startYear2.focus();
-				return false;}
-			if (notNumber.test(frm.startMonth2.value))
-				{alert('Startmonat ist erforderlich.'); 
-				frm.startMonth2.focus();
-				return false;}
-			if (notNumber.test(frm.startDay2.value))
-				{alert('Starttag ist erforderlich.'); 
-				frm.startDay2.focus();
-				return false;}
-			if (notNumber.test(frm.endYear2.value))
-				{alert('Endjahr ist erforderlich.'); 
-				frm.endYear2.focus();
-				return false;}
-			if (notNumber.test(frm.endMonth2.value))
-				{alert('Endmonat ist erforderlich.'); 
-				frm.endMonth2.focus();
-				return false;}
-			if (notNumber.test(frm.endDay2.value))
-				{alert('Endtag ist erforderlich.'); 
-				frm.endDay2.focus();
-				return false;}
-			}
+		}
 		if (detail3){
 			if (frm.room3.value == "")
 				{alert('Raum ist erforderlich.'); 
 				frm.room3.focus();
 				return false;}
-			if (notNumber.test(frm.startHours3.value))
-				{alert('Startstunden sind erforderlich.'); 
-				frm.startHours3.focus();
-				return false;}
-			if (notNumber.test(frm.startMinutes3.value))
-				{alert('Startminuten sind erforderlich.'); 
-				frm.stratMinutes3.focus();
-				return false;}
-			if (notNumber.test(frm.endHours3.value))
-				{alert('Endstunde sind erforderlich.'); 
-				frm.endHours3.focus();
-				return false;}
-			if (notNumber.test(frm.endMinutes3.value))
-				{alert('Endminuten sind erforderlich.'); 
-				frm.endMinutes3.focus();
-				return false;}
-			if (notNumber.test(frm.startYear3.value))
-				{alert('Startjahr ist erforderlich.'); 
-				frm.startYear3.focus();
-				return false;}
-			if (notNumber.test(frm.startMonth3.value))
-				{alert('Startmonat ist erforderlich.'); 
-				frm.startMonth3.focus();
-				return false;}
-			if (notNumber.test(frm.startDay3.value))
-				{alert('Starttag ist erforderlich.'); 
-				frm.startDay3.focus();
-				return false;}
-			if (notNumber.test(frm.endYear3.value))
-				{alert('Endjahr ist erforderlich.'); 
-				frm.endYear3.focus();
-				return false;}
-			if (notNumber.test(frm.endMonth3.value))
-				{alert('Endmonat ist erforderlich.'); 
-				frm.endMonth3.focus();
-				return false;}
-			if (notNumber.test(frm.endDay3.value))
-				{alert('Endtag ist erforderlich.'); 
-				frm.endDay3.focus();
-				return false;}						
-				}
+		}
 		return true;					
 		}
 		
@@ -180,11 +84,11 @@
 
 @_Structure(title)(head){
 	
-	<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);">
+	<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);" id="form1">
 	
 		<input type="hidden" name="oldLecture" value="@lecture.getTitle()"/>
-		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" value="@lecture.getTitle()"><br><br>
-		Raum: <input type="text" name="room" value="@lecture.getLectureDetails.get(0).getRoom()"><br><br>
+		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" value="@lecture.getTitle()" id="title" class="Text" onchange="checkLecture(this.value)"><br><br>
+		Raum: <input type="text" name="room" value="@lecture.getLectureDetails.get(0).getRoom()" class="Text"><br><br>
 		
 		<input type="radio" name="day" value="monday" checked>Montag
 		<input type="radio" name="day" value="tuesday">Dienstag
@@ -195,11 +99,11 @@
 		<input type="radio" name="day" value="sunday">Sonntag<br><br>
 	    
 		Startzeit:<br>
-		Stunden: <input type="text" name="startHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getHourOfDay()">
-		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()"><br><br>
+		Stunden: <input type="text" name="startHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getHourOfDay()" class="Number">
+		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()" class="Number"><br><br>
 		Endzeit: <br>
-		Stunden: <input type="text" name="endHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndTime.getHourOfDay()">
-		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()"><br><br>
+		Stunden: <input type="text" name="endHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndTime.getHourOfDay()" class="Number">
+		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()" class="Number"><br><br>
 		
 		<!-- ICloud Kalender als Beispiel nutzen! -->
 		<input type="radio" name="period" value="daily"checked>täglich
@@ -208,14 +112,14 @@
 		<input type="radio" name="period" value="yearly">jährlich<br><br>
 		
 		Startdatum:<br>
-		Jahr: <input type="number" name="startYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getStartDate.getYear()">
-		Monat: <input type="number" name="startMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getMonthOfYear()">
-		Tag: <input type="number" name="startDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getDayOfMonth()"><br><br>
+		Jahr: <input type="number" name="startYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getStartDate.getYear()" class="Number">
+		Monat: <input type="number" name="startMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getMonthOfYear()" class="Number">
+		Tag: <input type="number" name="startDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getDayOfMonth()" class="Number"><br><br>
 		
 		Enddatum:<br>
-		Jahr: <input type="number" name="endYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getEndDate.getYear()">
-		Monat: <input type="number" name="endMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getMonthOfYear()">
-		Tag: <input type="number" name="endDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getDayOfMonth()"><br><br>
+		Jahr: <input type="number" name="endYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getEndDate.getYear()" class="Number">
+		Monat: <input type="number" name="endMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getMonthOfYear()" class="Number">
+		Tag: <input type="number" name="endDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getDayOfMonth()" class="Number"><br><br>
 		
 
 		<input type = "Checkbox" name="box1" onclick="doCheckBoxThings1(this);" value="check1">weitere Gruppe
@@ -223,7 +127,7 @@
 		idToClear = 'text1'" value="weitere Gruppe"><br> -->
 		
 		<DIV id="text1" style="display: none">	
-			Raum: <input type="text" name="room2"><br><br>
+			Raum: <input type="text" name="room2" class="Text"><br><br>
 		
 			<input type="radio" name="day2" value="monday" checked>Montag
 			<input type="radio" name="day2" value="tuesday">Dienstag
@@ -234,11 +138,11 @@
 			<input type="radio" name="day2" value="sunday">Sonntag<br><br>
 			
 			Startzeit:<br>
-			Stunden: <input type="text" name="startHours2" size="1" maxlength="2">
-			Minuten: <input type="text" name="startMinutes2" size="1" maxlength="2"><br><br>
+			Stunden: <input type="text" name="startHours2" size="1" maxlength="2" class="Number">
+			Minuten: <input type="text" name="startMinutes2" size="1" maxlength="2" class="Number"><br><br>
 			Endzeit: <br>
-			Stunden: <input type="text" name="endHours2" size="1" maxlength="2">
-			Minuten: <input type="text" name="endMinutes2" size="1" maxlength="2"><br><br>
+			Stunden: <input type="text" name="endHours2" size="1" maxlength="2" class="Number">
+			Minuten: <input type="text" name="endMinutes2" size="1" maxlength="2" class="Number"><br><br>
 			
 			<input type="radio" name="period2" value="daily" checked>täglich
 			<input type="radio" name="period2" value="weekly">wöchentlich
@@ -246,20 +150,20 @@
 			<input type="radio" name="period2" value"="monthly">monatlich<br><br>
 			
 			Startdatum:<br>
-			Jahr: <input type="number" name="startYear2" size="3" maxlength="4">
-			Monat: <input type="number" name="startMonth2" size="1" maxlength="2">
-			Tag: <input type="number" name="startDay2" size="1" maxlength="2"><br><br>
+			Jahr: <input type="number" name="startYear2" size="3" maxlength="4" class="Number">
+			Monat: <input type="number" name="startMonth2" size="1" maxlength="2" class="Number">
+			Tag: <input type="number" name="startDay2" size="1" maxlength="2" class="Number"><br><br>
 			
 			Enddatum:<br>
-			Jahr: <input type="number" name="endYear2" size="3" maxlength="4">
-			Monat: <input type="number" name="endMonth2" size="1" maxlength="2">
-			Tag: <input type="number" name="endDay2" size="1" maxlength="2"><br><br>	
+			Jahr: <input type="number" name="endYear2" size="3" maxlength="4" class="Number">
+			Monat: <input type="number" name="endMonth2" size="1" maxlength="2" class="Number">
+			Tag: <input type="number" name="endDay2" size="1" maxlength="2" class="Number"><br><br>	
 		</div>
 		
 		<input type = "Checkbox" name="box2" onclick="doCheckBoxThings2(this);" value="check2">weitere gruppe			
 		
 		<DIV id="text2" style="display: none">	
-			Raum: <input type="text" name="room3"><br><br>
+			Raum: <input type="text" name="room3" class="Text"><br><br>
 		
 			<input type="radio" name="day3" value="monday" checked>Montag
 			<input type="radio" name="day3" value="tuesday">Dienstag
@@ -270,11 +174,11 @@
 			<input type="radio" name="day3" value="sunday">Sonntag<br><br>
 		    
 			Startzeit:<br>
-			Stunden: <input type="text" name="startHours3" size="1" maxlength="2">
-			Minuten: <input type="text" name="startMinutes3" size="1" maxlength="2"><br><br>
+			Stunden: <input type="text" name="startHours3" size="1" maxlength="2" class="Number">
+			Minuten: <input type="text" name="startMinutes3" size="1" maxlength="2" class="Number"><br><br>
 			Endzeit: <br>
-			Stunden: <input type="text" name="endHours3" size="1" maxlength="2">
-			Minuten: <input type="text" name="endMinutes3" size="1" maxlength="2"><br><br>
+			Stunden: <input type="text" name="endHours3" size="1" maxlength="2" class="Number">
+			Minuten: <input type="text" name="endMinutes3" size="1" maxlength="2" class="Number"><br><br>
 			
 			<input type="radio" name="period3" value="daily" checked>täglich
 			<input type="radio" name="period3" value="weekly">wöchentlich
@@ -282,14 +186,14 @@
 			<input type="radio" name="period3" value"="monthly">monatlich<br><br>
 			
 			Startdatum:<br>
-			Jahr: <input type="number" name="startYear3" size="3" maxlength="4">
-			Monat: <input type="number" name="startMonth3" size="1" maxlength="2">
-			Tag: <input type="number" name="startDay3" size="1" maxlength="2"><br><br>
+			Jahr: <input type="number" name="startYear3" size="3" maxlength="4" class="Number">
+			Monat: <input type="number" name="startMonth3" size="1" maxlength="2" class="Number">
+			Tag: <input type="number" name="startDay3" size="1" maxlength="2" class="Number"><br><br>
 			
 			Enddatum:<br>
-			Jahr: <input type="number" name="endYear3" size="3" maxlength="4">
-			Monat: <input type="number" name="endMonth3" size="1" maxlength="2">
-			Tag: <input type="number" name="endDay3" size="1" maxlength="2"><br><br>	
+			Jahr: <input type="number" name="endYear3" size="3" maxlength="4" class="Number">
+			Monat: <input type="number" name="endMonth3" size="1" maxlength="2" class="Number">
+			Tag: <input type="number" name="endDay3" size="1" maxlength="2" class="Number"><br><br>	
 		</div>	
 		<input id="Create" name="submit" type="submit" value="Create" />
 		<input id="Update" name="submit" type="submit" value="Update" />	
