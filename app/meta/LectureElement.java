@@ -3,6 +3,7 @@ package meta;
 import java.util.List;
 import org.joda.time.LocalTime;
 
+import de.phoenix.date.Weekday;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
@@ -14,7 +15,7 @@ public class LectureElement extends PhoenixRequest {
     public int addGroup(String Lecturetitle, String name, int maxMember, int submissionDeadlineWeekday, LocalTime submissionDeadlineTime, List<PhoenixDetails> details) {
         PhoenixLecture lecture = this.get(PhoenixLecture.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixLecture>().addKey("title", Lecturetitle));
         System.out.println(lecture);
-        PhoenixLectureGroup group = new PhoenixLectureGroup(name, maxMember, submissionDeadlineWeekday, submissionDeadlineTime, details, lecture);
+        PhoenixLectureGroup group = new PhoenixLectureGroup(name, maxMember, Weekday.forID(submissionDeadlineWeekday), submissionDeadlineTime, details, lecture);
         this.create(PhoenixLecture.addGroupResource(CLIENT, BASE_URI), KeyReader.createAddTo(lecture, group));
         return this.getStatus();
     }

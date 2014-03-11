@@ -3,7 +3,9 @@ package meta;
 import java.util.List;
 
 import de.phoenix.rs.entity.PhoenixAttachment;
+import de.phoenix.rs.entity.PhoenixAutomaticTask;
 import de.phoenix.rs.entity.PhoenixTask;
+import de.phoenix.rs.entity.PhoenixTaskTest;
 import de.phoenix.rs.entity.PhoenixText;
 import de.phoenix.rs.key.SelectEntity;
 
@@ -19,6 +21,13 @@ public class TaskElement extends PhoenixRequest{
     
     public int create(String title, String description, List<PhoenixText> answerPattern, List<PhoenixAttachment> AttachmentList) {
         PhoenixTask toSend = new PhoenixTask(AttachmentList, answerPattern, description, title);
+        this.create(PhoenixTask.createResource(CLIENT, BASE_URI), toSend);
+        return this.getStatus();
+    }
+    
+    public int createAutomatic(List<PhoenixAttachment> attachments, List<PhoenixText> answerPattern, String description, String title, String backend, List<PhoenixTaskTest> tests) {
+        PhoenixAutomaticTask toSend = new PhoenixAutomaticTask(attachments, answerPattern, description, title, backend, tests);
+        //toSend.setDisallowedContent(content);
         this.create(PhoenixTask.createResource(CLIENT, BASE_URI), toSend);
         return this.getStatus();
     }
