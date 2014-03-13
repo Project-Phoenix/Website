@@ -1,79 +1,41 @@
-@(title : String)
+@(title : String)(lectures : List[de.phoenix.rs.entity.PhoenixLecture])
 @head={
 <!doctype html>
+<script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
+<script src="/assets/javascripts/multipleInputs.js"></script>
 <script type="text/javascript">
-	function ValidateForm(frm) {
-		var notNumber = /(\D+)/
-		if (frm.title.value == "")
-			{alert('Titel ist erforderlich.'); 
-			frm.title.focus();
-			return false;}
-		if (frm.lecture.value == "")
-			{alert('Veranstaltung ist erforderlich')
-			frm.lecture.focus();
-			return false;}
-		if (notNumber.test(frm.size.value))
-			{alert(unescape("Maximale Gr%F6%DFe muss eine Zahl sein"));
-			frm.size.focus();
-			return false;}
-		if (frm.room.value == "")
-			{alert('Raum ist erforderlich.'); 
-			frm.room.focus();
-			return false;}
-		if (notNumber.test(frm.startHours.value))
-			{alert('Startstunden sind erforderlich.'); 
-			frm.startHours.focus();
-			return false;}
-		if (notNumber.test(frm.startMinutes.value))
-			{alert('Startminuten sind erforderlich.'); 
-			frm.startMinutes.focus();
-			return false;}
-		if (notNumber.test(frm.endHours.value))
-			{alert('Endstunde sind erforderlich.'); 
-			frm.endHours.focus();
-			return false;}
-		if (notNumber.test(frm.endMinutes.value))
-			{alert('Endminuten sind erforderlich.'); 
-			frm.endMinutes.focus();
-			return false;}
-		if (notNumber.test(frm.startYear.value))
-			{alert('Startjahr ist erforderlich.'); 
-			frm.startYear.focus();
-			return false;}
-		if (notNumber.test(frm.startMonth.value))
-			{alert('Startmonat ist erforderlich.'); 
-			frm.startMonth.focus();
-			return false;}
-		if (notNumber.test(frm.startDay.value))
-			{alert('Starttag ist erforderlich.'); 
-			frm.startDay.focus();
-			return false;}
-		if (notNumber.test(frm.endYear.value))
-			{alert('Endjahr ist erforderlich.'); 
-			frm.endYear.focus();
-			return false;}
-		if (notNumber.test(frm.endMonth.value))
-			{alert('Endmonat ist erforderlich.'); 
-			frm.endMonth.focus();
-			return false;}
-		if (notNumber.test(frm.endDay.value))
-			{alert('Endtag ist erforderlich.'); 
-			frm.endDay.focus();
-			return false;}
-		if (frm.submitDay.value == "")
-			{alert('Abgabetag ist erforderlich.'); 
-			frm.submitDay.focus();
-			return false;}
-		if (notNumber.test(frm.submitHours.value))
-			{alert('Abgabestunden sind erforderlich.'); 
-			frm.submitHours.focus();
-			return false;}
-		if (notNumber.test(frm.submitMinutes.value))
-			{alert('Abgabeminuten sind erforderlich.'); 
-			frm.submitMinutes.focus();
-			return false;}
-		return true;
-		}
+	var detail2 = false;
+	var detail3 = false;
+	var notNumber = /\D+/
+	var splChars =/^.*?(?=[\^#%&$\*:;!\"�<>\?/\{\|\}@@]).*$/;
+	
+
+	$(document).ready(function(){
+		$(document).on('change', '.Number', function(){	
+			if(notNumber.test($(this).val())){
+				$(this).val("0");
+				alert('Bitte hier eine Nummer eingeben.'); 
+			    $(this).focus(); 
+			}
+		});	
+		
+		$("#lectureDetail").on('change', '.Text', function(){	
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
+		$("#title").change(function(){
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
+	});
 	</script>
 }
 
@@ -81,54 +43,53 @@
 	
 	<form action="/sendGroup" method="post" onsubmit="return ValidateForm(this);">
 
-		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title"><br><br>
-		Zugeh&ouml;rige Veranstaltung:&nbsp;&nbsp;&nbsp;<input type="text" name="lecture"><br><br>
-		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size"><br><br>
-		Raum: <input type="text" name="room"><br><br>
-		
-		<input type="radio" name="day" value="monday" checked>Montag
-		<input type="radio" name="day" value="tuesday">Dienstag
-		<input type="radio" name="day" value="wednesday">Mittwoch
-		<input type="radio" name="day" value="thursday">Donnerstag
-		<input type="radio" name="day" value="friday">Freitag
-		<input type="radio" name="day" value="saturday">Samstag
-		<input type="radio" name="day" value="sunday">Sonntag<br><br>
-	    
-		Startzeit:<br>
-		Stunden: <input type="text" name="startHours" size="1" maxlength="2">
-		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2"><br><br>
-		Endzeit: <br>
-		Stunden: <input type="text" name="endHours" size="1" maxlength="2">
-		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2"><br><br>
-		
-		<!-- ICloud Kalender als Beispiel nutzen! -->
-		<input type="radio" name="period" value="daily"checked>täglich
-		<input type="radio" name="period" value="weekly">wöchentlich
-		<input type="radio" name="period" value"="monthly">monatlich
-		<input type="radio" name="period" value="yearly">jährlich<br><br>
-		
-		Startdatum:<br>
-		Jahr: <input type="number" name="startYear" size="3" maxlength="4">
-		Monat: <input type="number" name="startMonth" size="1" maxlength="2">
-		Tag: <input type="number" name="startDay" size="1" maxlength="2"><br><br>
-		
-		Enddatum:<br>
-		Jahr: <input type="number" name="endYear" size="3" maxlength="4">
-		Monat: <input type="number" name="endMonth" size="1" maxlength="2">
-		Tag: <input type="number" name="endDay" size="1" maxlength="2"><br><br>
+		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" id="title"><br><br>
+		Zugeh&ouml;rige Veranstaltung:&nbsp;&nbsp;&nbsp;
+		<select name="selectLecture" size="1">
+			@lectures.map{ lecture =>
+				<option>@lecture.getTitle()</option>
+			}		
+		</select><br><br>
+		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size" class="Number"><br><br>
+		<div id="lectureDetail">	
+			Raum: <input type="text" name="room" class="Text"><br><br>
 			
+			<select name="day_1" size="1">
+				<option value="monday" checked>Montag</option>
+				<option value="tuesday">Dienstag</option>
+				<option value="wednesday">Mittwoch</option>
+				<option value="thursday">Donnerstag</option>
+				<option value="friday">Freitag</option>
+				<option value="saturday">Samstag</option>
+				<option value="sunday">Sonntag</option>
+		    </select><br><br>
+			
+			Startzeit:<input type="time" name="startTime_1"><br><br>
+			Endzeit: <input type="time" name="endTime_1"><br><br>
+			
+			Periode:<input type="number" name="period_1" value="1" class="Number"/>
+			    <select name="periodDD_1" size="1">
+			      <option value="days">Tag(e)</option>
+			      <option value="weeks" selected>Woche(n)</option>
+			      <option value="months">Monat(e)</option>
+			    </select><br><br>
+			
+			Startdatum:<input type="date" name="startDate_1"><br><br>			
+			Enddatum:<input type="date" name="endDate_1"><br><br>
+			<input type="button" class="removeDetails" value="Detail l&ouml;schen"/></div>
+		</div>	
+		<input type="button" id="moreDetails" value="mehr DETAILS!"/><br><br>
 		Abgabetag:<br>		
-		<input type="radio" name="submitDay" value="monday" checked>Montag
-		<input type="radio" name="submitDay" value="tuesday">Dienstag
-		<input type="radio" name="submitDay" value="wednesday">Mittwoch
-		<input type="radio" name="submitDay" value="thursday">Donnerstag
-		<input type="radio" name="submitDay" value="friday">Freitag
-		<input type="radio" name="submitDay" value="saturday">Samstag
-		<input type="radio" name="submitDay" value="sunday">Sonntag<br><br>
-	    
-		Abgabezeit:<br>
-		Stunden: <input type="text" name="submitHours" size="1" maxlength="2">
-		Minuten: <input type="text" name="submitMinutes" size="1" maxlength="2"><br><br>		
+		<select name="submissionDay" size="1">
+			<option value="monday" checked>Montag</option>
+			<option value="tuesday">Dienstag</option>
+			<option value="wednesday">Mittwoch</option>
+			<option value="thursday">Donnerstag</option>
+			<option value="friday">Freitag</option>
+			<option value="saturday">Samstag</option>
+			<option value="sunday">Sonntag</option>
+	    </select><br><br>
+		Abgabezeit:<input type="time" name="submissionTime"><br><br>	
 		<input name="Submit" type="submit" value="Create" />
 		<input name="Submit" type="submit" value="Update" />
 	</form> 	

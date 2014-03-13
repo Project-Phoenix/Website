@@ -25,7 +25,7 @@ $(document).ready(function() {
 			'<div>\
 			Raum: <input type="text" name="room_IDNR" value="" class="Text"><br><br>\
 			\
-			<select name="day_1" size="1">\
+			<select name="day_IDNR" size="1">\
 				<option value="monday" selected>Montag</option>\
 				<option value="tuesday">Dienstag</option>\
 				<option value="wednesday">Mittwoch</option>\
@@ -35,8 +35,8 @@ $(document).ready(function() {
 				<option value="sunday">Sonntag</option>\
 			</select><br><br>\
 			\
-			Startzeit:<input type="time" name="startTime_1"><br><br>\
-			Endzeit: <input type="time" name="endTime_1"><br><br>\
+			Startzeit:<input type="time" name="startTime_IDNR"><br><br>\
+			Endzeit: <input type="time" name="endTime_IDNR"><br><br>\
 			\
 			Periode:<input type="number" name="period_IDNR" value="1" class="Number"/>\
 		    <select name="periodDD_IDNR" size="1">\

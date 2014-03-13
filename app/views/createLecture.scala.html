@@ -11,7 +11,7 @@
 	
 
 	$(document).ready(function(){
-		$("#lectureDetail").on('change', '.Number', function(){	
+		$(document).on('change', '.Number', function(){	
 			if(notNumber.test($(this).val())){
 				$(this).val("0");
 				alert('Bitte hier eine Nummer eingeben.'); 

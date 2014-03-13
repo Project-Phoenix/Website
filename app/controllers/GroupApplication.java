@@ -29,7 +29,7 @@ public class GroupApplication extends Controller {
    
     
     public static Result addGroup() {
-        return ok(addGroup.render("add Group"));
+        return ok(addGroup.render("add Group", Requester.Lecture.getAll()));
     }
     
     private static int checkDay(String day){
@@ -113,9 +113,9 @@ public class GroupApplication extends Controller {
         LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
         //PhoenixDetaillist
         List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
-        LectureCheck lectureCheck = new LectureCheck(requests);
+       // LectureCheck lectureCheck = new LectureCheck(requests);
         //add it to allDetails
-        allDetails.add(lectureCheck.getPhoenixDetails());
+        //allDetails.add(lectureCheck.getPhoenixDetails());
         //send it to server
         Requester.Lecture.addGroup(lecture, title, size, submitDay, submitTime, allDetails);
 
