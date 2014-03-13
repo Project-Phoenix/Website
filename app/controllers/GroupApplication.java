@@ -10,9 +10,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
-
-
-
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
@@ -21,6 +18,7 @@ import de.phoenix.rs.entity.PhoenixTaskSheet;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.TimeGroup;
 import views.html.addGroup;
 import views.html.addTaskSheetToGroup;
 import views.html.showGroups;
@@ -162,11 +160,13 @@ public class GroupApplication extends Controller {
         return ok(showTaskSheet.render("show TaskSheet", taskSheets));
     }
     
+
+    
     public static Result addTaskSheetToGroup() {
         if (request().queryString().get("lecture") != null) {
             String lecture = request().queryString().get("lecture")[0];
             if (lecture != null) {
-                List<PhoenixLectureGroup> groups = Requester.Group.getAll(lecture);
+                List<TimeGroup> groups = TimeGroup.toTimeGroup( Requester.Group.getAll(lecture) );
                 List<PhoenixTaskSheet> tasksheets = Requester.TaskSheet.getAll();
                 return ok(addTaskSheetToGroup.render("Add Sheet to Group",lecture,tasksheets,groups));
             } else {

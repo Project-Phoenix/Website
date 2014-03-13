@@ -15,6 +15,7 @@ import de.phoenix.rs.key.SelectEntity;
 
 public class GroupElement extends PhoenixRequest {
     
+    //List<TimeGroup> groups
     public int addTaskSheet(DateTime defaultDeadline, DateTime defaultReleaseDate, PhoenixTaskSheet taskSheet, List<PhoenixLectureGroup> groups) {
         ConnectionEntity toSend = new LectureGroupTaskSheetConnection(defaultDeadline, defaultReleaseDate, taskSheet, groups);
         this.create(PhoenixLectureGroupTaskSheet.createResource(CLIENT, BASE_URI), toSend);

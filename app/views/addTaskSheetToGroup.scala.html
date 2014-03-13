@@ -1,4 +1,4 @@
-@(title : String)(lectureTitle : String)(sheets : List[de.phoenix.rs.entity.PhoenixTaskSheet])(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup]) 
+@(title : String)(lectureTitle : String)(sheets : List[de.phoenix.rs.entity.PhoenixTaskSheet])(groups : List[util.TimeGroup])
 @head={}
 
 @_Structure(title)(head){
@@ -11,9 +11,11 @@
 					<th style="text-align: left">
 						Aufgabenblätter
 					</th>
+					  
 					<th style="text-align: left">
 						Gruppen (@lectureTitle)
 					</th>
+					
 				</tr>
 				<tr>
 					<td>
@@ -22,10 +24,29 @@
 	      	 		  }
 	    			</td>
 	    			<td>
-	    			  @for(i <- 0 until groups.size()){
-	      				<input type="checkbox" name="@groups.get(i).getName()" value="@groups.get(i).getName()"> @groups.get(i).getName()<br> 
-	      	 		  }
-	   				</td>	
+		    			<table>
+		    			<th>
+		    			</th>
+		    			<th>
+		    				Erscheint am
+		    			</th>
+		    			<th>
+		    				Abgabetag
+		    			</th>
+		    			  @for(i <- 0 until groups.size()) {
+			    			  <tr>
+			    			  	<td>
+			      					<input type="checkbox" name="@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).getPhoenixGroup().getName()"> @groups.get(i).getPhoenixGroup().getName()<br> 
+			      	 		  	</td>
+			      	 		 	<td>
+			      	 		  		<input type="datetime-local" name="deadline_@groups.get(i).getPhoenixGroup().getName()" value="@util.TimeGroup.now("Y-MM-d'T'H:mm")"/><br> 
+			      	 		  	</td>
+			      	 		  	<td>
+			      	 		  		<input type="datetime-local" name="release_@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).nextDeadlineDateString("Y-MM-d'T'H:mm")"/><br> 
+			      	 		  	</td>
+			      	 		  </tr>
+		      	 		  }	
+	   					</table>
 	      	 	</tr>
 	      	 </table>
 	      	 <input type="hidden" name="lecture" value="@lectureTitle">
