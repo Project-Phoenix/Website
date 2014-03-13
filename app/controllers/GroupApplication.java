@@ -9,6 +9,7 @@ import meta.Requester;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
 
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
@@ -169,39 +170,36 @@ public class GroupApplication extends Controller {
                 List<TimeGroup> groups = TimeGroup.toTimeGroup( Requester.Group.getAll(lecture) );
                 List<PhoenixTaskSheet> tasksheets = Requester.TaskSheet.getAll();
                 return ok(addTaskSheetToGroup.render("Add Sheet to Group",lecture,tasksheets,groups));
-            } else {
+            } else 
                 return ok(stringShower.render("ERROR", "This Lecture does not exist!"));
-            }
-        } else {
-            return ok(stringShower.render("ERROR", "No Lecture selected!"));
-        }    
+        }
+        else 
+            return ok(stringShower.render("ERROR", "No Lecture selected!")); 
     }
     
-    
+    //TODO check tasksheet name
     public static Result sendTaskSheetToGroup() {
-        List<PhoenixLectureGroup> groups = new ArrayList<PhoenixLectureGroup>();
         Map<String, String> data = Form.form().bindFromRequest().data();
         String lectureTitle = data.get("lecture");
         data.remove("lecture");
         String tasksheetName = data.get("tasksheet");
+        data.remove("tasksheet");
         
         if (tasksheetName != null) {
-            data.remove("tasksheet");
-            if (!data.isEmpty()) {
-                PhoenixLectureGroup group = null;
-                for(String g : data.keySet()) {
-                     group = Requester.Group.get(lectureTitle, g);
-                     if (group == null)
-                         return ok(stringShower.render("FEHLER!","Gruppe "+g+" existiert nicht!!"));
-                     groups.add(group);
-                }   
+            for(String time : data.keySet()) {
+                if (time.startsWith("dealine_")) {
+                    DateTime deadline = DateTime.parse(data.get(time), DateTimeFormat.forPattern("Y-MM-d'T'H:mm") );
+                    DateTime release = DateTime.parse(data.get(time.replace("deadline_", "release_")), DateTimeFormat.forPattern("Y-MM-d'T'H:mm") );
+                    PhoenixLectureGroup group = Requester.Group.get(lectureTitle, time.replace("deadline_", ""));
+                    data.remove(time);
+                    data.remove(time.replace("dealine_","release_"));
+                    data.remove(time.replace("deadline_", ""));
+                    Requester.Group.addTaskSheet(deadline, release, Requester.TaskSheet.get(tasksheetName), group);
+                    if (Requester.Group.getStatus() != 200)
+                        return ok(stringShower.render("FAIL!", "Fehler beim senden von:"+group.getName()+" - Fehler: "+Requester.Group.getStatus()));
+                }
             }
-            Requester.Group.addTaskSheet(DateTime.now(), DateTime.now().plusWeeks(1), Requester.TaskSheet.get(tasksheetName), groups);
-            
-            if (Requester.Group.getStatus() == 200)
-                return ok(stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
-            
-            return ok(stringShower.render("FAIL!", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Group.getStatus() + ")"));
+            return ok(stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
         }
         return ok(stringShower.render("FAIL!", "Kein TaskSheet angegeben!!"));
     } 

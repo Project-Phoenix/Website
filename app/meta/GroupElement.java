@@ -1,5 +1,6 @@
 package meta;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -15,9 +16,8 @@ import de.phoenix.rs.key.SelectEntity;
 
 public class GroupElement extends PhoenixRequest {
     
-    //List<TimeGroup> groups
-    public int addTaskSheet(DateTime defaultDeadline, DateTime defaultReleaseDate, PhoenixTaskSheet taskSheet, List<PhoenixLectureGroup> groups) {
-        ConnectionEntity toSend = new LectureGroupTaskSheetConnection(defaultDeadline, defaultReleaseDate, taskSheet, groups);
+    public int addTaskSheet(DateTime defaultDeadline, DateTime defaultReleaseDate, PhoenixTaskSheet taskSheet, PhoenixLectureGroup group) {
+        ConnectionEntity toSend = new LectureGroupTaskSheetConnection(defaultDeadline, defaultReleaseDate, taskSheet, Arrays.asList(group));
         this.create(PhoenixLectureGroupTaskSheet.createResource(CLIENT, BASE_URI), toSend);
         return this.getStatus();
     }
