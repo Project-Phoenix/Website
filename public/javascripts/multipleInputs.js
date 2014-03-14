@@ -35,17 +35,17 @@ $(document).ready(function() {
 				<option value="sunday">Sonntag</option>\
 			</select><br><br>\
 			\
-			Startzeit:<input type="time" name="startTime_IDNR"><br><br>\
-			Endzeit: <input type="time" name="endTime_IDNR"><br><br>\
+			Startzeit:<input type="time" name="startTime_IDNR" value="@util.TimeGroup.now("HH:mm")"><br><br>\
+			Endzeit: <input type="time" name="endTime_IDNR" value="@util.TimeGroup.now("HH:mm")"><br><br>\
 			\
-			Periode:<input type="number" name="period_IDNR" value="1" class="Number"/>\
+			Periode:<input type="text" name="period_IDNR" class="Number" value="0"/>\
 		    <select name="periodDD_IDNR" size="1">\
 		      <option value="days">Tag(e)</option>\
 		      <option value="weeks" selected>Woche(n)</option>\
 		      <option value="months">Monat(e)</option>\
 		    </select><br><br>\
-			Startdatum:<input type="date" name="startDate_IDNR"><br><br>\
-			Enddatum:<input type="date" name="endDate_IDNR"><br><br>\
+			Startdatum:<input type="date" name="startDate_IDNR" value="@util.TimeGroup.now("Y-MM-dd")"><br><br>\
+			Enddatum:<input type="date" name="endDate_IDNR" value="@util.TimeGroup.now("Y-MM-dd")"><br><br>\
 			<input type="button" class="removeDetails" value="Detail löschen"/></div>');
 	
 	$("#AddMoreTestBox").click(function (e) {

@@ -1,4 +1,4 @@
-package controllers;
+package util;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -34,7 +34,7 @@ public class LectureCheck {
     
     public static LocalTime getTime(String time){
         System.out.println(time);
-        return LocalTime.parse(time, DateTimeFormat.forPattern("H:m:s")); 
+        return LocalTime.parse(time, DateTimeFormat.forPattern("H:m")); 
         }
     
     public static LocalDate getDate(String date){

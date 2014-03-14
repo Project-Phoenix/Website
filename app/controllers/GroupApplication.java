@@ -7,7 +7,6 @@ import java.util.Map;
 import meta.Requester;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -19,6 +18,7 @@ import de.phoenix.rs.entity.PhoenixTaskSheet;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.LectureCheck;
 import util.TimeGroup;
 import views.html.addGroup;
 import views.html.addTaskSheetToGroup;
@@ -33,99 +33,37 @@ public class GroupApplication extends Controller {
         return ok(addGroup.render("add Group", Requester.Lecture.getAll()));
     }
     
-    private static int checkDay(String day){
-        switch(day){
-            case "monday":
-                return DateTimeConstants.MONDAY;
-            case "tuesday":
-                return DateTimeConstants.TUESDAY;
-            case "wednesday":
-                return DateTimeConstants.WEDNESDAY;
-            case "thursday":
-                return DateTimeConstants.THURSDAY;
-            case "friday":
-                return DateTimeConstants.FRIDAY;
-            case "saturday":
-                return DateTimeConstants.SATURDAY;
-            case "sunday":
-                return DateTimeConstants.SUNDAY;
-            default:
-                //throw invalid input exception
-                System.out.println("null, dafuq?!");
-                return -1;
-        }
-    }
-    
     public static Result sendGroup() {        
         //Array to get the inputs form addGroup
-        String[] keyStrings = new String[] {"title","lecture", "size", "room", "day", "startHours","startMinutes", "endHours", 
-                                            "endMinutes", "period", "startYear", "startMonth", "startDay",
-                                            "endYear", "endMonth", "endDay", "submitDay", "submitHours", "submitMinutes"};
-
-        //Array, which will be filled with the requeststrings
-        String[] requests = new String[13];
-        String title = "";
-        String lecture = "";
-        int itemCount = 0;
-        int size = 0;
-        int submitDay = 0;
-        int submitHours = 0;
-        int submitMinutes = 0;
-
-        // TODO: exception handling
-        // Get the requests and if something missing, set wronginput[arrayCount] to true and test the next detail
-        for(String item: keyStrings){
-            String temp = Form.form().bindFromRequest().get(item);
-            //if everything's filled in, set title and put the rest in the requestarrays
-            switch(itemCount){
-            case 0:    
-                title = temp;
-                itemCount++;
-                break;
-            case 1:    
-                lecture = temp;
-                itemCount++;
-                break;
-            case 2:
-                size = Integer.parseInt(temp);
-                itemCount++;
-                break;
-            case 16:
-                submitDay = checkDay(temp);
-                itemCount++;
-                break;
-            case 17:
-                submitHours = Integer.parseInt(temp);
-                itemCount++;
-                break;
-            case 18:
-                submitMinutes = Integer.parseInt(temp);
-                break;
-            default:
-                requests[itemCount-3] = temp;
-                itemCount++;
-                break;
-            }
-        }
-
-        // unique title (maybe not necessary)
-        //title = lecture + " - " + title;
+        Map<String, String> data = Form.form().bindFromRequest().data();
+        System.out.println(data);
+        String title = data.get("title");
+        String lecture = data.get("selectLecture");
+        int size = Integer.parseInt(data.get("size"));
+        String submissionDay = data.get("submissionDay");
+        LocalTime submissionTime = LectureCheck.getTime(data.get("submissionTime"));
         
-        LocalTime submitTime = new LocalTime(submitHours, submitMinutes);
-        //PhoenixDetaillist
         List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
-       // LectureCheck lectureCheck = new LectureCheck(requests);
-        //add it to allDetails
-        //allDetails.add(lectureCheck.getPhoenixDetails());
-        //send it to server
-        Requester.Lecture.addGroup(lecture, title, size, submitDay, submitTime, allDetails);
+        for(String item: data.keySet()){
+            String number = "";
+            if(item.startsWith("room_")){
+                number = item.substring(5);
+                System.out.println(number);
+                allDetails.add(LectureCheck.getPhoenixDetails( data.get("room_"+number), 
+                                                               data.get("day_"+number),
+                                                               LectureCheck.getTime(data.get("startTime_"+number)),
+                                                               LectureCheck.getTime(data.get("endTime_"+number)),
+                                                               LectureCheck.getPeriod(Integer.parseInt(data.get("period_"+number)), data.get("periodDD_"+number)),
+                                                               LectureCheck.getDate(data.get("startDate_"+number)),
+                                                               LectureCheck.getDate(data.get("endDate_"+number))));
+            }
+        }        
+        Requester.Lecture.addGroup(lecture, title, size, submissionDay, submissionTime, allDetails);
 
         if (Requester.Lecture.getStatus() == 200)
             return ok(stringShower.render("strings to show", "Good News!"));
         else
-            return ok(stringShower.render("Add Group", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));
-
-        
+            return ok(stringShower.render("Add Group", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));        
     }
     
     public static Result choseGroups() {

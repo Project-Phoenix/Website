@@ -15,6 +15,7 @@ import de.phoenix.rs.entity.PhoenixLecture;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.LectureCheck;
 import views.html.createLecture;
 import views.html.showLectures;
 import views.html.stringShower;
@@ -34,6 +35,7 @@ public class LectureApplication extends Controller {
     
     public static Result sendLecture() {        
         Map<String, String> data = Form.form().bindFromRequest().data();
+        System.out.println(data);
         String title = data.get("title");
         
         List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();

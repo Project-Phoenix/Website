@@ -52,7 +52,8 @@
 		</select><br><br>
 		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size" class="Number"><br><br>
 		<div id="lectureDetail">	
-			Raum: <input type="text" name="room" class="Text"><br><br>
+			<div>
+			Raum: <input type="text" name="room_1" class="Text"><br><br>
 			
 			<select name="day_1" size="1">
 				<option value="monday" checked>Montag</option>
@@ -64,18 +65,18 @@
 				<option value="sunday">Sonntag</option>
 		    </select><br><br>
 			
-			Startzeit:<input type="time" name="startTime_1"><br><br>
-			Endzeit: <input type="time" name="endTime_1"><br><br>
+			Startzeit:<input type="time" name="startTime_1" value="@util.TimeGroup.now("HH:mm")"><br><br>
+			Endzeit: <input type="time" name="endTime_1" value="@util.TimeGroup.now("HH:mm")"><br><br>
 			
-			Periode:<input type="number" name="period_1" value="1" class="Number"/>
+			Periode:<input type="text" name="period_1" class="Number" value="0"/>
 			    <select name="periodDD_1" size="1">
 			      <option value="days">Tag(e)</option>
 			      <option value="weeks" selected>Woche(n)</option>
 			      <option value="months">Monat(e)</option>
 			    </select><br><br>
 			
-			Startdatum:<input type="date" name="startDate_1"><br><br>			
-			Enddatum:<input type="date" name="endDate_1"><br><br>
+			Startdatum:<input type="date" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")"><br><br>			
+			Enddatum:<input type="date" name="endDate_1" value="@util.TimeGroup.now("Y-MM-dd")"><br><br>
 			<input type="button" class="removeDetails" value="Detail l&ouml;schen"/></div>
 		</div>	
 		<input type="button" id="moreDetails" value="mehr DETAILS!"/><br><br>
