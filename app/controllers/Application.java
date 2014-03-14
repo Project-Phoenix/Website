@@ -23,11 +23,19 @@ package controllers;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.ws.rs.core.MediaType;
+
 import meta.Requester;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html._Debug;
 import views.html.home;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
+import de.phoenix.rs.PhoenixClient;
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixText;
@@ -46,8 +54,17 @@ public class Application extends Controller {
      * @return play.mvc.Results.Status
      */
     
+    private final static String BASE_URI = "http://meldanor.dyndns.org:8080/PhoenixWebService/rest/debug";
+    private final static Client CLIENT = PhoenixClient.create();
+    
     public static Result home() {
         return ok(home.render("Home"));
+    }
+    
+    public static Result debug() {
+        WebResource webresource = CLIENT.resource(BASE_URI); 
+        ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        return ok(_Debug.render("DEBUG",response.getEntity(String.class).replace("\n", "<br>")));
     }
 
     public static Result download(String title, String filename, String type){

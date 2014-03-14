@@ -24,7 +24,7 @@
 	      	 		  }
 	    			</td>
 	    			<td>
-		    			<table <table cellpadding="5px">
+		    			<table cellpadding="5px">
 		    			<th>
 		    			</th>
 		    			<th>
@@ -38,11 +38,11 @@
 			    			  	<td>
 			      					<input type="checkbox" name="@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).getPhoenixGroup().getName()"> @groups.get(i).getPhoenixGroup().getName()<br> 
 			      	 		  	</td>
-			      	 		 	<td>
-			      	 		  		<input type="datetime-local" name="deadline_@groups.get(i).getPhoenixGroup().getName()" value="@util.TimeGroup.now("Y-MM-d'T'H:mm")"/><br> 
-			      	 		  	</td>
 			      	 		  	<td>
-			      	 		  		<input type="datetime-local" name="release_@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).nextDeadlineDateString("Y-MM-d'T'H:mm")"/><br> 
+			      	 		  		<input type="datetime-local" name="release_@groups.get(i).getPhoenixGroup().getName()" value="@util.TimeGroup.now("Y-MM-dd'T'HH:mm")"/><br> 
+			      	 		  	</td>
+			      	 		 	<td>
+			      	 		  		<input type="datetime-local" name="deadline_@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).nextDeadlineDateString("Y-MM-dd'T'HH:mm")"/><br> 
 			      	 		  	</td>
 			      	 		  </tr>
 		      	 		  }	
