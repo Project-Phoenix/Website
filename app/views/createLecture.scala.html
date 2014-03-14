@@ -2,20 +2,38 @@
 @head={
 <!doctype html>
 <script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
+<script src="/assets/javascripts/multipleInputs.js"></script>
 <script type="text/javascript">
 	var detail2 = false;
 	var detail3 = false;
-	var notNumber = /(\D+)/
-	var words = /(.*Object.*)/
+	var notNumber = /\D+/
+	var splChars =/^.*?(?=[\^#%&$\*:;!\"�<>\?/\{\|\}@@]).*$/;
 	
 
 	$(document).ready(function(){
-		$(".Number").change(function(){	
-			if(notNumber.test($(this).value)){
+		$(document).on('change', '.Number', function(){	
+			if(notNumber.test($(this).val())){
 				$(this).val("0");
 				alert('Bitte hier eine Nummer eingeben.'); 
 			}
 		});	
+		
+		$("#lectureDetail").on('change', '.Text', function(){	
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
+		$("#title").change(function(){
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
 	});
 
 	function checkLecture(inhalt)
@@ -27,58 +45,6 @@
 		        	  	$("#title").val("");
 			      })
 	}
-
-	//test Textfields on not allowed chars(";", "=", "&"...) dynamically
-	function ValidateForm(frm) {
-		if (frm.title.value == "")
-			{alert('Titel ist erforderlich.'); 
-			frm.title.focus();
-			return false;}
-		if (frm.room.value == "")
-			{alert('Raum ist erforderlich.'); 
-			frm.room.focus();
-			return false;}
-		if (detail2){
-			if (frm.room2.value == "")
-				{alert('Raum ist erforderlich.'); 
-				frm.room2.focus();
-				return false;}
-		}
-		if (detail3){
-			if (frm.room3.value == "")
-				{alert('Raum ist erforderlich.'); 
-				frm.room3.focus();
-				return false;}
-		}
-		return true;					
-		}
-		
-		var idToClear = '';
-		function clearId(){
-			if (idToClear !== ''){
-				 document.getElementById(idToClear).style.display='none';
-			}
-		}
-		
-		function doCheckBoxThings1(box){
-			if (box.checked){
-				document.getElementById('text1').style.display='block';
-				detail2 = true;
-			} else {
-				document.getElementById('text1').style.display='none';
-				detail2 = false;
-			}					
-		}
-		
-		function doCheckBoxThings2(box){
-			if (box.checked){
-				document.getElementById('text2').style.display='block';
-				detail3 = true;
-			} else {
-				document.getElementById('text2').style.display='none';
-				detail3 = false;
-			}					
-		}
 </script>
 }
 
@@ -88,113 +54,34 @@
 	
 		<input type="hidden" name="oldLecture" value="@lecture.getTitle()"/>
 		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" value="@lecture.getTitle()" id="title" class="Text" onchange="checkLecture(this.value)"><br><br>
-		Raum: <input type="text" name="room" value="@lecture.getLectureDetails.get(0).getRoom()" class="Text"><br><br>
-		
-		<input type="radio" name="day" value="monday" checked>Montag
-		<input type="radio" name="day" value="tuesday">Dienstag
-		<input type="radio" name="day" value="wednesday">Mittwoch
-		<input type="radio" name="day" value="thursday">Donnerstag
-		<input type="radio" name="day" value="friday">Freitag
-		<input type="radio" name="day" value="saturday">Samstag
-		<input type="radio" name="day" value="sunday">Sonntag<br><br>
-	    
-		Startzeit:<br>
-		Stunden: <input type="text" name="startHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getHourOfDay()" class="Number">
-		Minuten: <input type="text" name="startMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()" class="Number"><br><br>
-		Endzeit: <br>
-		Stunden: <input type="text" name="endHours" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndTime.getHourOfDay()" class="Number">
-		Minuten: <input type="text" name="endMinutes" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartTime.getMinuteOfHour()" class="Number"><br><br>
-		
-		<!-- ICloud Kalender als Beispiel nutzen! -->
-		<input type="radio" name="period" value="daily"checked>täglich
-		<input type="radio" name="period" value="weekly">wöchentlich
-		<input type="radio" name="period" value"="monthly">monatlich
-		<input type="radio" name="period" value="yearly">jährlich<br><br>
-		
-		Startdatum:<br>
-		Jahr: <input type="number" name="startYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getStartDate.getYear()" class="Number">
-		Monat: <input type="number" name="startMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getMonthOfYear()" class="Number">
-		Tag: <input type="number" name="startDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getStartDate.getDayOfMonth()" class="Number"><br><br>
-		
-		Enddatum:<br>
-		Jahr: <input type="number" name="endYear" size="3" maxlength="4" value="@lecture.getLectureDetails.get(0).getEndDate.getYear()" class="Number">
-		Monat: <input type="number" name="endMonth" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getMonthOfYear()" class="Number">
-		Tag: <input type="number" name="endDay" size="1" maxlength="2" value="@lecture.getLectureDetails.get(0).getEndDate.getDayOfMonth()" class="Number"><br><br>
-		
-
-		<input type = "Checkbox" name="box1" onclick="doCheckBoxThings1(this);" value="check1">weitere Gruppe
-<!--		onclick="clearId(); document.getElementById('text1').style.display='block';
-		idToClear = 'text1'" value="weitere Gruppe"><br> -->
-		
-		<DIV id="text1" style="display: none">	
-			Raum: <input type="text" name="room2" class="Text"><br><br>
-		
-			<input type="radio" name="day2" value="monday" checked>Montag
-			<input type="radio" name="day2" value="tuesday">Dienstag
-			<input type="radio" name="day2" value="wednesday">Mittwoch
-			<input type="radio" name="day2" value="thursday">Donnerstag
-			<input type="radio" name="day2" value="friday">Freitag
-			<input type="radio" name="day2" value="saturday">Samstag
-			<input type="radio" name="day2" value="sunday">Sonntag<br><br>
+		<div id="lectureDetail">
+			<div>
+			Raum: <input type="text" name="room1" value="@lecture.getLectureDetails.get(0).getRoom()" class="Text"><br><br>
+			<select name="day_1" size="1">
+				<option value="monday" checked>Montag</option>
+				<option value="tuesday">Dienstag</option>
+				<option value="wednesday">Mittwoch</option>
+				<option value="thursday">Donnerstag</option>
+				<option value="friday">Freitag</option>
+				<option value="saturday">Samstag</option>
+				<option value="sunday">Sonntag</option>
+		    </select><br><br>		    
+			Startzeit:<input type="time" name="startTime_1" value="@util.TimeGroup.now("HH:mm")"><br><br>
+			Endzeit: <input type="time" name="endTime_1"><br><br>
 			
-			Startzeit:<br>
-			Stunden: <input type="text" name="startHours2" size="1" maxlength="2" class="Number">
-			Minuten: <input type="text" name="startMinutes2" size="1" maxlength="2" class="Number"><br><br>
-			Endzeit: <br>
-			Stunden: <input type="text" name="endHours2" size="1" maxlength="2" class="Number">
-			Minuten: <input type="text" name="endMinutes2" size="1" maxlength="2" class="Number"><br><br>
+			Periode:<input type="number" name="period_1" value="1" class="Number"/>
+			    <select name="periodDD_1" size="1">
+			      <option value="days">Tag(e)</option>
+			      <option value="weeks" selected>Woche(n)</option>
+			      <option value="months">Monat(e)</option>
+			    </select><br><br>
 			
-			<input type="radio" name="period2" value="daily" checked>täglich
-			<input type="radio" name="period2" value="weekly">wöchentlich
-			<input type="radio" name="period2" value="twoWeekly">zweiwöchentlich
-			<input type="radio" name="period2" value"="monthly">monatlich<br><br>
-			
-			Startdatum:<br>
-			Jahr: <input type="number" name="startYear2" size="3" maxlength="4" class="Number">
-			Monat: <input type="number" name="startMonth2" size="1" maxlength="2" class="Number">
-			Tag: <input type="number" name="startDay2" size="1" maxlength="2" class="Number"><br><br>
-			
-			Enddatum:<br>
-			Jahr: <input type="number" name="endYear2" size="3" maxlength="4" class="Number">
-			Monat: <input type="number" name="endMonth2" size="1" maxlength="2" class="Number">
-			Tag: <input type="number" name="endDay2" size="1" maxlength="2" class="Number"><br><br>	
-		</div>
-		
-		<input type = "Checkbox" name="box2" onclick="doCheckBoxThings2(this);" value="check2">weitere gruppe			
-		
-		<DIV id="text2" style="display: none">	
-			Raum: <input type="text" name="room3" class="Text"><br><br>
-		
-			<input type="radio" name="day3" value="monday" checked>Montag
-			<input type="radio" name="day3" value="tuesday">Dienstag
-			<input type="radio" name="day3" value="wednesday">Mittwoch
-			<input type="radio" name="day3" value="thursday">Donnerstag
-			<input type="radio" name="day3" value="friday">Freitag
-			<input type="radio" name="day3" value="saturday">Samstag
-			<input type="radio" name="day3" value="sunday">Sonntag<br><br>
-		    
-			Startzeit:<br>
-			Stunden: <input type="text" name="startHours3" size="1" maxlength="2" class="Number">
-			Minuten: <input type="text" name="startMinutes3" size="1" maxlength="2" class="Number"><br><br>
-			Endzeit: <br>
-			Stunden: <input type="text" name="endHours3" size="1" maxlength="2" class="Number">
-			Minuten: <input type="text" name="endMinutes3" size="1" maxlength="2" class="Number"><br><br>
-			
-			<input type="radio" name="period3" value="daily" checked>täglich
-			<input type="radio" name="period3" value="weekly">wöchentlich
-			<input type="radio" name="period3" value="twoWeekly">zweiwöchentlich
-			<input type="radio" name="period3" value"="monthly">monatlich<br><br>
-			
-			Startdatum:<br>
-			Jahr: <input type="number" name="startYear3" size="3" maxlength="4" class="Number">
-			Monat: <input type="number" name="startMonth3" size="1" maxlength="2" class="Number">
-			Tag: <input type="number" name="startDay3" size="1" maxlength="2" class="Number"><br><br>
-			
-			Enddatum:<br>
-			Jahr: <input type="number" name="endYear3" size="3" maxlength="4" class="Number">
-			Monat: <input type="number" name="endMonth3" size="1" maxlength="2" class="Number">
-			Tag: <input type="number" name="endDay3" size="1" maxlength="2" class="Number"><br><br>	
-		</div>	
+			Startdatum:<input type="date" name="startDate_1"><br><br>			
+			Enddatum:<input type="date" name="endDate_1"><br><br>
+			<input type="button" class="removeDetails" value="Detail l&ouml;schen"/></div>
+		</div>		
+		<input type="button" id="moreDetails" value="mehr DETAILS!"/>
+		<br>
 		<input id="Create" name="submit" type="submit" value="Create" />
 		<input id="Update" name="submit" type="submit" value="Update" />	
 	</form> 
