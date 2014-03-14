@@ -94,7 +94,7 @@ public class GroupApplication extends Controller {
         if(Requester.Group.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
         List<PhoenixTaskSheet> taskSheets = new ArrayList<PhoenixTaskSheet>();
         for(PhoenixLectureGroupTaskSheet lectureGroupTaskSheet: Requester.Group.getGroupTaskSheets(group)){
-            taskSheets.add(lectureGroupTaskSheet.getTaskSheet());
+            taskSheets.add(Requester.TaskSheet.get(lectureGroupTaskSheet.getTaskSheetTitle()));
         }
         return ok(showTaskSheet.render("show TaskSheet", taskSheets));
     }

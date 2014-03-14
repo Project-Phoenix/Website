@@ -11,6 +11,32 @@
 	
 
 	$(document).ready(function(){
+		for(var i = 2; i <= "@lecture.getLectureDetails().size()"; i++){
+			$("#moreDetails").click();
+		}	
+
+		
+		@for(index <- 0 to lecture.getLectureDetails().size()-1){
+			document.getElementsByName("room_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getRoom()";
+			document.getElementsByName("day_"+(@index+1).toString())[0].selectedIndex = @lecture.getLectureDetails().get(index).getWeekday().getDateTimeConstant()-1;
+			//document.getElementsByName("startTime_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getStartTime().toString("HH:mm");
+			@if(lecture.getLectureDetails.get(index).getInterval().getDays() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getDays();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 0;
+			}else{
+				@if(lecture.getLectureDetails.get(index).getInterval().getWeeks() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getWeeks();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 1;
+				}else{
+					@if(lecture.getLectureDetails.get(index).getInterval().getMonths() > 0){
+					document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getMonths();
+					document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 2;
+					}
+				}
+			}
+		}
+		
+		
 		$(document).on('change', '.Number', function(){	
 			if(notNumber.test($(this).val())){
 				$(this).val("0");
@@ -24,7 +50,7 @@
 			    alert ("Illegal characters detected!"); 
 			    $(this).focus(); 
 			}
-		});
+		})
 		
 		$("#title").change(function(){
 			if(splChars.test($(this).val())){
@@ -33,7 +59,6 @@
 			    $(this).focus(); 
 			}
 		});
-		
 	});
 
 	function checkLecture(inhalt)
@@ -45,6 +70,7 @@
 		        	  	$("#title").val("");
 			      })
 	}
+	
 </script>
 }
 
@@ -56,7 +82,7 @@
 		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" value="@lecture.getTitle()" id="title" class="Text" onchange="checkLecture(this.value)"><br><br>
 		<div id="lectureDetail">
 			<div>
-			Raum: <input type="text" name="room1" value="@lecture.getLectureDetails.get(0).getRoom()" class="Text"><br><br>
+			Raum: <input type="text" name="room_1" class="Text"><br><br>
 			<select name="day_1" size="1">
 				<option value="monday" checked>Montag</option>
 				<option value="tuesday">Dienstag</option>
@@ -66,18 +92,18 @@
 				<option value="saturday">Samstag</option>
 				<option value="sunday">Sonntag</option>
 		    </select><br><br>		    
-			Startzeit:<input type="time" name="startTime_1" value="@util.TimeGroup.now("HH:mm")"><br><br>
-			Endzeit: <input type="time" name="endTime_1"><br><br>
+			Startzeit:<input type="time" name="startTime_1" value="00:00"><br><br>
+			Endzeit: <input type="time" name="endTime_1" value="00:00"><br><br>
 			
-			Periode:<input type="number" name="period_1" value="1" class="Number"/>
+			Periode:<input type="text" name="period_1" value="0" class="Number"/>
 			    <select name="periodDD_1" size="1">
 			      <option value="days">Tag(e)</option>
 			      <option value="weeks" selected>Woche(n)</option>
 			      <option value="months">Monat(e)</option>
 			    </select><br><br>
 			
-			Startdatum:<input type="date" name="startDate_1"><br><br>			
-			Enddatum:<input type="date" name="endDate_1"><br><br>
+			Startdatum:<input type="date" name="startDate_1" value="0001-01-01"><br><br>			
+			Enddatum:<input type="date" name="endDate_1" value="0001-01-01"><br><br>
 			<input type="button" class="removeDetails" value="Detail l&ouml;schen"/></div>
 		</div>		
 		<input type="button" id="moreDetails" value="mehr DETAILS!"/>
