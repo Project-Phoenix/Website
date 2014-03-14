@@ -26,7 +26,7 @@ import java.net.URI;
 import meta.Requester;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.home;
+import views.html.*;
 
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixTask;
@@ -46,8 +46,15 @@ public class Application extends Controller {
      * @return play.mvc.Results.Status
      */
     
+    //protected final static String BASE_URI = "http://meldanor.dyndns.org:8080/PhoenixWebService/rest";
+    //protected final static Client CLIENT = PhoenixClient.create();
+    
     public static Result home() {
         return ok(home.render("Home"));
+    }
+    
+    public static Result debug() {
+        return ok(_Debug.render("DEBUG",""));
     }
 
     public static Result download(String title, String filename, String type){

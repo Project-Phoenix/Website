@@ -1,0 +1,27 @@
+@(title : String)(lectureTitle : String)(groupName : String)(sheets : List[de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet]) 
+@head={}
+
+@_Structure(title)(head){
+		 @sheets.map { sheet =>
+			<h2>@sheet.getTaskSheetTitle()</h2>
+			<table>
+				<th></th>
+				<th>Erscheint am</th>
+				<th>Abgabe</th>
+				<th></th>
+				@sheet.getTasks().map { task =>
+					<tr>
+						<form method="POST" action="/changeTaskDate">
+							<td><a href="/showTasks?option=@task.getTask().getTitle()">@task.getTask().getTitle()</a></td>
+							<td><input type="datetime-local" name="release" value="@org.joda.time.format.DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").print(task.getReleaseDate())"/></td>
+				      	 	<td><input type="datetime-local" name="deadline" value="@org.joda.time.format.DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").print(task.getDeadlineDate())"/></td>
+							<td><input type="submit" name="change" value="Ändern"></td>
+							<input type="hidden" name="meta" value="@lectureTitle;@groupName;@sheet.getTaskSheetTitle();@task.getTask().getTitle()">
+						</form>
+					</tr>
+				}
+			</table>
+			<br>
+		}
+		
+}

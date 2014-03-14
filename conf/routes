@@ -4,6 +4,7 @@
 
 
 GET 	/							controllers.Application.home()
+GET		/debug						controllers.Application.debug()
 
 # TASK
 GET 	/createTask					controllers.TaskApplication.createTask()
@@ -30,6 +31,7 @@ POST	/deleteGroup				controllers.GroupApplication.deleteGroup()
 POST	/updateGroup				controllers.GroupApplication.updateGroup()
 POST 	/sendTaskSheetToGroup 		controllers.GroupApplication.sendTaskSheetToGroup()
 GET		/addTaskSheetToGroup		controllers.GroupApplication.addTaskSheetToGroup()
+POST	/changeTaskDate				controllers.GroupApplication.changeTaskDate()
 
 # TASKSHEET
 GET		/createTaskSheet			controllers.TaskSheetApplication.createTaskSheet()

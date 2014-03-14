@@ -38,10 +38,20 @@ public class GroupElement extends PhoenixRequest {
         return result;
     }
     
+    /*delete when never used ;)
     public List<PhoenixLectureGroupTaskSheet> getGroupTaskSheets(PhoenixLectureGroup group){
         List<PhoenixLectureGroupTaskSheet> result = 
                 this.getList(PhoenixLectureGroupTaskSheet.getResource(CLIENT, BASE_URI),
                         new SelectEntity<PhoenixLectureGroupTaskSheet>().addKey("lectureGroup", group));
+        return result;
+    }
+    */
+    
+    public List<PhoenixLectureGroupTaskSheet> getGroupTaskSheets(String lectureTitle, String groupName){
+        List<PhoenixLectureGroupTaskSheet> result = 
+                this.getList(PhoenixLectureGroupTaskSheet.getResource(CLIENT, BASE_URI),
+                        new SelectEntity<PhoenixLectureGroupTaskSheet>().addKey("lectureGroup",
+                                this.get(lectureTitle, groupName)));
         return result;
     }
 

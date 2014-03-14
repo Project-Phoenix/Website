@@ -23,7 +23,7 @@ import util.TimeGroup;
 import views.html.addGroup;
 import views.html.addTaskSheetToGroup;
 import views.html.showGroups;
-import views.html.showTaskSheet;
+import views.html.showLectureGroupTaskSheets;
 import views.html.stringShower;
 
 public class GroupApplication extends Controller {
@@ -150,15 +150,29 @@ public class GroupApplication extends Controller {
     public static Result showGroupTaskSheets(){
         String groupName = Form.form().bindFromRequest().get("groupName");
         String lectureTitle = Form.form().bindFromRequest().get("lectureTitle");
-        PhoenixLectureGroup group = Requester.Group.get(lectureTitle, groupName);
-        if(Requester.Group.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der Gruppe aufgetreten("+ Requester.Group.getStatus()+")"));
+        List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(lectureTitle, groupName);
+
+        if(Requester.Group.getStatus()!=200) 
+            return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
         
-        if(Requester.Group.getStatus()!=200) return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
-        List<PhoenixTaskSheet> taskSheets = new ArrayList<PhoenixTaskSheet>();
-        for(PhoenixLectureGroupTaskSheet lectureGroupTaskSheet: Requester.Group.getGroupTaskSheets(group)){
-            taskSheets.add(lectureGroupTaskSheet.getTaskSheet());
-        }
-        return ok(showTaskSheet.render("show TaskSheet", taskSheets));
+        return ok(showLectureGroupTaskSheets.render("show TaskSheet", lectureTitle, groupName, sheets));
+    }
+    
+    public static Result changeTaskDate() {
+        String[] meta = Form.form().bindFromRequest().get("meta").split(";");
+        Requester.Task.setDatedTask(
+                DateTime.parse(Form.form().bindFromRequest().get("deadline"), DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm")), 
+                        DateTime.parse(Form.form().bindFromRequest().get("release"), DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm")),
+                                meta[0], meta[1], meta[2], meta[3]);
+
+        if(Requester.Task.getStatus()!=200) 
+            return ok(stringShower.render("Error setting Date for Task","Das Datum konnte nicht gesetzt werden! Fehler: "+Requester.Task.getStatus()));
+  
+        List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(meta[0], meta[1]);
+        if(Requester.Group.getStatus()!=200) 
+            return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
+        
+        return ok(showLectureGroupTaskSheets.render("show TaskSheet", meta[0], meta[1], sheets));
     }
     
 
@@ -180,22 +194,23 @@ public class GroupApplication extends Controller {
     //TODO check tasksheet name
     public static Result sendTaskSheetToGroup() {
         Map<String, String> data = Form.form().bindFromRequest().data();
+
         String lectureTitle = data.get("lecture");
         data.remove("lecture");
         String tasksheetName = data.get("tasksheet");
         data.remove("tasksheet");
+
         
         if (tasksheetName != null) {
             for(String time : data.keySet()) {
-                if (time.startsWith("dealine_")) {
-                    DateTime deadline = DateTime.parse(data.get(time), DateTimeFormat.forPattern("Y-MM-d'T'H:mm") );
-                    DateTime release = DateTime.parse(data.get(time.replace("deadline_", "release_")), DateTimeFormat.forPattern("Y-MM-d'T'H:mm") );
-                    PhoenixLectureGroup group = Requester.Group.get(lectureTitle, time.replace("deadline_", ""));
-                    data.remove(time);
-                    data.remove(time.replace("dealine_","release_"));
-                    data.remove(time.replace("deadline_", ""));
+                if (!time.startsWith("deadline_") && !time.startsWith("release_")) {
+                    DateTime deadline = DateTime.parse(data.get("deadline_"+time),  DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm"));
+                    DateTime release = DateTime.parse(data.get("release_"+time), DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm") );
+                    PhoenixLectureGroup group = Requester.Group.get(lectureTitle, time);
                     Requester.Group.addTaskSheet(deadline, release, Requester.TaskSheet.get(tasksheetName), group);
-                    if (Requester.Group.getStatus() != 200)
+                    if (Requester.Group.getStatus() == 304)
+                        return ok(stringShower.render("FAIL!", "Das Tasksheet wurde bereits bei einem der Gruppen hinzugefügt!!"));
+                    else if (Requester.Group.getStatus() != 200)
                         return ok(stringShower.render("FAIL!", "Fehler beim senden von:"+group.getName()+" - Fehler: "+Requester.Group.getStatus()));
                 }
             }
