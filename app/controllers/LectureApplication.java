@@ -55,11 +55,11 @@ public class LectureApplication extends Controller {
         } 
         Requester.Lecture.create(title, allDetails);
         
-        if(Requester.Lecture.getStatus() == 200){
+        if(Requester.Lecture.getStatus() == 200)
             return ok(stringShower.render("strings to show", "Good News!"));
-        }else{
-            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));
-        }
+        else
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating this lecture!");
+        
         
         /************************ OLD STUFF !!!
         
@@ -129,14 +129,14 @@ public class LectureApplication extends Controller {
         if (Requester.Lecture.getStatus() == 200)
             return ok(showLectures.render("show Lectures", lectures));
         else
-            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")")); 
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");
     }
     
     public static Result deleteLecture(){
         Requester.Lecture.delete( Form.form().bindFromRequest().data().get("lecture") );
         
         if (Requester.Lecture.getStatus() != 200)
-            return ok(stringShower.render("lecture delete", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error deleting this lecture!");
         
         return ok(showLectures.render("show Lectures", Requester.Lecture.getAll()));
     } 

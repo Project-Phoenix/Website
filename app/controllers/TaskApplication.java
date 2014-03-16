@@ -46,7 +46,7 @@ public class TaskApplication extends Controller {
                     else if (fp.getKey().equals("pattern")) 
                         patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
             } catch (IOException e) {
-                return ok(stringShower.render("ERROR", e.toString()));
+                return util.Err.displayError(500,e.toString());
             }
         }  
         
@@ -54,16 +54,17 @@ public class TaskApplication extends Controller {
         if(Requester.Task.getStatus() == 200)
             return ok(stringShower.render("Task created", "Task has been created successfully"));
         else
-            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Task.getStatus() + ")"));
+            return util.Err.displayError(Requester.Task.getStatus(),"Error creating this task!");
     }
     
+    //TODO change, so status can be displayed properly
     public static Result showTasks() {
         if (request().queryString().get("option") != null)
             if (request().queryString().get("option")[0].equals("all"))
                 return ok(showTasks.render("showTasks", Requester.Task.getAll()));
             else
                 return ok(showTasks.render("showTasks", Arrays.asList( Requester.Task.get(request().queryString().get("option")[0])) ));
-        return ok(stringShower.render("Show Tasks", "So nicht! ;PP"));
+        return util.Err.displayError(Requester.Task.getStatus(),"Error displaying tasks!"); //bahhh geht in die Hose!
     }
     
     private static List<String> getDisallowedContent(Map<String, String> data) {
@@ -96,7 +97,7 @@ public class TaskApplication extends Controller {
                     else if (fp.getKey().equals("pattern")) 
                         patternLst.add(new PhoenixText(fp.getFile(), fp.getFilename()));   
             } catch (IOException e) {
-                return ok(stringShower.render("ERROR", e.toString()));
+                return util.Err.displayError(500,e.toString());
             }
         }  
         System.out.println(getDisallowedContent(Form.form().bindFromRequest().data()));
@@ -109,7 +110,7 @@ public class TaskApplication extends Controller {
         if(Requester.Task.getStatus() == 200)
             return ok(stringShower.render("Task created", "Task has been created successfully"));
         else
-            return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Task.getStatus() + ")"));
+            return util.Err.displayError(Requester.Task.getStatus(),"Error creating automatic task!");
     }
 
 }

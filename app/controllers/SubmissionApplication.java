@@ -8,7 +8,6 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.showSubmissions;
-import views.html.stringShower;
 
 public class SubmissionApplication extends Controller {
     
@@ -18,7 +17,7 @@ public class SubmissionApplication extends Controller {
         if (Requester.Submission.getStatus() == 200)
             return ok(showSubmissions.render("showSubmissions", submissions));
 
-        return ok(stringShower.render("show Submissions", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Submission.getStatus() + ")"));
+        return util.Err.displayError(Requester.Submission.getStatus(),"Error displaying submissions!");
     }
 
 

@@ -40,7 +40,7 @@ public class TaskSheetApplication extends Controller {
         if(Requester.TaskSheet.getStatus() == 200)
             return ok(stringShower.render("TaskSheet created", "Your Tasksheet has been created successfully!"));
         else
-            return ok(stringShower.render("ERROR", "ERROR: "+Requester.TaskSheet.getStatus()));
+            return util.Err.displayError(Requester.TaskSheet.getStatus(),"Error creating tasksheet!");
     }
 
 }

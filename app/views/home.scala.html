@@ -4,45 +4,91 @@
 
 @_Structure(title)(head){
 	<h2>Home</h2><br>
-	<table>
-	<tr>
-	<td>
-		<form action="/createLecture" method="get">
-	    	<input type="submit" value="Create Lecture" name="Submit" id="frm1_submit" />
-		</form><br>
-		<form action="/addGroup" method="get">
-	    	<input type="submit" value="Add Group" name="Submit" id="frm2_submit" />
-		</form><br>
-		<form action="/createTask" method="get">
-	    	<input type="submit" value="Create Task" name="Submit" id="frm3_submit" />
-		</form><br>
-		<form action="/createTaskSheet" method="get">
-	    	<input type="submit" value="Create Task Sheet" name="Submit" id="frm4_submit" />
-		</form><br>
-		<form action="/showGroups" method="get">
-	    	<input type="submit" value="Show Groups" name="Submit" id="frm5_submit" />
-		</form><br>
-			<form action="/showLectures" method="get">
-	    	<input type="submit" value="Show Lectures" name="Submit" id="frm10_submit" />
-		</form><br>
-		<form action="/showTasks" method="get">
-	    	<input type="submit" value="Show Tasks" name="Submit" id="frm7_submit" />
-	    	<input type="hidden" value="all" name="option" />
-		</form><br>	
-		<form action="/showTaskSheet" method="get">
-	    	<input type="submit" value="Show Tasksheet" name="Submit" id="frm8_submit" />
-		</form><br>	
-			<form action="/addTaskSheetToGroup" method="get">
-	    	<input type="submit" value="Add Tasksheet to Group" name="Submit" id="frm9_submit" />
-	    	<input type="hidden" value="Einführung in die Informatik" name="lecture">
-		</form><br>		
+	<table cellspacing="10px">
+		<tr>
+			<th>
+				Task
+			</th>
+			<th>
+				TaskSheet
+			</th>
+			<th>
+				Group
+			</th>
+			<th>
+				Lecture
+			</th>
+
+		</tr>
+		<tr>
+			<td>
+			<form action="/createTask" method="get">
+    			<input type="submit" value="Create Task" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/createTaskSheet" method="get">
+    			<input type="submit" value="Create Task Sheet" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/addGroup" method="get">
+    			<input type="submit" value="Add Group" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/createLecture" method="get">
+    			<input type="submit" value="Create Lecture" name="Submit" id="frm1_submit" />
+			</form>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
 			<form action="/createAutomaticTask" method="get">
-	    	<input type="submit" value="Create Automatic Task" name="Submit" id="frm11_submit" />
-		</form><br>	
-	</td>
-	<td>
-		<a href="/debug"><button type="submit" style="height: 250px; width: 500px"><font size="20">DEBUG</font></button></a>
-	</td>
-	</tr>
+    			<input type="submit" value="Create Automatic Task" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/showTaskSheet" method="get">
+    			<input type="submit" value="Show Tasksheet" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/showGroups" method="get">
+    			<input type="submit" value="Show Groups" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/showLectures" method="get">
+    			<input type="submit" value="Show Lectures" name="Submit" id="frm10_submit" />
+			</form>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+			<form action="/showTasks" method="get">
+    			<input type="submit" value="Show Tasks" name="Submit" />
+    			<input type="hidden" value="all" name="option" />
+			</form>
+			</td>
+			<td>
+			
+			</td>
+			<td>
+			<form action="/addTaskSheetToGroup" method="get">
+    			<input type="submit" value="Add Tasksheet to Group" name="Submit" />
+    			<input type="hidden" value="Einführung in die Informatik" name="lecture">
+			</form>
+			</td>
+			<td>
+			
+			</td>
+		</tr>
 	</table>
+	<br><br>
+	<form action="/debug" method="GET">
+		<input type="submit" value="DEBUG">
+	</form>
 }

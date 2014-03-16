@@ -63,17 +63,17 @@ public class GroupApplication extends Controller {
         if (Requester.Lecture.getStatus() == 200)
             return ok(stringShower.render("strings to show", "Good News!"));
         else
-            return ok(stringShower.render("Add Group", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));        
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error adding the group to "+lecture);        
     }
     
     public static Result choseGroups() {
         List<PhoenixLecture> lectures = Requester.Lecture.getAll();
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
-        if (Requester.Lecture.getStatus() == 200){
+        if (Requester.Lecture.getStatus() == 200)
             return ok(showGroups.render("show Groups", empty, lectures));
-        }else{
-            return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Lecture.getStatus() + ")"));
-        }
+        else
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");  
+          
     }
     
     public static Result showLectureGroups() {
@@ -82,7 +82,7 @@ public class GroupApplication extends Controller {
         if (Requester.Group.getStatus() == 200)
             return ok(showGroups.render("show Groups", groups, lectures));
         else
-            return ok(stringShower.render("show Groups", "Ups, da ist ein Fehler aufgetreten!(" + Requester.Group.getStatus() + ")"));
+            return util.Err.displayError(Requester.Group.getStatus(),"Error receiving group information!");  
     }
     
     public static Result showGroupTaskSheets(){
@@ -90,10 +90,11 @@ public class GroupApplication extends Controller {
         String lectureTitle = Form.form().bindFromRequest().get("lectureTitle");
         List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(lectureTitle, groupName);
 
-        if(Requester.Group.getStatus()!=200) 
-            return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
- 
-        return ok(showLectureGroupTaskSheets.render("show TaskSheet", lectureTitle, groupName, sheets));
+        if(Requester.Group.getStatus()==200) 
+            return ok(showLectureGroupTaskSheets.render("show TaskSheet", lectureTitle, groupName, sheets));
+        else
+            return util.Err.displayError(Requester.Group.getStatus(),"Error receiving tasksheet information!");
+
     }
     
     public static Result changeTaskDate() {
@@ -104,11 +105,11 @@ public class GroupApplication extends Controller {
                                 meta[0], meta[1], meta[2], meta[3]);
 
         if(Requester.Task.getStatus()!=200) 
-            return ok(stringShower.render("Error setting Date for Task","Das Datum konnte nicht gesetzt werden! Fehler: "+Requester.Task.getStatus()));
+            return util.Err.displayError(Requester.Task.getStatus(),"Unable to set date properly!");
   
         List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(meta[0], meta[1]);
         if(Requester.Group.getStatus()!=200) 
-            return ok(stringShower.render("showGroupTaskSheet", "Es ist ein Fehler bei dem Finden der TaskSheets aufgetreten("+Requester.Group.getStatus()+")"));
+            return util.Err.displayError(Requester.Group.getStatus(),"Error receiving tasksheet information!");
         
         return ok(showLectureGroupTaskSheets.render("show TaskSheet", meta[0], meta[1], sheets));
     }
@@ -123,13 +124,13 @@ public class GroupApplication extends Controller {
                 List<PhoenixTaskSheet> tasksheets = Requester.TaskSheet.getAll();
                 return ok(addTaskSheetToGroup.render("Add Sheet to Group",lecture,tasksheets,groups));
             } else 
-                return ok(stringShower.render("ERROR", "This Lecture does not exist!"));
+                return util.Err.displayError(Requester.Group.getStatus(),"This lecture does not exist! (<i>"+lecture+"</i>)");
         }
         else 
-            return ok(stringShower.render("ERROR", "No Lecture selected!")); 
+            return util.Err.displayError(Requester.Group.getStatus(),"No lecture selected!");
     }
     
-    //TODO check tasksheet name
+
     public static Result sendTaskSheetToGroup() {
         Map<String, String> data = Form.form().bindFromRequest().data();
 
@@ -146,10 +147,8 @@ public class GroupApplication extends Controller {
                     DateTime release = DateTime.parse(data.get("release_"+time), DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm") );
                     PhoenixLectureGroup group = Requester.Group.get(lectureTitle, time);
                     Requester.Group.addTaskSheet(deadline, release, Requester.TaskSheet.get(tasksheetName), group);
-                    if (Requester.Group.getStatus() == 304)
-                        return ok(stringShower.render("FAIL!", "Das Tasksheet wurde bereits bei einem der Gruppen hinzugefügt!!"));
-                    else if (Requester.Group.getStatus() != 200)
-                        return ok(stringShower.render("FAIL!", "Fehler beim senden von:"+group.getName()+" - Fehler: "+Requester.Group.getStatus()));
+                    if (Requester.Group.getStatus() != 200)
+                        return util.Err.displayError(Requester.Group.getStatus(),"Error adding tasksheet to selected groups!");
                 }
             }
             return ok(stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
@@ -162,10 +161,10 @@ public class GroupApplication extends Controller {
         String groupName = Form.form().bindFromRequest().get("groupName");
         String lectureTitle = Form.form().bindFromRequest().get("lectureTitle");
         Requester.Group.delete(lectureTitle, groupName);
-        if (Requester.Group.getStatus() == 200){
+        if (Requester.Group.getStatus() == 200)
             return ok(showGroups.render("show Group", Requester.Group.getAll(lectureTitle), Requester.Lecture.getAll()));
-        }
-        else return ok(stringShower.render("Groups deleted", "Error while deleting a Group(" + Requester.Group.getStatus() + ")"));
+        else 
+            return util.Err.displayError(Requester.Group.getStatus(),"Error deleting group!");
     }
     
 //  TODO: Kilian has to add an update resource for lectureGroup

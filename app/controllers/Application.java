@@ -54,7 +54,7 @@ public class Application extends Controller {
      * @return play.mvc.Results.Status
      */
     
-    private final static String BASE_URI = "http://meldanor.dyndns.org:8080/PhoenixWebService/rest/debug";
+    private final static String DEBUG_URI = "http://meldanor.dyndns.org:8080/PhoenixWebService/rest/debug";
     private final static Client CLIENT = PhoenixClient.create();
     
     public static Result home() {
@@ -62,7 +62,7 @@ public class Application extends Controller {
     }
     
     public static Result debug() {
-        WebResource webresource = CLIENT.resource(BASE_URI); 
+        WebResource webresource = CLIENT.resource(DEBUG_URI); 
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         return ok(_Debug.render("DEBUG",response.getEntity(String.class).replace("\n", "<br>")));
     }
@@ -88,8 +88,8 @@ public class Application extends Controller {
                                 return ok(t.getFile());
                             }
                 }
-            } catch (IOException e) { return internalServerError("File not found!"); }
+            } catch (IOException e) { return util.Err.displayError(404,"File not found! (<i>"+filename+"</i>)"); }
 
-        return internalServerError();
+            return util.Err.displayError(500,"Unknown error! Check stack trance!");
     }
 }
