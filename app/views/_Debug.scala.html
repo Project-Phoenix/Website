@@ -2,5 +2,7 @@
 @head={}
 
 @_Structure(title)(head){
+	<b><a href="/debug_delete">Delete Log</a>
+	@if(flash.get("debug_delete") == "true") {<b><font color="red">&nbsp;&nbsp; Debug deleted!</font></b>}</b><br><br>
 	@Html(text)
 }

@@ -66,6 +66,13 @@ public class Application extends Controller {
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         return ok(_Debug.render("DEBUG",response.getEntity(String.class).replace("\n", "<br>")));
     }
+     
+    public static Result deleteDebug() {
+        WebResource webresource = CLIENT.resource(DEBUG_URI+"/delete"); 
+        webresource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        flash("debug_delete","true");
+        return redirect("/debug");
+    }
 
     public static Result download(String title, String filename, String type){
             PhoenixTask task = Requester.Task.get(title);

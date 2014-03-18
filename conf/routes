@@ -5,6 +5,7 @@
 
 GET 	/							controllers.Application.home()
 GET		/debug						controllers.Application.debug()
+GET		/debug_delete				controllers.Application.deleteDebug()
 
 # TASK
 GET 	/createTask					controllers.TaskApplication.createTask()

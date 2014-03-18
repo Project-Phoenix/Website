@@ -8,6 +8,11 @@ import de.phoenix.rs.key.SelectEntity;
 
 public class SubmissionElement extends PhoenixRequest {
     
+    //TODO _AA Start here next time working!
+    public int create() {
+        throw new UnsupportedOperationException();
+    }
+    
     public List<PhoenixSubmission> getAll(String lectureTitle) {
         throw new UnsupportedOperationException(); //TODO implement delete (Submission)
     }
