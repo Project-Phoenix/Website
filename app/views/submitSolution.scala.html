@@ -1,0 +1,55 @@
+@(title : String)(taskSheets : List[de.phoenix.rs.entity.PhoenixTaskSheet])
+
+@head = {
+
+<script type="text/javascript"> 
+$(document).ready(function(){
+	@for(i <- 0 until taskSheets.size()) {
+	    $("#content@i").hide();
+	    $(".open-close@i").click(function () {
+	      $("#content@i").slideToggle("fast");
+	    });
+	}
+});
+</script>
+
+
+}
+
+@_Structure(title)(head){
+	<center>
+	<br><br><br>
+	<h1>Einreichung</h1><br><br>
+	<form method="POST" action="/sendSubmission">
+		<table cellspacing="15px">
+		<tr>
+			<th>
+				Aufgabe
+			</th>
+			<th>
+				Einreichung
+			</th>
+		</tr>
+		<tr>
+			<td>
+				@for(i <- 0 until taskSheets.size()) {
+					<a class="open-close@i" href="#">@taskSheets.get(i).getTitle()</a><br>
+					<div id="content@i">
+					@for(task <- taskSheets.get(i).getTasks()) { 
+						<input type="radio" name="task" value="@task.getTitle()"> @task.getTitle()<br>
+					}
+					</div>
+				}
+			</td>
+			<td>
+				<b>Lösung</b><br>
+				<input type="file" name="solution" multiple/><br>
+				<b>Anhang</b><br>
+				<input type="file" name="attachment" multiple/><br>
+			</td>
+		</tr>
+		</table>
+		<br> <input type="submit" name="submit" value="submit">
+	</form>
+	</center>
+}

@@ -1,17 +1,34 @@
 package meta;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
+import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 
 public class SubmissionElement extends PhoenixRequest {
     
-    //TODO _AA Start here next time working!
-    public int create() {
-        throw new UnsupportedOperationException();
+    public int submitTask(String taskTitle, List<File> fileAttachments, List<File> fileTexts) {
+        try {
+            PhoenixSubmission submission = new PhoenixSubmission(fileAttachments, fileTexts);
+            PhoenixTask task = this.get(PhoenixTask.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixTask>().addKey("title", taskTitle));
+            if (task != null) 
+                return this.create(PhoenixTask.submitResource(CLIENT, BASE_URI), KeyReader.createAddTo(task, Arrays.asList(submission)));
+            else
+                return -2;
+        } catch (IOException e) {
+            return -1;
+        }
     }
+    
+    //TODO _AA Start here next time working!
+//    public int submitAutomaticTask(String taskTitle, List<PhoenixAttachment> fileAttachments, List<File> fileTexts) {
+//        PhoenixSubmission toSend = new PhoenixSubmission(fileAttachments, fileTexts);
+//    }
     
     public List<PhoenixSubmission> getAll(String lectureTitle) {
         throw new UnsupportedOperationException(); //TODO implement delete (Submission)

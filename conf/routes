@@ -43,6 +43,8 @@ POST 	/sendTaskSheet				controllers.TaskSheetApplication.sendTaskSheet()
 
 # SUBMISSION
 POST	/showSubmissions			controllers.SubmissionApplication.showSubmissions()
+GET		/submitSolution				controllers.SubmissionApplication.submitSolution()
+POST	/sendSubmission				controllers.SubmissionApplication.sendSubmission()
 
 
 # Map static resources from the /public folder to the /assets URL path

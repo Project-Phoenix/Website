@@ -1,13 +1,14 @@
 @(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
 @head={
 <!doctype html>
+<!-- JQuery already loaded in _Structure.scala.html -->
 <script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
 <script src="/assets/javascripts/multipleInputs.js"></script>
 <script type="text/javascript">
 	var detail2 = false;
 	var detail3 = false;
 	var notNumber = /\D+/
-	var splChars =/^.*?(?=[\^#%&$\*:;!\"§<>\?/\{\|\}@@]).*$/;
+	var splChars =/^.*?(?=[\^#%&$\*:;!\"ï¿½<>\?/\{\|\}@@]).*$/;
 	
 
 	$(document).ready(function(){
