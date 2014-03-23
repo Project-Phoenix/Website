@@ -9,6 +9,7 @@ import java.util.Map;
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixTaskTest;
 import de.phoenix.rs.entity.PhoenixText;
+import de.phoenix.util.JavaSourceUtil;
 import meta.Requester;
 import play.data.Form;
 import play.mvc.Controller;
@@ -99,11 +100,19 @@ public class TaskApplication extends Controller {
             } catch (IOException e) {
                 return util.Err.displayError(500,e.toString());
             }
-        }  
-        System.out.println(getDisallowedContent(Form.form().bindFromRequest().data()));
+        } 
+
         ArrayList<PhoenixTaskTest> testList = new ArrayList<PhoenixTaskTest>();
-        for (int testnr = 1; Form.form().bindFromRequest().data().get("test_"+testnr) != null; testnr++) 
-            testList.add(new PhoenixTaskTest( new PhoenixText(Form.form().bindFromRequest().data().get("test_"+testnr), "Test"+testnr))); 
+        for (int testnr = 1; Form.form().bindFromRequest().data().get("test_"+testnr) != null; testnr++) {
+            try {
+                String test = Form.form().bindFromRequest().data().get("test_"+testnr);
+                if (!test.isEmpty())
+                    testList.add(new PhoenixTaskTest( new PhoenixText(test, JavaSourceUtil.extractClassName(test) ))); 
+            } catch (IllegalArgumentException e) {
+                flash("syntaxError","true");
+                return redirect("/createAutomaticTask");
+            }
+        }
 
         Requester.Task.createAutomatic(attachmentLst, patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"),
                 backend, testList, getDisallowedContent(Form.form().bindFromRequest().data()) );   

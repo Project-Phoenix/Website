@@ -8,6 +8,13 @@
 
 @_Structure(title)(head){
 	<center>
+		<p>	@if(flash.get("maliciousChar") == "true") {
+				<i><font color="red">Verbotenes Zeichen wurde benutzt !!</font></i><br>
+			}
+			@if(flash.get("syntaxError") == "true") {
+				<i><font color="red">Syntax error !!</font></i><br>
+			}
+		</p>
 		<p style="margin-top: 50px">
 			<h2>Erstelle eine Aufgabe (automatischer Test)</h2>
 			<form enctype="multipart/form-data" action="/sendAutomaticTask" method="POST">
@@ -62,9 +69,6 @@
 				</table><br>
 				<input type="submit" value="Aufgabe erstellen">
 			</form>
-			@if(flash.get("maliciousChar") == "true") {
-				<i><font color="red">Verbotenes Zeichen wurde benutzt !!</font></i>
-			}
 		</p>
 	</center>
 }
