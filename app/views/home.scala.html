@@ -18,6 +18,9 @@
 			<th>
 				Lecture
 			</th>
+			<th>
+				Submission
+			</th>
 
 		</tr>
 		<tr>
@@ -38,7 +41,12 @@
 			</td>
 			<td>
 			<form action="/createLecture" method="get">
-    			<input type="submit" value="Create Lecture" name="Submit" id="frm1_submit" />
+    			<input type="submit" value="Create Lecture" name="Submit" />
+			</form>
+			</td>
+			<td>
+			<form action="/submitSolution" method="get">
+    			<input type="submit" value="Submit Solution" name="Submit" />
 			</form>
 			</td>
 		</tr>
@@ -61,7 +69,7 @@
 			</td>
 			<td>
 			<form action="/showLectures" method="get">
-    			<input type="submit" value="Show Lectures" name="Submit" id="frm10_submit" />
+    			<input type="submit" value="Show Lectures" name="Submit" />
 			</form>
 			</td>
 		</tr>

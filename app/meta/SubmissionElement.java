@@ -1,28 +1,24 @@
 package meta;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
+import de.phoenix.rs.entity.PhoenixText;
 import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 
 public class SubmissionElement extends PhoenixRequest {
     
-    public int submitTask(String taskTitle, List<File> fileAttachments, List<File> fileTexts) {
-        try {
-            PhoenixSubmission submission = new PhoenixSubmission(fileAttachments, fileTexts);
-            PhoenixTask task = this.get(PhoenixTask.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixTask>().addKey("title", taskTitle));
-            if (task != null) 
-                return this.create(PhoenixTask.submitResource(CLIENT, BASE_URI), KeyReader.createAddTo(task, Arrays.asList(submission)));
-            else
-                return -2;
-        } catch (IOException e) {
+    public int submitTask(String taskTitle, List<PhoenixAttachment> fileAttachments, List<PhoenixText> fileTexts) {
+        PhoenixSubmission submission = new PhoenixSubmission(fileAttachments, fileTexts);
+        PhoenixTask task = this.get(PhoenixTask.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixTask>().addKey("title", taskTitle));
+        if (task != null) 
+            return this.create(PhoenixTask.submitResource(CLIENT, BASE_URI), KeyReader.createAddTo(task, Arrays.asList(submission)));
+        else
             return -1;
-        }
     }
     
     //TODO _AA Start here next time working!

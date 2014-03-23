@@ -7,7 +7,17 @@
 		<p>@submission.getDate()</p>
 		<p>@submission.getResult().getStatusText()</p>
 		<p>@submission.getTexts().map { text =>
-			<p>@Html(text.getText().replace("\n", "<br>"))</p>
+			<p>@Html(text.getText().replace("\n", "<br>").replace(" ","&nbsp;").replace("\t","&nbsp;&nbsp;&nbsp;&nbsp;"))</p>
 		}
+		<!-- 
+		@****
+		<b>Anhänge</b>
+		<ul>
+		<p>@submission.getAttachments().map { attachment =>
+			<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+		}
+		</ul>
+		****@
+		 -->
 	}
 }
