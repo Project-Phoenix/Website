@@ -19,7 +19,8 @@ object ApplicationBuild extends Build {
 	"com.fasterxml.jackson.jaxrs" % "jackson-jaxrs-json-provider" % "2.2.1",
 	"com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.2.1",
 	"joda-time" % "joda-time" % "2.3",
-	"de.phoenix" % "library" % "0.0.1-SNAPSHOT"
+	"de.phoenix" % "library" % "0.0.1-SNAPSHOT",
+	"commons-io" % "commons-io" % "2.4"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

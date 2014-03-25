@@ -1,6 +1,13 @@
 @(title : String)
+<!-- import for  play.api.Play.getFile()-->
+@import play.api.Play.current 
 
-@head = {}
+@head = {
+<script src="/assets/javascripts/tiny_mce/tiny_mce.js"></script>
+<script>
+        tinymce.init({selector:'textarea'});
+</script>
+}
 
 @_Structure(title)(head){
 	<center>
@@ -11,11 +18,22 @@
 				<table cellspacing="25" style="width:50%">
 					<tr>
 						<td>Aufgabentitel</td>
-						<td><input name="title" style="width:100%" type="text" ></td>
+						<td><input name="title" style="width:50%" type="text" ></td>
 					</tr>
 					<tr>
 						<td>Beschreibung</td>
-						<td><textarea name="description" style="width: 100%" rows="8" ></textarea></td>
+						<td>
+							<textarea id="editor" name="description" style="width: 100%" >
+							Um die Bilder zu nutzen gib bei "image URL"  '/images/'Bildname' an
+							</textarea>
+							Hochgeladene Bilder:
+							<select>
+								@play.api.Play.getFile("public/images/").listFiles().map {file =>
+									<option>@file.getName()</option>
+								}
+							</select>
+							<a href="/images"><input type="button" value="Bild hochloaden"></a>
+						</td>
 					</tr>
 					<tr>
 						<td>Anhang</td>

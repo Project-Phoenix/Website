@@ -16,3 +16,4 @@ dist
 bin/
 .settings/org.scala-ide.sdt.core.prefs
 *.log
+/public/images

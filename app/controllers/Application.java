@@ -18,17 +18,21 @@
 
 package controllers;
 
-
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.io.FileUtils;
+
 import meta.Requester;
 import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html._Debug;
+import views.html._Images;
 import views.html.home;
 
 import com.sun.jersey.api.client.Client;
@@ -60,6 +64,32 @@ public class Application extends Controller {
     public static Result home() {
         return ok(home.render("Home"));
     }
+
+    public static Result images() {
+        return ok(_Images.render());
+    }
+    
+    public static Result uploadImg() {
+        MultipartFormData body = request().body().asMultipartFormData();
+        FilePart picture = body.getFile("picture");
+        
+        System.out.println(picture);
+        System.out.println(picture.getContentType());
+        System.out.println(picture.getFile());
+        
+        if (picture != null && !picture.getFilename().isEmpty() && picture.getContentType().equals("image/jpeg")) {
+          try {
+              FileUtils.moveFile(picture.getFile(), new File("public/images", picture.getFilename()));
+              flash("uploadSuccess", "true");
+          }
+          catch (IOException e) {
+              flash("uploadSuccess", "ioerror"); 
+          }
+          flash("uploadSuccess", "success"); 
+        } else { flash("uploadSuccess", "nofile");}
+        
+        return redirect(routes.Application.images());    
+      }
     
     public static Result debug() {
         WebResource webresource = CLIENT.resource(DEBUG_URI); 

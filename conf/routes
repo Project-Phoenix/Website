@@ -6,6 +6,8 @@
 GET 	/							controllers.Application.home()
 GET		/debug						controllers.Application.debug()
 GET		/debug_delete				controllers.Application.deleteDebug()
+GET		/images						controllers.Application.images()
+POST	/uploadImg					controllers.Application.uploadImg()
 
 # TASK
 GET 	/createTask					controllers.TaskApplication.createTask()
@@ -48,7 +50,8 @@ POST	/sendSubmission				controllers.SubmissionApplication.sendSubmission()
 
 
 # Map static resources from the /public folder to the /assets URL path
+#Es regt mich soo auf man, so eine behinderte kacke!
 GET     /assets/*file               									controllers.Assets.at(path="/public", file)
-GET  	/images/*file             										controllers.Assets.at(path="public/images", file)
+GET  	/images/*file             										controllers.Assets.at(path="/public/images", file)
 GET		/download/*title/*filename/$type<attachment|pattern>			controllers.Application.download(title:String, filename:String, type:String)
 

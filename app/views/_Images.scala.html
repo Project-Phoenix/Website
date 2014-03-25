@@ -1,0 +1,34 @@
+<!-- import for  play.api.Play.getFile()-->
+@import play.api.Play.current 
+@head={
+<style type="text/css">
+img {
+    max-width:150px;
+    max-height:75px;
+    width: auto;
+    height: auto;
+}
+</style>
+
+}
+
+@_Structure("Images")(head){
+		<h1>Bilder</h1>
+		<b>Upload</b>
+		<form action="/uploadImg" method="POST" enctype="multipart/form-data">
+		    <input type="file" name="picture" accept="image/*"> <input type="submit" value="upload">
+    	</form>
+    	@if(flash.get("uploadSuccess") == "success"){<font color="green"><b>Success</b></font>}
+    	@if(flash.get("uploadSuccess") == "ioerror"){<font color="red"><b>Error while saving</b></font>}
+    	@if(flash.get("uploadSuccess") == "nofile"){<font color="red"><b>Please select image file!</b></font>}    	
+    	 <br><br>
+		<div style="width:100%">
+		  @play.api.Play.getFile("public/images/").listFiles().map {file => 
+		  		<div style="text-align:center; margin:12px 12px 12px 12px; float: left; width:120px;height:150px; word-wrap: break-word;">
+			  		<img src="@routes.Assets.at("/public/images",file.getName())"><br>
+			  		<b></b>@file.getName()</b>
+		  		</div>
+		  }
+		  </div>
+
+}
