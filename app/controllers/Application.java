@@ -21,6 +21,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
@@ -31,6 +32,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import util.Err;
 import views.html._Debug;
 import views.html._Images;
 import views.html.home;
@@ -41,6 +43,7 @@ import com.sun.jersey.api.client.WebResource;
 
 import de.phoenix.rs.PhoenixClient;
 import de.phoenix.rs.entity.PhoenixAttachment;
+import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixText;
 
@@ -61,11 +64,15 @@ public class Application extends Controller {
     private final static String DEBUG_URI = "http://meldanor.dyndns.org:8080/PhoenixWebService/rest/debug";
     private final static Client CLIENT = PhoenixClient.create();
     
+    public static Result untrail(String path) {
+        return movedPermanently("/" + path);
+     }
+    
     public static Result home() {
         return ok(home.render("Home"));
     }
 
-    public static Result images() {
+    public static Result images() { 
         return ok(_Images.render());
     }
     
@@ -73,11 +80,7 @@ public class Application extends Controller {
         MultipartFormData body = request().body().asMultipartFormData();
         FilePart picture = body.getFile("picture");
         
-        System.out.println(picture);
-        System.out.println(picture.getContentType());
-        System.out.println(picture.getFile());
-        
-        if (picture != null && !picture.getFilename().isEmpty() && picture.getContentType().equals("image/jpeg")) {
+        if (picture != null && !picture.getFilename().isEmpty()) {
           try {
               FileUtils.moveFile(picture.getFile(), new File("public/images", picture.getFilename()));
               flash("uploadSuccess", "true");
@@ -102,6 +105,48 @@ public class Application extends Controller {
         webresource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         flash("debug_delete","true");
         return redirect("/debug");
+    }
+    
+    public static Result download(String clazz, String title, String filename, String type, String submNr) {
+        try {
+            
+            if (clazz.equals("task")) {
+                PhoenixTask task = Requester.Task.get(title);
+                if (type.equals("attachment")) {
+                    for(PhoenixAttachment a : task.getAttachments()) 
+                        if ((a.getName()+"."+a.getType()).equals(filename))
+                            return setDownloadResponse(a.getFullname(), a.getFile());
+                } else if (type.equals("pattern"))
+                    for(PhoenixText t : task.getPattern()) 
+                        if ((t.getName()+"."+t.getType()).equals(filename))
+                            return setDownloadResponse(t.getFullname(), t.getFile());
+            }
+            
+            if (clazz.equals("submission")) {
+                List<PhoenixSubmission> submissions = Requester.Submission.get(title);
+                if (type.equals("attachment")) {
+                    System.out.println(submissions.size());
+                    for(PhoenixAttachment a : submissions.get(Integer.valueOf(submNr)).getAttachments()) 
+                        if ((a.getName()+"."+a.getType()).equals(filename))
+                            return setDownloadResponse(a.getFullname(), a.getFile());
+                }
+            }
+            
+            return util.Err.displayError(404,"File not found! (<i>"+filename+"</i>)");
+        } catch (IOException e) {
+            Err.displayError(500,"Error getting file (IOException): "+filename);
+        } catch (NumberFormatException e) {
+            Err.displayError(500,"Error getting file (NumberFormatException): "+filename);
+        }
+        
+        return util.Err.displayError(500,"Unknown error! Check stack trance!");
+    }
+    
+    private static Result setDownloadResponse(String filename, File file) {
+        response().setContentType("application/x-download");
+        response().setHeader("Content-disposition","attachment; filename="+URI.create(filename.replace(" ", "_"))); 
+        response().setHeader("Content-Lenght", String.valueOf(file.length()));
+        return ok(file);
     }
 
     public static Result download(String title, String filename, String type){

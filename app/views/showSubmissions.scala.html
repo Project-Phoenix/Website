@@ -3,21 +3,18 @@
 @head={}
 
 @_Structure(title)(head){
-	@submissions.map { submission =>
-		<p>@submission.getDate()</p>
-		<p>@submission.getResult().getStatusText()</p>
-		<p>@submission.getTexts().map { text =>
+	@for(i <- 0 until submissions.size()) {
+		<p><<b>Abgabe: <i>@submissions.get(i).getDate()</i></b></p>
+		<p>@submissions.get(i).getResult().getStatusText()</p>
+		<p>@submissions.get(i).getTexts().map { text =>
 			<p>@Html(text.getText().replace("\n", "<br>").replace(" ","&nbsp;").replace("\t","&nbsp;&nbsp;&nbsp;&nbsp;"))</p>
 		}
-		<!-- 
-		@****
 		<b>Anhänge</b>
 		<ul>
-		<p>@submission.getAttachments().map { attachment =>
-			<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+		<p>@submissions.get(i).getAttachments().map { attachment => 
+			<li><a href="/download/submission/@submissions.get(i).getTask().getTitle()/@attachment.getFullname()/attachment/@i">@attachment.getFullname()</a></li>
 		}
 		</ul>
-		****@
-		 -->
+		<br>
 	}
 }

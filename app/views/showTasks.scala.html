@@ -9,13 +9,13 @@
 				<b>Anhänge</b>
 				<ul>
 				@task.getAttachments().map { attachment =>
-						<li><a href="/download/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+						<li><a href="/download/task/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
 				}
 				</ul>
 				<b>Vorlagen</b><br>
 				<ul>
 				@task.getPattern().map { pattern =>
-						<li><a href="/download/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+						<li><a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
 				}
 				</ul>
 				<form action="/showSubmissions" method="post">
@@ -31,13 +31,13 @@
 				<b>Anhänge</b>
 				<ul>
 				@tasks.get(0).getAttachments().map { attachment =>
-						<li><a href="/download/@tasks.get(0).getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+						<li><a href="/download/task/@tasks.get(0).getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
 				}
 				</ul>
 				<b>Vorlagen</b><br>
 				<ul>
 				@tasks.get(0).getPattern().map { pattern =>
-						<li><a href="/download/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+						<li><a href="/download/task/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
 				}
 				</ul>
 				<form action="/showSubmissions" method="post">
