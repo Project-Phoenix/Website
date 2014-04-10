@@ -32,9 +32,9 @@ public class LectureElement extends PhoenixRequest {
         return result;
     }
     
-    public List<PhoenixLecture> getAll() {
-        List<PhoenixLecture> result = this.getAll(PhoenixLecture.getResource(CLIENT, BASE_URI));
-        return result;
+    public List<PhoenixLecture> getAll() { 
+            List<PhoenixLecture> result = this.getAll(PhoenixLecture.getResource(CLIENT, BASE_URI));
+            return result;
     }
     
     public int delete(String lectureTitle) {
