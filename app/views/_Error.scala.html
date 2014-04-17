@@ -4,13 +4,13 @@
 	<head>
 		<title>
 			@errorCode match {
-   				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.MULTIPLE_ENTITIES.getStatusCode() ) => { Multiple Entities found}
-   				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.DUPLIATE_ENTITY.getStatusCode()) => { Duplicate Entities found}
+   				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.MULTIPLE_ENTITIES.getStatusCode()) => { Multiple Entities found}
+   				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.DUPLIATE_ENTITY.getStatusCode()) => { Duplicate Entities found} 
    				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.NO_ENTITIES.getStatusCode()) => { No Entities found}
    				case errorCode if(errorCode == 404) => {Not found}
    				case errorCode if(errorCode == 500) => {Damn, that hurts!}
    				case _ => {Unknown Error}
-			}
+			}<!-- 460 = Multiple; 461 = No; 462 = Duplicate -->
 		</title>
 	</head>
 <body>

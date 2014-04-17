@@ -29,7 +29,7 @@ POST	/updateLecture				controllers.LectureApplication.updateLecture()
 
 # GROUP
 GET 	/addGroup					controllers.GroupApplication.addGroup()
-GET		/showGroups					controllers.GroupApplication.choseGroups()
+GET		/showGroups					controllers.GroupApplication.chooseGroups()
 POST	/showLectureGroups			controllers.GroupApplication.showLectureGroups()
 POST	/showGroupTaskSheets		controllers.GroupApplication.showGroupTaskSheets()
 POST 	/sendGroup					controllers.GroupApplication.sendGroup()

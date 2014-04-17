@@ -14,6 +14,7 @@ import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.PhoenixEntity;
 import de.phoenix.rs.key.SelectAllEntity;
 import de.phoenix.rs.key.SelectEntity;
+import de.phoenix.rs.key.UpdateEntity;
 
 /**
  * This class provides the simple request methods to<br>
@@ -127,6 +128,13 @@ public class PhoenixRequest {
     protected <T extends PhoenixEntity> int change(WebResource webresource, SelectEntity<T> selectEntity) {
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectEntity);
         this.status = response.getStatus();
+        return response.getStatus(); 
+    }
+    
+    protected <T extends PhoenixEntity> int update(WebResource webresource, UpdateEntity<T> updateEntity){
+        ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateEntity);
+        this.status = response.getStatus();
+        System.out.println(this.status);
         return response.getStatus(); 
     }
 }

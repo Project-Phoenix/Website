@@ -49,7 +49,7 @@ public class GroupApplication extends Controller {
             if(item.startsWith("room_")){
                 number = item.substring(5);
                 System.out.println(number);
-                allDetails.add(LectureCheck.getPhoenixDetails( data.get("room_"+number), 
+                allDetails.add(LectureCheck.createPhoenixDetails( data.get("room_"+number), 
                                                                data.get("day_"+number),
                                                                LectureCheck.getTime(data.get("startTime_"+number)),
                                                                LectureCheck.getTime(data.get("endTime_"+number)),
@@ -66,7 +66,7 @@ public class GroupApplication extends Controller {
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error adding the group to "+lecture);        
     }
     
-    public static Result choseGroups() {
+    public static Result chooseGroups() {
         List<PhoenixLecture> lectures = Requester.Lecture.getAll();
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();
         if (Requester.Lecture.getStatus() == 200)
@@ -167,15 +167,9 @@ public class GroupApplication extends Controller {
             return util.Err.displayError(Requester.Group.getStatus(),"Error deleting group!");
     }
     
-//  TODO: Kilian has to add an update resource for lectureGroup
+
     public static Result updateGroup(){
-      /*  Map<String, String> boxes = Form.form().bindFromRequest().data();
-        WebResource ws = PhoenixLectureGroup.updateResource(CLIENT, BASE_URI);
-        String lecture = boxes.get("lecture");
-        String Group = boxes.get("group");
-        for(String key : boxes.keySet()) {
-            System.out.println(key);
-        }*/
+        
         return ok(stringShower.render("YESSSS", "no update method for groups yet"));       
     }
 

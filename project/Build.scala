@@ -9,7 +9,6 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     // Add your project dependencies here,
-	"de.phoenix" % "library" % "0.0.1-SNAPSHOT",
     javaCore,
     javaJdbc,
     javaEbean,

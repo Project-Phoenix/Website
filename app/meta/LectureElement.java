@@ -2,6 +2,7 @@ package meta;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.joda.time.LocalTime;
 
 import de.phoenix.date.Weekday;
@@ -10,6 +11,7 @@ import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
 import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
+import de.phoenix.rs.key.UpdateEntity;
 
 public class LectureElement extends PhoenixRequest {
     
@@ -42,8 +44,28 @@ public class LectureElement extends PhoenixRequest {
         return this.getStatus();
     }
     
-    public int updateLecture(SelectEntity<PhoenixLecture> selectEntity) {
-        throw new UnsupportedOperationException(); //TODO implement update (Task)
+    public int update(PhoenixLecture oldLecture, PhoenixLecture newLecture) {
+        System.out.println(KeyReader.createUpdate(oldLecture, newLecture));
+        this.update(PhoenixLecture.updateResource(CLIENT, BASE_URI), KeyReader.createUpdate(oldLecture, newLecture));
+        System.out.println(this.getStatus());
+        return this.getStatus();
+    }
+    
+    public int addDetails(PhoenixLecture lecture, List<PhoenixDetails> details){
+        this.change(PhoenixLecture.addDetailResource(CLIENT, BASE_URI), KeyReader.createAddTo(lecture, details));
+        return this.getStatus();
+    }
+    
+    public int deleteDetails(PhoenixDetails Details){
+        System.out.println(KeyReader.createSelect(Details));
+        this.change(PhoenixDetails.deleteResource(CLIENT, BASE_URI), KeyReader.createSelect(Details));
+        return this.getStatus();
+    }
+    
+    public int updateDetails(PhoenixDetails oldDetails, PhoenixDetails newDetails){
+        UpdateEntity<PhoenixDetails> updateEntity = KeyReader.createUpdate(oldDetails, newDetails);
+        this.update(PhoenixDetails.updateResource(CLIENT, BASE_URI), updateEntity);
+        return this.getStatus();
     }
     
 }

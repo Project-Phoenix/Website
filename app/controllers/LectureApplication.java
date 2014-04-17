@@ -16,15 +16,13 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.LectureCheck;
-import views.html.createLecture;
-import views.html.showLectures;
-import views.html.stringShower;
+import views.html.*;
 
 public class LectureApplication extends Controller {
 
     public static Result createLecture() {
-        LocalTime time = new LocalTime(0,0); 
-        LocalDate date = new LocalDate(1,1,1);
+        LocalTime time = new LocalTime(00,00); 
+        LocalDate date = new LocalDate(0001,01,01);
         Period period = Period.ZERO;
         PhoenixDetails details = new PhoenixDetails("", Weekday.MONDAY, time, time, period, date, date);
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
@@ -33,18 +31,93 @@ public class LectureApplication extends Controller {
         return ok(createLecture.render("Create Lecture", lecture));
     }
     
-    public static Result sendLecture() {        
+    public static Result sendLecture() {   
         Map<String, String> data = Form.form().bindFromRequest().data();
-        System.out.println(data);
         String title = data.get("title");
+        if(data.get("submit").equals("Create")){
+            Requester.Lecture.create(title, createDetails(data));   
+            if(Requester.Lecture.getStatus() == 200)
+                return ok(stringShower.render("strings to show", "Good News!"));
+            else
+                return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating this lecture!");
+        }else if(data.get("submit").equals("Update")){          
+            String oldTitle = data.get("oldLecture");
+            PhoenixLecture oldLecture = Requester.Lecture.get(oldTitle);
+            
+            //Update Details
+            List<PhoenixDetails> oldDetails = oldLecture.getLectureDetails();
+            List<PhoenixDetails> newDetails = createDetails(data);
+            
+            //Update Title
+            if(!oldTitle.equals(title)){
+                PhoenixLecture newLecture = new PhoenixLecture(title, newDetails);
+                setNewDetails(oldDetails, newDetails, oldLecture);
+                setNewDetails(oldDetails, newDetails, newLecture);
+                // status!
+                Requester.Lecture.update(oldLecture, newLecture);
+
+
+            }else{
+                setNewDetails(oldDetails, newDetails, oldLecture);
+            }
+            
+            if(Requester.Lecture.getStatus() == 200)
+                return ok(stringShower.render("strings to show", "Good News!"));
+            else
+                return util.Err.displayError(Requester.Lecture.getStatus(),"Error updating this lecture!");
+        }else
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating/updating this lecture!");
+    }
+    
+
+    private static void setNewDetails(List<PhoenixDetails> oldDetails, List<PhoenixDetails> newDetails, PhoenixLecture newLecture){
+        int oldDetailsCount = oldDetails.size();
+        int newDetailsCount = newDetails.size();
         
+        if(oldDetailsCount <= newDetailsCount){
+            updateDetails(oldDetails, newDetails, oldDetailsCount);
+            if(oldDetailsCount < newDetailsCount){
+                List<PhoenixDetails> newDetailList = new ArrayList<PhoenixDetails>();
+                for(int i = oldDetailsCount; i < newDetailsCount; i++){
+                    newDetailList.add(newDetails.get(i));
+                }
+                Requester.Lecture.addDetails(newLecture, newDetailList);
+                if (Requester.Lecture.getStatus() != 200){
+                    util.Err.displayError(Requester.Lecture.getStatus(),"Error adding some Details to this lecture!"); 
+                }
+            }
+            
+        }else{
+            updateDetails(oldDetails, newDetails, newDetailsCount);
+            for(int i = newDetailsCount; i < oldDetailsCount; i++){
+                Requester.Lecture.deleteDetails(oldDetails.get(i));
+                if (Requester.Lecture.getStatus() != 200){
+                    util.Err.displayError(Requester.Lecture.getStatus(),"Error deleting this Detail!"); 
+                    break;
+                }
+            }
+        }
+    }
+
+    private static void updateDetails(List<PhoenixDetails> oldDetails, List<PhoenixDetails> newDetails, int updateCount){
+        for(int i = 0; i < updateCount; i++){
+            Requester.Lecture.updateDetails(oldDetails.get(i), newDetails.get(i));
+            if (Requester.Lecture.getStatus() != 200){
+                util.Err.displayError(Requester.Lecture.getStatus(),"Error updating this Detail!"); 
+                break;
+            }
+        } 
+    }
+    
+    
+    private static List<PhoenixDetails> createDetails(Map<String, String> data){
         List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
         for(String item: data.keySet()){
             String number = "";
             if(item.startsWith("room_")){
                 number = item.substring(5);
-                System.out.println(number);
-                allDetails.add(LectureCheck.getPhoenixDetails( data.get("room_"+number), 
+                System.out.println(data.get("startDate_"+number));
+                allDetails.add(LectureCheck.createPhoenixDetails( data.get("room_"+number), 
                                                                data.get("day_"+number),
                                                                LectureCheck.getTime(data.get("startTime_"+number)),
                                                                LectureCheck.getTime(data.get("endTime_"+number)),
@@ -52,71 +125,14 @@ public class LectureApplication extends Controller {
                                                                LectureCheck.getDate(data.get("startDate_"+number)),
                                                                LectureCheck.getDate(data.get("endDate_"+number))));
             }
-        } 
-        Requester.Lecture.create(title, allDetails);
-        
-        if(Requester.Lecture.getStatus() == 200)
-            return ok(stringShower.render("strings to show", "Good News!"));
-        else
-            return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating this lecture!");
-        
-        
-        /************************ OLD STUFF !!!
-        
-        PhoenixLecture lecture = new PhoenixLecture(title, allDetails);
-        if(Form.form().bindFromRequest().get("submit").equals("Create")){
-            WebResource ws = PhoenixLecture.createResource(CLIENT, BASE_URI);
-            //send it to server
-            ClientResponse response = ws.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, lecture);
-            if(response.getStatus() == 200){
-                return ok(stringShower.render("strings to show", "Good News!"));
-            }else{
-                return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + response.getStatus() + ")"));
-            }
         }
-        else if (Form.form().bindFromRequest().get("submit").equals("Update")){
-            
-            SelectEntity<PhoenixLecture> selectLecture = new SelectEntity<PhoenixLecture>().addKey("title", Form.form().bindFromRequest().get("oldLecture"));
-            UpdateEntity<PhoenixLecture> updateLecture = new UpdateEntity<PhoenixLecture>(lecture, selectLecture);
-            //Lecture Webresources
-            WebResource wsUpdateLec = PhoenixLecture.updateResource(CLIENT, BASE_URI);  
-            
-             Update Details throws 500-error.
-            WebResource wsGetLec = PhoenixLecture.getResource(CLIENT, BASE_URI);   
-            //Detail Webresources
-            WebResource wsDetails = PhoenixDetails.updateResource(CLIENT, BASE_URI);
-            //Lecture ClientResponses
-            ClientResponse resGetLec= wsGetLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectLecture);
-            
-            //old Stuff
-            PhoenixLecture oldLecture = EntityUtil.extractEntity(resGetLec);
-            List<PhoenixDetails> oldDetails = oldLecture.getLectureDetails();
-            //Update Details
-            UpdateEntity<PhoenixDetails> updateDetails = KeyReader.createUpdate(oldDetails.get(0), allDetails.get(0));
-            ClientResponse responseDetails = wsDetails.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateDetails);
-            if (responseDetails.getStatus() != 200) return ok(stringShower.render("update Lecture", "Fehler bei Detail-Update(" + responseDetails.getStatus() + ")"));
-            
-            //Update Lecture
-            ClientResponse resUpdateLec= wsUpdateLec.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateLecture);
-            if(resUpdateLec.getStatus() == 200){
-                return ok(stringShower.render("send Lecture", "Good News!"));
-            }else{
-                return ok(stringShower.render("send Lecture", "Ups, da ist ein Fehler aufgetreten!(" + resUpdateLec.getStatus() + ")"));
-            }
-        }else return ok(stringShower.render("send Lecture", "Etwas unerwartetes ist passiert"));
-        
-        
-        *****/
+        return allDetails;
     }
     
 
     public static Result existLecture(){
         String lectureTitle = request().queryString().get("title")[0];
-//        try{
-            Requester.Lecture.get(lectureTitle);
-//        }catch(ClientHandlerException e){
-//            return ok();
-//        }
+        Requester.Lecture.get(lectureTitle);
         if(Requester.Lecture.getStatus()==200){
             System.out.println("habe Veranstaltung gefunden!");
         }
@@ -143,8 +159,8 @@ public class LectureApplication extends Controller {
     
     public static Result updateLecture(){
         String title = Form.form().bindFromRequest().get("lecture");
-        System.out.println(title);
         PhoenixLecture lecture = Requester.Lecture.get(title);
+        System.out.println(lecture.getLectureDetails().get(0).getStartDate());
         return ok(createLecture.render("Create Lecture", lecture));
     }
     

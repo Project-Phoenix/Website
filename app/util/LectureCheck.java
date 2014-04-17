@@ -13,7 +13,7 @@ public class LectureCheck {
     private LectureCheck() {   
     }
     
-    public static PhoenixDetails getPhoenixDetails(String room, String weekday, LocalTime startTime, LocalTime endTime, Period period, LocalDate startDate, LocalDate endDate){
+    public static PhoenixDetails createPhoenixDetails(String room, String weekday, LocalTime startTime, LocalTime endTime, Period period, LocalDate startDate, LocalDate endDate){
         PhoenixDetails details = new PhoenixDetails(room, Weekday.forName(weekday), startTime, endTime, period, startDate, endDate);
         return details;
     }
@@ -33,13 +33,11 @@ public class LectureCheck {
     }
     
     public static LocalTime getTime(String time){
-        System.out.println(time);
         return LocalTime.parse(time, DateTimeFormat.forPattern("H:m")); 
         }
     
     public static LocalDate getDate(String date){
-        System.out.println(date);
-        return LocalDate.parse(date, DateTimeFormat.forPattern("Y-M-d")); 
+        return LocalDate.parse(date, DateTimeFormat.forPattern("YYYY-MM-dd")); 
     }
     
 }
