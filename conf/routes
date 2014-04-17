@@ -43,6 +43,9 @@ POST	/changeTaskDate				controllers.GroupApplication.changeTaskDate()
 GET		/createTaskSheet			controllers.TaskSheetApplication.createTaskSheet()
 GET		/showTaskSheet				controllers.TaskSheetApplication.showTaskSheets()
 POST 	/sendTaskSheet				controllers.TaskSheetApplication.sendTaskSheet()
+GET		/deleteTaskfromTaskSheet	controllers.TaskSheetApplication.deleteTask()
+GET 	/addTaskToTaskSheet			controllers.TaskSheetApplication.addTask()
+POST	/mergeTaskWithTaskSheet		controllers.TaskSheetApplication.mergeTaskWithTaskSheet()
 
 
 

@@ -6,6 +6,8 @@ import java.util.List;
 
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
+import de.phoenix.rs.entity.connection.TaskSheetConnection;
+import de.phoenix.rs.entity.disconnection.DisconnectTaskTaskSheet;
 import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.SelectEntity;
 
@@ -41,9 +43,22 @@ public class TaskSheetElement extends PhoenixRequest {
         List<PhoenixTaskSheet> result = this.getAll(PhoenixTaskSheet.getResource(PhoenixRequest.CLIENT, PhoenixRequest.BASE_URI));
         return result;
     }
+
+    public int deleteTask(String taskTitle, String taskSheetTitle) {
+        SelectEntity<PhoenixTask> taskToDelete = new SelectEntity<PhoenixTask>().addKey("title", taskTitle);
+        SelectEntity<PhoenixTaskSheet> taskSheetSelector = new SelectEntity<PhoenixTaskSheet>().addKey("title", taskSheetTitle);
+        DisconnectTaskTaskSheet deleteEntity = new DisconnectTaskTaskSheet(taskToDelete, taskSheetSelector);
+        this.change(PhoenixTaskSheet.removeTaskFromTaskSheetResource(CLIENT, BASE_URI), deleteEntity);
+        return this.getStatus();        
+    }
     
-    public int delete(SelectEntity<PhoenixTaskSheet> selectEntity) {
-        throw new UnsupportedOperationException(); //TODO implement delete (TaskSheet)
+    public int addTask(String taskSheetTitle, List<String> tasks) {
+        List<SelectEntity<PhoenixTask>> taskSelectors = new ArrayList<SelectEntity<PhoenixTask>>();
+        for(String task : tasks)
+            taskSelectors.add( new SelectEntity<PhoenixTask>().addKey("title", task));
+        TaskSheetConnection toSend = new TaskSheetConnection(taskSelectors, taskSheetTitle);
+        this.change(PhoenixTaskSheet.addTaskToTaskSheet(CLIENT, BASE_URI), toSend);
+        return this.getStatus();
     }
     
     public int update(SelectEntity<PhoenixTaskSheet> selectEntity) {

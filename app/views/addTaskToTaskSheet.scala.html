@@ -1,0 +1,36 @@
+@(title : String)(taskSheet : de.phoenix.rs.entity.PhoenixTaskSheet)(allTasks : List[de.phoenix.rs.entity.PhoenixTask])
+@head={}
+
+@_Structure(title)(head){
+	<h1>Tasks zum Tasksheet hinzufügen</h1>
+	<form method="POST" action="/mergeTaskWithTaskSheet">
+		<table cellspacing="10px">
+			<tr>
+				<td>
+					<b>@taskSheet.getTitle()</b>
+					<ul>
+						@taskSheet.getTasks().map { task =>
+							<li>@task.getTitle()</li>
+						}
+					</ul>
+				</td>
+				<td>
+					<h2><< hinzufügen <<</h2>
+				</td>
+				<td>
+					@allTasks.map { task =>
+						<input type="checkbox" name="@task.getTitle()" value="@task.getTitle()">@task.getTitle() <br> 
+					}
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td>
+					<input type="hidden" name="tasksheet" value="@taskSheet.getTitle()">
+					<input type="submit" name="submit" value="Hinzufügen">
+			</tr>
+		</table>
+	</form>
+
+}

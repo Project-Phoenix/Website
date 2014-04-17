@@ -3,10 +3,14 @@
 
 @_Structure(title)(head){
 		 @sheets.map { sheet =>
-			<p><h2>@sheet.getTitle() </h2><i> (@sheet.getCreationDate())</i><br>
+			<p><h2>@sheet.getTitle() </h2>
+			<i><a style="color:green" href="/addTaskToTaskSheet?tasksheet=@sheet.getTitle()">Aufgabe hinzufügen</a></i><br>
 			<ul>
 				@sheet.getTasks().map { task =>
-					<li><a href="/showTasks?option=@task.getTitle()">@task.getTitle()</a></li>
+					<li>
+						<a href="/showTasks?option=@task.getTitle()">@task.getTitle()</a>
+						<b><a style="color:red" href="/deleteTaskfromTaskSheet?tasksheet=@sheet.getTitle()&task=@task.getTitle()">entkoppeln</a></b>
+					</li>
 				}
 			</ul>
 			<br>

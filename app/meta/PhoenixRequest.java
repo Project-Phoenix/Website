@@ -90,7 +90,10 @@ public class PhoenixRequest {
     protected <T extends PhoenixEntity> T get(WebResource webresource, SelectEntity<T> selectEntity) {
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectEntity);
         this.status = response.getStatus();
-        return EntityUtil.extractEntity(response); 
+        if (this.status == 200)
+            return EntityUtil.extractEntity(response);
+        else
+            return null;
     }
     
     /**
@@ -103,7 +106,10 @@ public class PhoenixRequest {
     protected <T extends PhoenixEntity> List<T> getList(WebResource webresource, SelectEntity<T> selectEntity) {
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectEntity);
         this.status = response.getStatus();
-        return EntityUtil.extractEntityList(response); 
+        if (this.status == 200)
+            return EntityUtil.extractEntityList(response);
+        else
+            return null; 
     }
     
     /**
@@ -115,7 +121,10 @@ public class PhoenixRequest {
     protected <T extends PhoenixEntity> List<T> getAll(WebResource webresource) {
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new SelectAllEntity<>());
         this.status = response.getStatus();
-        return EntityUtil.extractEntityList(response); 
+        if (this.status == 200)
+            return EntityUtil.extractEntityList(response);
+        else
+            return null; 
     }
     
     /**
@@ -131,10 +140,15 @@ public class PhoenixRequest {
         return response.getStatus(); 
     }
     
+    protected <T extends PhoenixEntity> int change(WebResource webresource, ConnectionEntity connectionEntity) {
+        ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, connectionEntity);
+        this.status = response.getStatus();
+        return response.getStatus(); 
+    }
+    
     protected <T extends PhoenixEntity> int update(WebResource webresource, UpdateEntity<T> updateEntity){
         ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, updateEntity);
         this.status = response.getStatus();
-        System.out.println(this.status);
-        return response.getStatus(); 
+        return response.getStatus();
     }
 }
