@@ -1,21 +1,38 @@
 @(title : String)(tasks : List[de.phoenix.rs.entity.PhoenixTask]) 
+
 @head={}
+
+
+@checkType(cls: AnyRef) = @{
+    cls match {
+        case x : de.phoenix.rs.entity.PhoenixAutomaticTask => { <font color="darkgreen">automatic</font> }
+        case _ => { <font color="orange">simple</font> }
+    }
+}
+
 
 @_Structure(title)(head){
 		 @if(tasks.size() > 1) {
 			 @tasks.map { task =>
-				<p><h2>@task.getTitle()</h2><br>
+				<table><tr><td> <h2>@task.getTitle()</h2> </td><td> @checkType(task) </td></tr></table><br>
+				
 				@Html(task.getDescription())</p><br>
 				<b>Anhänge</b>
 				<ul>
 				@task.getAttachments().map { attachment =>
-						<li><a href="/download/task/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+						<li>
+							<a href="/download/task/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a>
+							<a href="/deleteFromTask?task=@task.getTitle()&attachment=@attachment.getFullname()" style="color:red">löschen</a>
+						</li>
 				}
 				</ul>
 				<b>Vorlagen</b><br>
 				<ul>
 				@task.getPattern().map { pattern =>
-						<li><a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+						<li>
+							<a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a>
+							<a href="#" style="color:red">löschen</a>
+						</li>
 				}
 				</ul>
 				<form action="/showSubmissions" method="post">
@@ -26,18 +43,24 @@
 			}
 		}
 		@if(tasks.size() == 1) {
-				<p><h2>@tasks.get(0).getTitle()</h2><br>
+				<h2>@tasks.get(0).getTitle()</h2><br>
 				@Html(tasks.get(0).getDescription())</p><br>
 				<b>Anhänge</b>
 				<ul>
 				@tasks.get(0).getAttachments().map { attachment =>
-						<li><a href="/download/task/@tasks.get(0).getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a></li>
+						<li>
+							<a href="/download/task/@tasks.get(0).getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a>
+							<a href="/deleteFromTask?task=@tasks.get(0).getTitle()&attachment=@attachment.getFullname()" style="color:red">löschen</a>
+						</li>
 				}
 				</ul>
 				<b>Vorlagen</b><br>
 				<ul>
 				@tasks.get(0).getPattern().map { pattern =>
-						<li><a href="/download/task/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a></li>
+						<li>
+							<a href="/download/task/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a>
+							<a href="#" style="color:red">löschen</a>
+						</li>
 				}
 				</ul>
 				<form action="/showSubmissions" method="post">

@@ -21,11 +21,6 @@ public class SubmissionElement extends PhoenixRequest {
             return -1;
     }
     
-    //TODO _AA Start here next time working!
-//    public int submitAutomaticTask(String taskTitle, List<PhoenixAttachment> fileAttachments, List<File> fileTexts) {
-//        PhoenixSubmission toSend = new PhoenixSubmission(fileAttachments, fileTexts);
-//    }
-    
     public List<PhoenixSubmission> getAll(String lectureTitle) {
         throw new UnsupportedOperationException(); //TODO implement delete (Submission)
     }
@@ -37,6 +32,7 @@ public class SubmissionElement extends PhoenixRequest {
                         new SelectEntity<PhoenixTask>().addKey("title", taskTitle)));
         return result;
     }
+    
 
     public int delete(SelectEntity<PhoenixSubmission> selectEntity) {
         throw new UnsupportedOperationException(); //TODO implement delete (Submission)

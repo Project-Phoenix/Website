@@ -18,6 +18,8 @@ GET		/showTasks					controllers.TaskApplication.showTasks()
 POST	/sendTask					controllers.TaskApplication.sendTask()
 GET		/createAutomaticTask		controllers.TaskApplication.createAutomaticTask()
 POST	/sendAutomaticTask			controllers.TaskApplication.sendAutomaticTask()
+GET 	/deleteFromTask				controllers.TaskApplication.deleteFromTask()
+
 
 # LECTURE
 GET		/createLecture				controllers.LectureApplication.createLecture()

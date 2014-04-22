@@ -28,6 +28,22 @@ public class TaskApplication extends Controller {
         return ok(createAutomaticTask.render("Create Automatic Task"));
     }
     
+    public static Result deleteFromTask() {
+        try {
+            String taskTitle = request().queryString().get("task")[0];
+            String attachment = request().queryString().get("attachment")[0];
+            if (Requester.Task.deleteAttachment(taskTitle, attachment) == 0) 
+                if (Requester.Task.getStatus() == 200)
+                    return redirect("/showTasks?option=all");
+                else
+                    return util.Err.displayError(Requester.Task.getStatus(),"Error getting information!");
+            else
+                return util.Err.displayError(404,"No such attachment found!");
+        } catch (Exception e) {
+            return util.Err.displayError(400,"Malformed URL!");
+        }
+    }
+    
     public static Result sendTask() {
         MultipartFormData form = request().body().asMultipartFormData();
         
@@ -58,7 +74,7 @@ public class TaskApplication extends Controller {
             return util.Err.displayError(Requester.Task.getStatus(),"Error creating this task!");
     }
     
-    //TODO change, so status can be displayed properly
+    
     public static Result showTasks() {
         if (request().queryString().get("option") != null)
             if (request().queryString().get("option")[0].equals("all"))
