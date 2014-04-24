@@ -72,6 +72,18 @@ public class TaskElement extends PhoenixRequest{
         return this.getStatus();
     }
     
+    public int deletePattern(String taskTitle, String patternFullname) {
+        PhoenixTask task = this.get(taskTitle);
+
+        for(PhoenixText pat : task.getPattern()) {
+            if (pat.getFullname().equals(patternFullname)) {
+                this.change(PhoenixText.deleteResource(CLIENT, BASE_URI), KeyReader.createSelect(pat));
+                return 0;
+            }
+        }
+        return -1;
+    }
+    
     public int deleteAttachment(String taskTitle, String attachmentFullname) {
         PhoenixTask task = this.get(taskTitle);
 

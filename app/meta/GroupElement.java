@@ -12,6 +12,7 @@ import de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
 import de.phoenix.rs.entity.connection.LectureGroupTaskSheetConnection;
 import de.phoenix.rs.key.ConnectionEntity;
+import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 
 public class GroupElement extends PhoenixRequest {
@@ -36,6 +37,11 @@ public class GroupElement extends PhoenixRequest {
                         new SelectEntity<PhoenixLectureGroup>().addKey("name", groupName).addKey("lecture", 
                         new SelectEntity<PhoenixLecture>().addKey("title", lectureTitle)));
         return result;
+    }
+    
+    public PhoenixLectureGroupTaskSheet getCurrentTaskSheet(String lecture, String group) {
+        SelectEntity<PhoenixLectureGroup> groupSelector = KeyReader.createSelect(this.get(lecture, group));
+        return this.get(PhoenixLectureGroupTaskSheet.currentTaskSheet(CLIENT, BASE_URI), groupSelector, PhoenixLectureGroupTaskSheet.class);
     }
     
     /*delete when never used ;)

@@ -28,20 +28,37 @@ public class TaskApplication extends Controller {
         return ok(createAutomaticTask.render("Create Automatic Task"));
     }
     
-    public static Result deleteFromTask() {
+    private static String GET(String tag) {
         try {
-            String taskTitle = request().queryString().get("task")[0];
-            String attachment = request().queryString().get("attachment")[0];
-            if (Requester.Task.deleteAttachment(taskTitle, attachment) == 0) 
+            return request().queryString().get(tag)[0];
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public static Result deleteFromTask() {
+        String taskTitle = GET("task");
+        String attachment = GET("attachment");
+        String pattern = GET("pattern");
+        int success = 1;
+
+        if (taskTitle != null) {
+            if (attachment != null && pattern == null)
+                success = Requester.Task.deleteAttachment(taskTitle, attachment);
+            else if (pattern != null && attachment == null)
+                success = Requester.Task.deletePattern(taskTitle, pattern);
+            
+            if (success == 0) 
                 if (Requester.Task.getStatus() == 200)
                     return redirect("/showTasks?option=all");
                 else
                     return util.Err.displayError(Requester.Task.getStatus(),"Error getting information!");
             else
-                return util.Err.displayError(404,"No such attachment found!");
-        } catch (Exception e) {
-            return util.Err.displayError(400,"Malformed URL!");
+                return util.Err.displayError(404,"No such attachment/pattern found!");
         }
+        else
+            return util.Err.displayError(404,"Malicious URL!");
+
     }
     
     public static Result sendTask() {

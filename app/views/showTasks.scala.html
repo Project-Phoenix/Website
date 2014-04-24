@@ -31,7 +31,7 @@
 				@task.getPattern().map { pattern =>
 						<li>
 							<a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a>
-							<a href="#" style="color:red">löschen</a>
+							<a href="/deleteFromTask?task=@task.getTitle()&pattern=@pattern.getFullname()" style="color:red">löschen</a>
 						</li>
 				}
 				</ul>
@@ -59,7 +59,7 @@
 				@tasks.get(0).getPattern().map { pattern =>
 						<li>
 							<a href="/download/task/@tasks.get(0).getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a>
-							<a href="#" style="color:red">löschen</a>
+							<a href="/deleteFromTask?task=@tasks.get(0).getTitle()&pattern=@pattern.getFullname()" style="color:red">löschen</a>
 						</li>
 				}
 				</ul>
