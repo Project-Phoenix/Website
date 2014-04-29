@@ -86,6 +86,10 @@ public class GroupApplication extends Controller {
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating/updating this group!");
     }
     
+    public static PhoenixLectureGroupTaskSheet getCurrentTaskSheet(String lecture, String group) {
+        return Requester.Group.getCurrentTaskSheet(lecture, group);
+    }
+    
     public static Result chooseGroups() {
         List<PhoenixLecture> lectures = Requester.Lecture.getAll();
         List<PhoenixLectureGroup> empty = new ArrayList<PhoenixLectureGroup>();

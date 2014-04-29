@@ -29,6 +29,7 @@ public class TaskSheetApplication extends Controller {
             titles.add(t.getTitle());
         return ok(createTaskSheet.render("Create Task Sheet", titles));
     }
+
     
     public static Result sendTaskSheet() {
         Map<String, String> raw = Form.form().bindFromRequest().data();

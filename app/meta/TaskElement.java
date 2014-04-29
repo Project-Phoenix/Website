@@ -16,6 +16,7 @@ import de.phoenix.rs.entity.PhoenixTaskTest;
 import de.phoenix.rs.entity.PhoenixText;
 import de.phoenix.rs.entity.connection.TaskSubmissionDatesConnection;
 import de.phoenix.rs.key.ConnectionEntity;
+import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 import de.phoenix.submission.DisallowedContent;
 
@@ -71,8 +72,28 @@ public class TaskElement extends PhoenixRequest{
         return this.getStatus();
     }
     
-    public int delete(SelectEntity<PhoenixTask> selectEntity) {
-        throw new UnsupportedOperationException(); //TODO implement delete (Task)
+    public int deletePattern(String taskTitle, String patternFullname) {
+        PhoenixTask task = this.get(taskTitle);
+
+        for(PhoenixText pat : task.getPattern()) {
+            if (pat.getFullname().equals(patternFullname)) {
+                this.change(PhoenixText.deleteResource(CLIENT, BASE_URI), KeyReader.createSelect(pat));
+                return 0;
+            }
+        }
+        return -1;
+    }
+    
+    public int deleteAttachment(String taskTitle, String attachmentFullname) {
+        PhoenixTask task = this.get(taskTitle);
+
+        for(PhoenixAttachment att : task.getAttachments()) {
+            if (att.getFullname().equals(attachmentFullname)) {
+                this.change(PhoenixAttachment.deleteResource(CLIENT, BASE_URI), KeyReader.createSelect(att));
+                return 0;
+            }
+        }
+        return -1;
     }
     
     public int update(SelectEntity<PhoenixTask> selectEntity) {

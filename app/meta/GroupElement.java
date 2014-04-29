@@ -42,6 +42,11 @@ public class GroupElement extends PhoenixRequest {
         return result;
     }
     
+    public PhoenixLectureGroupTaskSheet getCurrentTaskSheet(String lecture, String group) {
+        SelectEntity<PhoenixLectureGroup> groupSelector = KeyReader.createSelect(this.get(lecture, group));
+        return this.get(PhoenixLectureGroupTaskSheet.currentTaskSheet(CLIENT, BASE_URI), groupSelector, PhoenixLectureGroupTaskSheet.class);
+    }
+    
     /*delete when never used ;)
     public List<PhoenixLectureGroupTaskSheet> getGroupTaskSheets(PhoenixLectureGroup group){
         List<PhoenixLectureGroupTaskSheet> result = 

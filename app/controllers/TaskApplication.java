@@ -28,6 +28,39 @@ public class TaskApplication extends Controller {
         return ok(createAutomaticTask.render("Create Automatic Task"));
     }
     
+    private static String GET(String tag) {
+        try {
+            return request().queryString().get(tag)[0];
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public static Result deleteFromTask() {
+        String taskTitle = GET("task");
+        String attachment = GET("attachment");
+        String pattern = GET("pattern");
+        int success = 1;
+
+        if (taskTitle != null) {
+            if (attachment != null && pattern == null)
+                success = Requester.Task.deleteAttachment(taskTitle, attachment);
+            else if (pattern != null && attachment == null)
+                success = Requester.Task.deletePattern(taskTitle, pattern);
+            
+            if (success == 0) 
+                if (Requester.Task.getStatus() == 200)
+                    return redirect("/showTasks?option=all");
+                else
+                    return util.Err.displayError(Requester.Task.getStatus(),"Error getting information!");
+            else
+                return util.Err.displayError(404,"No such attachment/pattern found!");
+        }
+        else
+            return util.Err.displayError(404,"Malicious URL!");
+
+    }
+    
     public static Result sendTask() {
         MultipartFormData form = request().body().asMultipartFormData();
         
@@ -58,7 +91,7 @@ public class TaskApplication extends Controller {
             return util.Err.displayError(Requester.Task.getStatus(),"Error creating this task!");
     }
     
-    //TODO change, so status can be displayed properly
+    
     public static Result showTasks() {
         if (request().queryString().get("option") != null)
             if (request().queryString().get("option")[0].equals("all"))

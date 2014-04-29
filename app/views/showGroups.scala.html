@@ -1,5 +1,6 @@
 @(title : String)(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup])(lectures : List[de.phoenix.rs.entity.PhoenixLecture])
 @head={}
+@import controllers._
 
 @_Structure(title)(head){
 	existierende Veranstaltungen:<br>
@@ -14,8 +15,14 @@
 			<input type="hidden" name="lectureTitle" value="@groups.get(0).getLecture().getTitle()">
 			<input type="hidden" name="groupName" id=hiddenGroup>
 			@for(group <- groups){
-				<p><h2>@group.getName()</h2>
-	    		<input type="submit" value="update" name="update" id="update" onclick='this.form.action="/updateGroup"; document.getElementById("hiddenGroup").value="@group.getName()"'/>
+				<table><tr>
+					<td><p><h2>@group.getName()</h2></td>
+					<td><font color="#FFBF00">
+					@if( controllers.GroupApplication.getCurrentTaskSheet(group.getLecture().getTitle(),group.getName()) != null ){
+						Aktuelles Arbeitsblatt: <b>@controllers.GroupApplication.getCurrentTaskSheet(group.getLecture().getTitle(),group.getName()).getTaskSheetTitle()</b>
+					}else {Kein aktuelles Arbeitsblatt}</font>
+					</td></tr></table>
+	    		<input type="submit" value="update" name="update" id="update" onclick='this.form.action="/updateGroup"'/>
 	    		<input type="submit" value="show Tasksheets" name="showTaskSheets" id="showTaskSheets" onclick='this.form.action="/showGroupTaskSheets"; document.getElementById("hiddenGroup").value="@group.getName()"'>
 	    		<input type="submit" value="delete Group" name="deleteGroup" id="deleteGroup" onclick='this.form.action="/deleteGroup"; document.getElementById("hiddenGroup").value="@group.getName()"'>
 				</p>

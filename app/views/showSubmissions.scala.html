@@ -1,18 +1,49 @@
 @(title : String)(submissions : List[de.phoenix.rs.entity.PhoenixSubmission]) 
+@import de.phoenix.rs.entity.PhoenixSubmissionResult
 
 @head={}
 
 @_Structure(title)(head){
 	@for(i <- 0 until submissions.size()) {
-		<p><<b>Abgabe: <i>@submissions.get(i).getDate()</i></b></p>
-		<p>@submissions.get(i).getResult().getStatusText()</p>
+		<p><b>Abgabe: <i>@submissions.get(i).getDate()</i></b></p>
+		
+		@submissions.get(i).getResult().getStatus() match {
+		
+			case PhoenixSubmissionResult.SubmissionStatus.ERROR => {
+				<b><font color="DarkRed">@submissions.get(i).getResult().getStatusText()</font></b>
+			}
+			
+			case PhoenixSubmissionResult.SubmissionStatus.SUBMITTED => {
+				<b><font color="OrangeRed">Eingereicht</font></b>
+			}
+			
+			case PhoenixSubmissionResult.SubmissionStatus.COMPILED => {
+				<b><font color="Yellow">@submissions.get(i).getResult().getStatusText()</font></b>
+			}
+			
+			case PhoenixSubmissionResult.SubmissionStatus.MISSING_FILES => {
+				<b><font color="DarkOrange">@submissions.get(i).getResult().getStatusText()</font></b>
+			}
+			
+			case PhoenixSubmissionResult.SubmissionStatus.TEST_FAILED => {
+				<b><font color="DeepPink">@submissions.get(i).getResult().getStatusText()</font></b>
+			}
+			
+			case PhoenixSubmissionResult.SubmissionStatus.OK => {
+				<b><font color="Green">Your Submission passed all tests!</font></b>
+			}
+		
+		}
 		<p>@submissions.get(i).getTexts().map { text =>
 			<p>@Html(text.getText().replace("\n", "<br>").replace(" ","&nbsp;").replace("\t","&nbsp;&nbsp;&nbsp;&nbsp;"))</p>
 		}
 		<b>Anhänge</b>
 		<ul>
 		<p>@submissions.get(i).getAttachments().map { attachment => 
-			<li><a href="/download/submission/@submissions.get(i).getTask().getTitle()/@attachment.getFullname()/attachment/@i">@attachment.getFullname()</a></li>
+			<li>
+				<a href="/download/submission/@submissions.get(i).getTask().getTitle()/@attachment.getFullname()/attachment/@i">@attachment.getFullname()</a>
+				<a href="#" style="color:red">löschen</a>
+			</li>
 		}
 		</ul>
 		<br>

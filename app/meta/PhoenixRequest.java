@@ -97,6 +97,25 @@ public class PhoenixRequest {
     }
     
     /**
+     * Sends a get request to the web service.<br>
+     * Return type may vary.<br>
+     * 
+     * (Special build to get current task sheet)
+     * 
+     * @param webresource
+     * @param selectEntity
+     * @return Object of type T
+     */
+    protected <T,E extends PhoenixEntity> T get(WebResource webresource, SelectEntity<E> selectEntity, Class<T> c) {
+        ClientResponse response = webresource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, selectEntity);
+        this.status = response.getStatus();
+        if (this.status == 200)
+            return EntityUtil.extractEntity(response);
+        else
+            return null;
+    }
+    
+    /**
      * Sends a get request to the web service.
      * 
      * @param webresource
