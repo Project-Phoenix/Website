@@ -45,9 +45,7 @@ public class LectureElement extends PhoenixRequest {
     }
     
     public int update(PhoenixLecture oldLecture, PhoenixLecture newLecture) {
-        System.out.println(KeyReader.createUpdate(oldLecture, newLecture));
         this.update(PhoenixLecture.updateResource(CLIENT, BASE_URI), KeyReader.createUpdate(oldLecture, newLecture));
-        System.out.println(this.getStatus());
         return this.getStatus();
     }
     

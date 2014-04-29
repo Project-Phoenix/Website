@@ -27,15 +27,15 @@
 								
 
 
-			@if(lecture.getLectureDetails.get(index).getInterval().getDays() > 0){
+			@if(lecture.getLectureDetails().get(index).getInterval().getDays() > 0){
 				document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getDays();
 				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 0;
 			}else{
-				@if(lecture.getLectureDetails.get(index).getInterval().getWeeks() > 0){
+				@if(lecture.getLectureDetails().get(index).getInterval().getWeeks() > 0){
 				document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getWeeks();
 				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 1;
 				}else{
-					@if(lecture.getLectureDetails.get(index).getInterval().getMonths() > 0){
+					@if(lecture.getLectureDetails().get(index).getInterval().getMonths() > 0){
 					document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getMonths();
 					document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 2;
 					}
@@ -51,13 +51,22 @@
 			}
 		});	
 		
+		$(document).on('blur', '.Date', function(){
+			var year = parseInt($(this).val().slice(0, 4));
+			if(year <= 1583 || year >= 9999){
+				$(this).val("@util.TimeGroup.now("Y-MM-dd")");
+			    alert("Die Gregorianer werden Böse!"); 
+			    $(this).focus();
+			}
+		});
+		
 		$("#lectureDetail").on('change', '.Text', function(){	
 			if(splChars.test($(this).val())){
 				$(this).val('');
-			    alert ("Illegal characters detected!"); 
+			    alert("Illegal characters detected!"); 
 			    $(this).focus(); 
 			}
-		})
+		});
 		
 		$("#title").change(function(){
 			if(splChars.test($(this).val())){
@@ -109,8 +118,8 @@
 			      <option value="months">Monat(e)</option>
 			    </select><br><br>
 			
-			Startdatum:<input type="date" name="startDate_1" value="2000-01-01" min="1584-01-01" max="9998-12-31"><br><br>			
-			Enddatum:<input type="date" name="endDate_1" value="2000-01-01" min="1584-01-01" max="9998-12-31"><br><br>
+			Startdatum:<input type="date" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date" min="1584-01-01" max="9998-12-31"><br><br>			
+			Enddatum:<input type="date" name="endDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date" min="1584-01-01" max="9998-12-31"><br><br>
 			<input type="button" class="removeDetails" value="Detail l&ouml;schen"/></div>
 		</div>		
 		<input type="button" id="moreDetails" value="mehr DETAILS!"/>

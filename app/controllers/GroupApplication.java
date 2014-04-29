@@ -7,9 +7,12 @@ import java.util.Map;
 import meta.Requester;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 
+import de.phoenix.date.Weekday;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
@@ -30,40 +33,57 @@ public class GroupApplication extends Controller {
    
     
     public static Result addGroup() {
-        return ok(addGroup.render("add Group", Requester.Lecture.getAll()));
+        LocalTime time = new LocalTime(00,00); 
+        LocalDate date = new LocalDate(util.TimeGroup.now("Y-MM-dd"));
+        Period period = Period.ZERO;
+        PhoenixDetails details = new PhoenixDetails("", Weekday.MONDAY, time, time, period, date, date);
+        List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
+        listDetails.add(details);
+        PhoenixLecture emptyLecture = new PhoenixLecture("", listDetails);
+        PhoenixLectureGroup emptyGroup = new PhoenixLectureGroup("", 0, Weekday.MONDAY, time, listDetails, emptyLecture);
+        return ok(addGroup.render("add Group", Requester.Lecture.getAll(), emptyGroup));
     }
     
     public static Result sendGroup() {        
         //Array to get the inputs form addGroup
         Map<String, String> data = Form.form().bindFromRequest().data();
-        System.out.println(data);
         String title = data.get("title");
         String lecture = data.get("selectLecture");
         int size = Integer.parseInt(data.get("size"));
         String submissionDay = data.get("submissionDay");
-        LocalTime submissionTime = LectureCheck.getTime(data.get("submissionTime"));
+        LocalTime submissionTime = LectureCheck.getTime(data.get("submissionTime"));       
         
-        List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
-        for(String item: data.keySet()){
-            String number = "";
-            if(item.startsWith("room_")){
-                number = item.substring(5);
-                System.out.println(number);
-                allDetails.add(LectureCheck.createPhoenixDetails( data.get("room_"+number), 
-                                                               data.get("day_"+number),
-                                                               LectureCheck.getTime(data.get("startTime_"+number)),
-                                                               LectureCheck.getTime(data.get("endTime_"+number)),
-                                                               LectureCheck.getPeriod(Integer.parseInt(data.get("period_"+number)), data.get("periodDD_"+number)),
-                                                               LectureCheck.getDate(data.get("startDate_"+number)),
-                                                               LectureCheck.getDate(data.get("endDate_"+number))));
-            }
-        }        
-        Requester.Lecture.addGroup(lecture, title, size, submissionDay, submissionTime, allDetails);
-
-        if (Requester.Lecture.getStatus() == 200)
-            return ok(stringShower.render("strings to show", "Good News!"));
-        else
-            return util.Err.displayError(Requester.Lecture.getStatus(),"Error adding the group to "+lecture);        
+        if(data.get("Submit").equals("Create")){
+            Requester.Lecture.addGroup(lecture, title, size, submissionDay, submissionTime, LectureCheck.createDetails(data));
+            if(Requester.Lecture.getStatus() == 200)
+                return ok(stringShower.render("strings to show", "Good News!"));
+            else
+                return util.Err.displayError(Requester.Lecture.getStatus(),"Error adding this group!");
+        
+        }else if(data.get("Submit").equals("Update")){
+            String oldName = data.get("oldName");
+            String oldLectureTitle = data.get("oldLecture");
+            PhoenixLectureGroup oldGroup = Requester.Group.get(oldLectureTitle, oldName);
+            System.out.println(oldGroup);
+            
+            //Update Details
+            List<PhoenixDetails> oldDetails = oldGroup.getDetails();
+            List<PhoenixDetails> newDetails = LectureCheck.createDetails(data);
+            
+            //Update Title
+            PhoenixLectureGroup newGroup = new PhoenixLectureGroup(title, size, Weekday.forName(submissionDay), submissionTime, oldDetails, Requester.Lecture.get("lecture"));
+            Requester.Group.update(oldGroup, newGroup);
+            System.out.println("groupstatus:" + Requester.Group.getStatus());
+            System.out.println("Lecturestatus:" + Requester.Lecture.getStatus());
+            //update Details for new Lecture
+            LectureCheck.setNewDetails(oldDetails, newDetails, newGroup);
+            
+            if (Requester.Lecture.getStatus() == 200)
+                return ok(stringShower.render("strings to show", "Good News!"));
+            else
+                return util.Err.displayError(Requester.Lecture.getStatus(),"Error updating the group");       
+        }else
+            return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating/updating this group!");
     }
     
     public static Result chooseGroups() {
@@ -169,8 +189,9 @@ public class GroupApplication extends Controller {
     
 
     public static Result updateGroup(){
-        
-        return ok(stringShower.render("YESSSS", "no update method for groups yet"));       
+        PhoenixLectureGroup group = Requester.Group.get(Form.form().bindFromRequest().get("lectureTitle"), 
+                                                          Form.form().bindFromRequest().get("groupName"));
+        return ok(addGroup.render("Create Lecture", Requester.Lecture.getAll(), group));      
     }
 
 }

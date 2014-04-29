@@ -1,17 +1,53 @@
-@(title : String)(lectures : List[de.phoenix.rs.entity.PhoenixLecture])
+@(title : String)(lectures : List[de.phoenix.rs.entity.PhoenixLecture])(group : de.phoenix.rs.entity.PhoenixLectureGroup)
 @head={
 <!doctype html>
 <!-- JQuery already loaded in _Structure.scala.html -->
 <script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
 <script src="/assets/javascripts/multipleInputs.js"></script>
 <script type="text/javascript">
-	var detail2 = false;
-	var detail3 = false;
 	var notNumber = /\D+/
 	var splChars =/^.*?(?=[\^#%&$\*:;!\"�<>\?/\{\|\}@@]).*$/;
 	
 
 	$(document).ready(function(){
+		for(var i = 2; i <= "@group.getDetails().size()"; i++){
+			$("#moreDetails").click();
+		}
+		
+		@for(index <- 0 to group.getDetails().size()-1){
+			document.getElementsByName("room_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getRoom()";
+			document.getElementsByName("day_"+(@index+1).toString())[0].selectedIndex = @group.getDetails().get(index).getWeekday().getDateTimeConstant()-1;
+			document.getElementsByName("startTime_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getStartTime().toString("HH:mm")";
+			document.getElementsByName("endTime_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getEndTime().toString("HH:mm")";
+			document.getElementsByName("startDate_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getStartDate().toString("YYYY-MM-dd")";
+			document.getElementsByName("endDate_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getEndDate().toString("YYYY-MM-dd")";
+								
+
+
+			@if(group.getDetails().get(index).getInterval().getDays() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @group.getDetails().get(index).getInterval().getDays();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 0;
+			}else{
+				@if(group.getDetails().get(index).getInterval().getWeeks() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @group.getDetails().get(index).getInterval().getWeeks();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 1;
+				}else{
+					@if(group.getDetails().get(index).getInterval().getMonths() > 0){
+					document.getElementsByName("period_"+(@index+1).toString())[0].value = @group.getDetails().get(index).getInterval().getMonths();
+					document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 2;
+					}
+				}
+			}
+		}
+		
+		document.getElementsByName("submissionDay")[0].selectedIndex = @group.getSubmissionDeadlineWeekday().getDateTimeConstant()-1;
+				
+		@for(index <- 0 to lectures.size()-1){
+			@if(lectures.get(index).getTitle() == group.getLecture().getTitle()){
+				document.getElementsByName("selectLecture")[0].selectedIndex = @index;
+			}
+		}
+		
 		$(document).on('change', '.Number', function(){	
 			if(notNumber.test($(this).val())){
 				$(this).val("0");
@@ -43,15 +79,16 @@
 @_Structure(title)(head){
 	
 	<form action="/sendGroup" method="post" onsubmit="return ValidateForm(this);">
-
-		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" id="title"><br><br>
+		<input type="hidden" name="oldLecture" value="@group.getLecture().getTitle()"/>
+		<input type="hidden" name="oldName" value="@group.getName()"/>
+		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" id="title" value="@group.getName()"><br><br>
 		Zugeh&ouml;rige Veranstaltung:&nbsp;&nbsp;&nbsp;
-		<select name="selectLecture" size="1">
+		<select name="selectLecture" size="1"> 
 			@lectures.map{ lecture =>
 				<option>@lecture.getTitle()</option>
 			}		
 		</select><br><br>
-		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size" class="Number"><br><br>
+		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size" class="Number" value="@group.getMaxMember()"><br><br>
 		<div id="lectureDetail">	
 			<div>
 			Raum: <input type="text" name="room_1" class="Text"><br><br>
@@ -91,7 +128,7 @@
 			<option value="saturday">Samstag</option>
 			<option value="sunday">Sonntag</option>
 	    </select><br><br>
-		Abgabezeit:<input type="time" name="submissionTime"><br><br>	
+		Abgabezeit:<input type="time" name="submissionTime" value="@group.getSubmissionDeadlineTime().toString("HH:mm")"><br><br>	
 		<input name="Submit" type="submit" value="Create" />
 		<input name="Submit" type="submit" value="Update" />
 	</form> 	

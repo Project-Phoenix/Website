@@ -22,7 +22,7 @@ public class LectureApplication extends Controller {
 
     public static Result createLecture() {
         LocalTime time = new LocalTime(00,00); 
-        LocalDate date = new LocalDate(0001,01,01);
+        LocalDate date = new LocalDate(util.TimeGroup.now("Y-MM-dd"));
         Period period = Period.ZERO;
         PhoenixDetails details = new PhoenixDetails("", Weekday.MONDAY, time, time, period, date, date);
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
@@ -35,7 +35,7 @@ public class LectureApplication extends Controller {
         Map<String, String> data = Form.form().bindFromRequest().data();
         String title = data.get("title");
         if(data.get("submit").equals("Create")){
-            Requester.Lecture.create(title, createDetails(data));   
+            Requester.Lecture.create(title, LectureCheck.createDetails(data));   
             if(Requester.Lecture.getStatus() == 200)
                 return ok(stringShower.render("strings to show", "Good News!"));
             else
@@ -46,19 +46,19 @@ public class LectureApplication extends Controller {
             
             //Update Details
             List<PhoenixDetails> oldDetails = oldLecture.getLectureDetails();
-            List<PhoenixDetails> newDetails = createDetails(data);
+            List<PhoenixDetails> newDetails = LectureCheck.createDetails(data);
             
             //Update Title
             if(!oldTitle.equals(title)){
-                PhoenixLecture newLecture = new PhoenixLecture(title, newDetails);
-                setNewDetails(oldDetails, newDetails, oldLecture);
-                setNewDetails(oldDetails, newDetails, newLecture);
-                // status!
+                PhoenixLecture newLecture = new PhoenixLecture(title, oldDetails);
                 Requester.Lecture.update(oldLecture, newLecture);
-
-
+                
+                //update Details for new Lecture
+                LectureCheck.setNewDetails(oldDetails, newDetails, newLecture);
+         
+            // Titel is the same, so just update the details
             }else{
-                setNewDetails(oldDetails, newDetails, oldLecture);
+                LectureCheck.setNewDetails(oldDetails, newDetails, oldLecture);
             }
             
             if(Requester.Lecture.getStatus() == 200)
@@ -69,75 +69,15 @@ public class LectureApplication extends Controller {
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating/updating this lecture!");
     }
     
-
-    private static void setNewDetails(List<PhoenixDetails> oldDetails, List<PhoenixDetails> newDetails, PhoenixLecture newLecture){
-        int oldDetailsCount = oldDetails.size();
-        int newDetailsCount = newDetails.size();
-        
-        if(oldDetailsCount <= newDetailsCount){
-            updateDetails(oldDetails, newDetails, oldDetailsCount);
-            if(oldDetailsCount < newDetailsCount){
-                List<PhoenixDetails> newDetailList = new ArrayList<PhoenixDetails>();
-                for(int i = oldDetailsCount; i < newDetailsCount; i++){
-                    newDetailList.add(newDetails.get(i));
-                }
-                Requester.Lecture.addDetails(newLecture, newDetailList);
-                if (Requester.Lecture.getStatus() != 200){
-                    util.Err.displayError(Requester.Lecture.getStatus(),"Error adding some Details to this lecture!"); 
-                }
-            }
-            
-        }else{
-            updateDetails(oldDetails, newDetails, newDetailsCount);
-            for(int i = newDetailsCount; i < oldDetailsCount; i++){
-                Requester.Lecture.deleteDetails(oldDetails.get(i));
-                if (Requester.Lecture.getStatus() != 200){
-                    util.Err.displayError(Requester.Lecture.getStatus(),"Error deleting this Detail!"); 
-                    break;
-                }
-            }
-        }
-    }
-
-    private static void updateDetails(List<PhoenixDetails> oldDetails, List<PhoenixDetails> newDetails, int updateCount){
-        for(int i = 0; i < updateCount; i++){
-            Requester.Lecture.updateDetails(oldDetails.get(i), newDetails.get(i));
-            if (Requester.Lecture.getStatus() != 200){
-                util.Err.displayError(Requester.Lecture.getStatus(),"Error updating this Detail!"); 
-                break;
-            }
-        } 
-    }
-    
-    
-    private static List<PhoenixDetails> createDetails(Map<String, String> data){
-        List<PhoenixDetails> allDetails = new ArrayList<PhoenixDetails>();
-        for(String item: data.keySet()){
-            String number = "";
-            if(item.startsWith("room_")){
-                number = item.substring(5);
-                System.out.println(data.get("startDate_"+number));
-                allDetails.add(LectureCheck.createPhoenixDetails( data.get("room_"+number), 
-                                                               data.get("day_"+number),
-                                                               LectureCheck.getTime(data.get("startTime_"+number)),
-                                                               LectureCheck.getTime(data.get("endTime_"+number)),
-                                                               LectureCheck.getPeriod(Integer.parseInt(data.get("period_"+number)), data.get("periodDD_"+number)),
-                                                               LectureCheck.getDate(data.get("startDate_"+number)),
-                                                               LectureCheck.getDate(data.get("endDate_"+number))));
-            }
-        }
-        return allDetails;
-    }
-    
-
     public static Result existLecture(){
         String lectureTitle = request().queryString().get("title")[0];
         Requester.Lecture.get(lectureTitle);
         if(Requester.Lecture.getStatus()==200){
             System.out.println("habe Veranstaltung gefunden!");
-        }
-            return ok();
-            
+            return ok();  
+        }else{
+            return notFound();
+        }        
     }
     
     public static Result showLectures(){
@@ -149,18 +89,15 @@ public class LectureApplication extends Controller {
     }
     
     public static Result deleteLecture(){
-        Requester.Lecture.delete( Form.form().bindFromRequest().data().get("lecture") );
-        
+        Requester.Lecture.delete( Form.form().bindFromRequest().data().get("lecture") );        
         if (Requester.Lecture.getStatus() != 200)
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error deleting this lecture!");
-        
-        return ok(showLectures.render("show Lectures", Requester.Lecture.getAll()));
+        else
+            return ok(showLectures.render("show Lectures", Requester.Lecture.getAll()));
     } 
     
     public static Result updateLecture(){
-        String title = Form.form().bindFromRequest().get("lecture");
-        PhoenixLecture lecture = Requester.Lecture.get(title);
-        System.out.println(lecture.getLectureDetails().get(0).getStartDate());
+        PhoenixLecture lecture = Requester.Lecture.get(Form.form().bindFromRequest().get("lecture"));
         return ok(createLecture.render("Create Lecture", lecture));
     }
     

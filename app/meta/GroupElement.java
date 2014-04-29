@@ -6,12 +6,16 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 
+
+
+import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
 import de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet;
 import de.phoenix.rs.entity.PhoenixTaskSheet;
 import de.phoenix.rs.entity.connection.LectureGroupTaskSheetConnection;
 import de.phoenix.rs.key.ConnectionEntity;
+import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 
 public class GroupElement extends PhoenixRequest {
@@ -63,7 +67,14 @@ public class GroupElement extends PhoenixRequest {
         //throw new UnsupportedOperationException(); //TODO implement delete (Group)
     }
     
-    public int update(SelectEntity<PhoenixLectureGroup> selectEntity) {
-        throw new UnsupportedOperationException(); //TODO implement update (Group)
+    public int update(PhoenixLectureGroup oldGroup, PhoenixLectureGroup newGroup) {
+        this.update(PhoenixLectureGroup.updateResource(CLIENT, BASE_URI), KeyReader.createUpdate(oldGroup, newGroup));
+        return this.getStatus();
+    }
+    
+    // ZU PHONIXLECTUREGROUP.addDetail usw. ändern!!!!!
+    public int addDetails(PhoenixLectureGroup group, List<PhoenixDetails> details){
+        this.change(PhoenixLecture.addDetailResource(CLIENT, BASE_URI), KeyReader.createAddTo(group, details));
+        return this.getStatus();
     }
 }

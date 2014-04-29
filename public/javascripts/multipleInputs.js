@@ -44,8 +44,8 @@ $(document).ready(function() {
 		      <option value="weeks" selected>Woche(n)</option>\
 		      <option value="months">Monat(e)</option>\
 		    </select><br><br>\
-			Startdatum:<input type="date" name="startDate_IDNR" value="2000-01-01" min="1584-01-01" max="9998-12-31""><br><br>\
-			Enddatum:<input type="date" name="endDate_IDNR" value="2000-01-01" min="1584-01-01" max="9998-12-31""><br><br>\
+			Startdatum:<input type="date" name="startDate_IDNR" value="@util.TimeGroup.now("Y-MM-dd")" class="Date" min="1584-01-01" max="9998-12-31""><br><br>\
+			Enddatum:<input type="date" name="endDate_IDNR" value="@util.TimeGroup.now("Y-MM-dd")" class="Date" min="1584-01-01" max="9998-12-31""><br><br>\
 			<input type="button" class="removeDetails" value="Detail löschen"/></div>');
 	
 	$("#AddMoreTestBox").click(function (e) {
