@@ -58,9 +58,11 @@ POST	/sendSubmission				controllers.SubmissionApplication.sendSubmission()
 
 
 # Map static resources from the /public folder to the /assets URL path
-#Es regt mich soo auf man, so eine behinderte kacke!
 GET     /assets/*file               										controllers.Assets.at(path="/public", file)
 GET  	/images/*file             											controllers.Assets.at(path="/public/images", file)
 GET		/download/*clazz/*title/*filename/$type<attachment|pattern>			controllers.Application.download(clazz:String, title:String, filename:String, type:String, submNr = "0")
 GET		/download/*clazz/*title/*filename/$type<attachment|pattern>/*submNr	controllers.Application.download(clazz:String, title:String, filename:String, type:String, submNr:String)
+
+#Bootstrap
+GET 	/test						controllers.Application.test()
 
