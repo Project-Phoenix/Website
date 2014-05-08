@@ -37,7 +37,7 @@ import views.html._Debug;
 import views.html._Images;
 import views.html.home;
 
-import bootstrap.html.test;
+import bootstrap.html.mainer;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -75,7 +75,7 @@ public class Application extends Controller {
     }
     
     public static Result test() {
-        return ok(test.render("Test"));
+        return ok(mainer.render("Test"));
     }
 
     public static Result images() { 

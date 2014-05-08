@@ -1,5 +1,6 @@
-
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import play.*;
 
@@ -7,7 +8,7 @@ public class Global extends GlobalSettings {
 
   @Override
   public void onStart(Application app) {
-      createImgFolder();
+      this.getTmpFolder();
   }  
 
   @Override
@@ -15,16 +16,19 @@ public class Global extends GlobalSettings {
     Logger.info("Application shutdown...");
   }  
   
-  private void createImgFolder() {
-      File img = new File("public/images");
-      
-      if (!img.exists()) {
-          System.out.print("dir 'public/images' not found! Creating ... ");
-          if (img.mkdirs())
-              System.out.println("done.");
-          else
-              System.out.println("failed.");
-      } else 
-          System.out.println("found dir 'public/images'.");
+  private void getTmpFolder() {
+      try {
+          File tmp = new File(System.getProperty("java.io.tmpdir").concat(File.separator).concat("img_phoenix"));
+          File img = new File("public/images");
+          if (!img.exists())
+              img.mkdirs();
+          Files.createSymbolicLink( img.toPath(), tmp.toPath()); 
+      } catch (IOException e) {
+          System.out.println("COULD NOT CREATE IMAGE FOLDER !!"+e);
+      } catch (UnsupportedOperationException x) {
+          // Some file systems do not support symbolic links.
+          System.out.println("ATTENTION !!!");
+          System.out.println(x);
+      }
   }
 }

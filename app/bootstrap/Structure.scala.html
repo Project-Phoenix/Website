@@ -2,15 +2,158 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/css" src="/assets/javascripts/jquery-1.9.0.min.js"></script>
-	<script type="text/css" src="/assets/javascripts/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-theme.min.css" />
-	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap.min.css" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="An educational website for many purposes">
+	<meta name="keywords" content="education, learn, phoenix, ovgu">
+	<meta name="author" content="Matthias Eiserloh, Markus Wolf, Phoenix-Project contributors">
+
+	<!-- Bootstrap import in main.css-->
+	<!-- <link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap.css" /> -->
+	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css" />
+	
+	<!-- <link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-theme.min.css" />  -->
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	
 	@head
+	
 	<title>@title</title>
 
 </head>
 <body>
-	@content
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="jumbotron">
+					<div class="container">
+						<h1>Edu Phoenix</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+
+				<h2 style="margin-top:0px; margin-bottom: 20px;">Überschrift</h2>
+
+	<div style="margin-left: 30px; margin-right: 15px;">
+				 
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+	    				<h3 class="panel-title">Task</h3>
+	  				</div>
+	  				<div class="panel body" style="padding: 20px;">
+	  						  		
+	  				Es ist folgende Funktion gegeben:
+<pre>Algorithm: f(x,y)
+Input:     x,y ganzzahlig
+Output:    ?
+   if y = 0 then x
+            else f(x-1, y-1)
+   fi</pre>
+<ol type="a" start="1">
+<li>Beschreiben Sie die Auswertung an mehreren Beispielen. Was berechnet diese Funktion? Für welche Werte terminiert der Algorithmus nicht?</li>
+<li>Überlegen Sie wie der Algorithmus zu erweitern ist, damit er für <em>alle</em> ganzzahligen Werte terminiert. Schreiben Sie dafür eine Java-Methode 
+<br /><br /><strong>public static int rek(int x, int y)</strong>.<br /><br /></li>
+<li>Formulieren Sie nun Ihren verbesserten Algorithmus als <em>iterative</em> Methode
+<br /><br /><strong> public static int iter(int x, int y)</strong>.</li></ol></p>
+	  						  		
+	  						  					
+	  				</div>
+				</div>
+		
+	  	
+<h3 style="margin-left: -30px";>Alle Veranstaltungen, Gruppen, Tasksheets, Tasks</h3>	
+	
+				<ul class="list-group" style="margin: 5%;text-align: center;">
+					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  					<li class="list-group-item">Cras justo odio | <a href="#">Mehr</a></li>
+  				</ul>
+  				
+  				
+  				
+    <h3 style="margin-left: -30px";>Für Tasksheets</h3>						
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+           //Taskname
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse out">
+      <div class="panel-body">
+      		//BODY
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+           //Taskname
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse out">
+      <div class="panel-body">
+      		//BODY
+      </div>
+    </div>
+  </div>
+  
+</div>
+			
+  				
+  				
+				
+</div>
+</div>			
+
+<!--  Rechte Spalte -->
+			<div class="col-md-3">
+			    <div class="well">
+                	<h4><span class="label label-default">Login</span></h4>
+					<form class="form">
+                    	<div class="input-group text-center">
+	                        <input type="text" class="form-control input-md" placeholder="Benutzername">
+	                       	<input type="password" class="form-control input-md" placeholder="Passwort">
+	                        <span class="input-group-btn">
+	                        	<button class="btn btn-lg btn-primary" type="button">OK</button>
+	                        </span>
+                        </div>
+                    </form> 
+                </div>
+				<div class="well"> 
+                    <h4><span class="label label-default">NEWS</span></h4>
+                    <div class="bs-callout bs-callout-info">
+                    	<h4>Nachrichten</h4>
+                    	Hier gibt es dies das zu verkünden. Achtung, achtung!
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+<!-- Rechte Spalte Ende -->
+	
+	<script type="text/javascript" src="/assets/javascripts/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="/assets/javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/javascripts/multipleInputs.js"></script>
+
 </body>
 </html>
