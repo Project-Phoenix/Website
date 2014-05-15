@@ -18,6 +18,8 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 
+import bootstrap.html.*;
+
 public class TaskApplication extends Controller {
     
     public static Result createTask() {
@@ -95,7 +97,7 @@ public class TaskApplication extends Controller {
     public static Result showTasks() {
         if (request().queryString().get("option") != null)
             if (request().queryString().get("option")[0].equals("all"))
-                return ok(showTasks.render("showTasks", Requester.Task.getAll()));
+                return ok(showAllTasks.render("showTasks", Requester.Task.getAll()));
             else
                 return ok(showTasks.render("showTasks", Arrays.asList( Requester.Task.get(request().queryString().get("option")[0])) ));
         return util.Err.displayError(Requester.Task.getStatus(),"Error displaying tasks!"); //bahhh geht in die Hose!

@@ -10,7 +10,7 @@
 		@submissions.get(i).getResult().getStatus() match {
 		
 			case PhoenixSubmissionResult.SubmissionStatus.ERROR => {
-				<b><font color="DarkRed">@submissions.get(i).getResult().getStatusText()</font></b>
+				<b><font color="DarkRed">Kritischer Fehler: @submissions.get(i).getResult().getStatusText()</font></b>
 			}
 			
 			case PhoenixSubmissionResult.SubmissionStatus.SUBMITTED => {

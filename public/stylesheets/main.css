@@ -1,5 +1,15 @@
 @import "bootstrap.css";
 
+/* Colors */
+
+.info {
+	color: #4183b5;
+}
+
+/* Bigger glyphs */
+span.glyphicon-home, span.glyphicon-file, span.glyphicon-cog {
+    font-size: 1.9em;
+}
 
 .bs-callout {
   margin: 20px 0;
@@ -43,16 +53,21 @@ color: #C09853;
 color: #3A87AD;
 }
 
-.box {
-	width: 100%;
-	min-height: 75px;
-	background-color: lightgrey; 
-	padding: 10%;	
+.footer {
+	background-color: lightgrey;
+	height: 60px;
+	text-align: center;
+	padding: 40px;
+	margin-top: 50px;
+	border-radius: 4px;
 }
 
-.box .footer {
-	position: absolute; bottom: 0;
-	width: 100%;
-	min-height: 20px;
-	text-align: center;
+.maintitle {
+	margin-top: 0px; 
+	margin-bottom: 20px; 
+	margin-left: -30px;
+}
+
+.title {
+	margin-left: -30px;
 }
