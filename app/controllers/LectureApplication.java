@@ -101,4 +101,6 @@ public class LectureApplication extends Controller {
         return ok(createLecture.render("Create Lecture", lecture));
     }
     
+    
+    
 }
