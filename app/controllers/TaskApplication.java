@@ -100,7 +100,7 @@ public class TaskApplication extends Controller {
                 return ok(showAllTasks.render("showTasks", Requester.Task.getAll()));
             else
                 return ok(showTasks.render("showTasks", Arrays.asList( Requester.Task.get(request().queryString().get("option")[0])) ));
-        return util.Err.displayError(Requester.Task.getStatus(),"Error displaying tasks!"); //bahhh geht in die Hose!
+        return util.Err.displayError(400,"Bad URL."); //bahhh geht in die Hose!
     }
     
     private static List<String> getDisallowedContent(Map<String, String> data) {

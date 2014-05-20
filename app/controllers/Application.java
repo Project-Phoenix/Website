@@ -71,6 +71,11 @@ public class Application extends Controller {
      }
     
     public static Result home() {
+        try {
+            @SuppressWarnings("unused")
+            String x = request().queryString().get("old")[0];
+            return ok(views.html.home.render("Home"));
+        } catch (Exception e) {}
         return ok(bootstrap.html.home.render("Home"));
     }
     

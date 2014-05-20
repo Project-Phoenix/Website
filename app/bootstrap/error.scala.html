@@ -1,0 +1,35 @@
+@(errorCode : Integer)(errorText: String)
+
+
+@head = {}
+
+@title = {
+	@errorCode match {
+ 				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.MULTIPLE_ENTITIES.getStatusCode()) => { Multiple Entities found}
+ 				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.DUPLIATE_ENTITY.getStatusCode()) => { Duplicate Entities found} 
+ 				case errorCode if(errorCode == de.phoenix.rs.PhoenixStatusType.NO_ENTITIES.getStatusCode()) => { No Entities found}
+ 				case errorCode if(errorCode == 400) => {Malformed URL}
+ 				case errorCode if(errorCode == 404) => {Not found}
+ 				case errorCode if(errorCode == 500) => {Webservice's broken}
+ 				case _ => {Undefined}
+	}@**<!-- 460 = Multiple; 461 = No; 462 = Duplicate -->**@
+}
+
+
+@Structure(title.toString())(head) {
+
+<div class="panel panel-danger">
+		<div class="panel-heading">
+	 		<h1 class="panel-title"> ERROR @errorCode (@title)</h1>
+		</div>
+		<div class="panel body" style="padding-top: 20px;padding-left: 20px;padding-right: 20px">
+				<h2>@Html(errorText)</h2>
+		</div>
+		@if(util.Config.DEBUG) {
+			<div class="panel-footer">
+				<b><a href="/debug">debug</a></b>
+			</div>
+		}
+	</div>
+
+}

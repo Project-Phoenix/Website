@@ -30,6 +30,7 @@ public class LectureApplication extends Controller {
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
         PhoenixLecture lecture = new PhoenixLecture("", listDetails);
+        //lecture.getLectureDetails().get(1).g
         return ok(createLecture.render("Create Lecture", lecture));
     }
     
@@ -95,7 +96,7 @@ public class LectureApplication extends Controller {
         if (Requester.Lecture.getStatus() != 200)
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error deleting this lecture!");
         else
-            return ok(showLectures.render("show Lectures", Requester.Lecture.getAll()));
+            return ok(views.html.showLectures.render("show Lectures", Requester.Lecture.getAll()));
     } 
     
     public static Result updateLecture(){
