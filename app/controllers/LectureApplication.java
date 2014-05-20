@@ -18,6 +18,8 @@ import play.mvc.Result;
 import util.LectureCheck;
 import views.html.*;
 
+import bootstrap.html.*;
+
 public class LectureApplication extends Controller {
 
     public static Result createLecture() {
@@ -83,7 +85,7 @@ public class LectureApplication extends Controller {
     public static Result showLectures(){
         List<PhoenixLecture> lectures = Requester.Lecture.getAll();  
         if (Requester.Lecture.getStatus() == 200)
-            return ok(showLectures.render("show Lectures", lectures));
+            return ok(showAllLectures.render("show Lectures", lectures));
         else
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");
     }

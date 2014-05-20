@@ -71,7 +71,7 @@ public class Application extends Controller {
      }
     
     public static Result home() {
-        return ok(home.render("Home"));
+        return ok(bootstrap.html.home.render("Home"));
     }
     
     public static Result test() {

@@ -1,0 +1,65 @@
+@(title : String)(tasks : List[de.phoenix.rs.entity.PhoenixTask]) 
+
+@head = {}
+
+
+@isAutomatic(cls: AnyRef) = @{
+    cls match {
+        case x : de.phoenix.rs.entity.PhoenixAutomaticTask => { <font color="orange" title="Wird automatisch getestet"><div class="glyphicon glyphicon-cog"></div></font> }
+        case _ => {  }
+    }
+}
+
+@Structure(title)(head) {
+
+<!-- Hauptueberschrift -->
+<h2 class="maintitle"> Aufgaben </h2>
+ 
+
+@tasks.map { task =>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+	 		<h3 class="panel-title"> @task.getTitle() @isAutomatic(task)</h3>
+		</div>
+		<div class="panel body" style="padding-top: 20px;padding-left: 20px;padding-right: 20px">
+			@Html(task.getDescription())
+		</div>
+		
+		<div class="panel-footer">
+			@if(task.getAttachments().isEmpty()) { <span class="label label-warning">Keine Anhänge</span> 
+			} else { <span class="label label-info">Anhänge</span> }
+			<ul>
+				@task.getAttachments().map { attachment =>
+					<li>
+						<a href="/download/task/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a>
+						&nbsp;
+						<a href="/deleteFromTask?task=@task.getTitle()&attachment=@attachment.getFullname()" style="color:red">
+							<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
+						</a>
+					</li>
+				}
+			</ul>
+			
+			@if(task.getPattern().isEmpty()) { <span class="label label-warning">Keine Vorlagen</span> 
+			} else { <span class="label label-info">Vorlagen</span> }
+			<ul>
+				@task.getPattern().map { pattern =>
+					<li>
+						<a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a>
+						&nbsp;
+						<a href="/deleteFromTask?task=@task.getTitle()&pattern=@pattern.getFullname()" style="color:red">
+							<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
+						</a>
+					</li>
+				}
+			</ul>			
+		</div> <!-- Footer -->
+	</div> <!-- Panel -->
+}
+
+<!-- Zwischenueberschrift 
+<h3 class="title";>Überschrift 2</h3>	
+-->
+
+
+}

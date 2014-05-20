@@ -6,12 +6,11 @@ import java.util.List;
 import org.joda.time.LocalTime;
 
 import de.phoenix.date.Weekday;
-import de.phoenix.rs.EntityUtil;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
-import de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet;
 import de.phoenix.rs.entity.titleonly.LectureTitle;
+
 import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 import de.phoenix.rs.key.UpdateEntity;
