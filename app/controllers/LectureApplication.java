@@ -30,6 +30,7 @@ public class LectureApplication extends Controller {
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
         PhoenixLecture lecture = new PhoenixLecture("", listDetails);
+        //lecture.getLectureDetails().get(1).g
         return ok(createLecture.render("Create Lecture", lecture));
     }
     

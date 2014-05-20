@@ -2,13 +2,13 @@ package util;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html._Error;
+import bootstrap.html.error;
 
 public class Err extends Controller{
     public static Result displayError(int errorCode, String errorText) {
-        return ok(_Error.render(errorCode,errorText));
+        return ok(error.render(errorCode,errorText));
     }
     public static Result displayError(int errorCode) {
-        return ok(_Error.render(errorCode,"An error occured! :'("));
+        return ok(error.render(errorCode,"An error occured! :'("));
     }
 }

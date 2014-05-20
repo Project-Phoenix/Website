@@ -35,8 +35,6 @@ import play.mvc.Result;
 import util.Err;
 import views.html._Debug;
 import views.html._Images;
-import views.html.home;
-
 import bootstrap.html.test;
 
 import com.sun.jersey.api.client.Client;
@@ -71,6 +69,11 @@ public class Application extends Controller {
      }
     
     public static Result home() {
+        try {
+            @SuppressWarnings("unused")
+            String x = request().queryString().get("old")[0];
+            return ok(views.html.home.render("Home"));
+        } catch (Exception e) {}
         return ok(bootstrap.html.home.render("Home"));
     }
     
