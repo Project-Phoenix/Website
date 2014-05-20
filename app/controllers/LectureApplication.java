@@ -15,9 +15,9 @@ import de.phoenix.rs.entity.PhoenixLecture;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.Http;
 import util.LectureCheck;
 import views.html.*;
-
 import bootstrap.html.*;
 
 public class LectureApplication extends Controller {
@@ -30,7 +30,6 @@ public class LectureApplication extends Controller {
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
         PhoenixLecture lecture = new PhoenixLecture("", listDetails);
-        //lecture.getLectureDetails().get(1).g
         return ok(createLecture.render("Create Lecture", lecture));
     }
     
@@ -83,12 +82,13 @@ public class LectureApplication extends Controller {
         }        
     }
     
-    public static Result showLectures(){
-        List<PhoenixLecture> lectures = Requester.Lecture.getAll();  
-        if (Requester.Lecture.getStatus() == 200)
-            return ok(showAllLectures.render("show Lectures", lectures));
-        else
-            return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");
+    public static Result showLectures(){   
+        if (Http.GET("option") != null)
+            if (Http.GET("option").equals("all"))
+                return ok(bootstrap.html.showAllLectures.render("Alle Veranstaltungen", Requester.Lecture.getAll()));
+            else
+                return ok(bootstrap.html.showLecture.render("Veranstaltung", Requester.Lecture.get(Http.GET("option"))) );
+       return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");
     }
     
     public static Result deleteLecture(){

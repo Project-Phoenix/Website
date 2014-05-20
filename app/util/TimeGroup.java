@@ -43,5 +43,22 @@ public class TimeGroup {
     public static String now(String fmt) {
         return DateTimeFormat.forPattern(fmt).print( DateTime.now() );
     }
+    
+    public static String getTurnus(org.joda.time.Period p) {
+        if (p.getWeeks() > 0) {
+            if (p.getWeeks() == 1)
+                return "Wöchentlich";
+            return "Jede "+p.getWeeks()+". Woche";
+        }
+        if (p.getDays() > 0) {
+            if (p.getDays() == 1)
+                return "Täglich";
+            return "Alle "+p.getDays()+" Tage";
+        }
+        if (p.getMonths() > 0) 
+            if (p.getMonths() == 1)
+                return "Monatlich";
+        return "Alle "+p.getMonths()+" Monate";
+    }
 
 }

@@ -2,6 +2,18 @@
 
 @head = {}
 
+@getGerWeekday(any: Any) = @{
+    any match {
+        case 1 => "Montag"
+        case 2 => "Dienstag"
+        case 3 => "Mittwoch"
+        case 4 => "Donnerstag"
+        case 5 => "Freitag"
+        case 6 => "Samstag"
+        case 7 => "Sonntag"
+    }
+}
+
 
 @Structure(title)(head) {
 	
@@ -13,13 +25,15 @@
 		</div>
 		<div class="panel body randlassen">
 			@for(detail <- lecture.getLectureDetails()) {
-				<b>@detail.getRoom()</b>
-			
+				<b>Zeitraum: </b>@detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
+				<b>Raum: </b>@detail.getRoom()<br>
+				<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
+				<b>Turnus: @util.TimeGroup.getTurnus(detail.getInterval())</b>
 			}
 		</div>
 		
-		<div class="panel-footer">		
-		</div>
+		<!-- <div class="panel-footer">		
+		</div> -->
 	</div>
 
 }

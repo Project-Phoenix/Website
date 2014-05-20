@@ -17,6 +17,7 @@ import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
+import util.Http;
 
 import bootstrap.html.*;
 
@@ -30,18 +31,11 @@ public class TaskApplication extends Controller {
         return ok(createAutomaticTask.render("Create Automatic Task"));
     }
     
-    private static String GET(String tag) {
-        try {
-            return request().queryString().get(tag)[0];
-        } catch (Exception e) {
-            return null;
-        }
-    }
     
     public static Result deleteFromTask() {
-        String taskTitle = GET("task");
-        String attachment = GET("attachment");
-        String pattern = GET("pattern");
+        String taskTitle = Http.GET("task");
+        String attachment = Http.GET("attachment");
+        String pattern = Http.GET("pattern");
         int success = 1;
 
         if (taskTitle != null) {
@@ -100,7 +94,7 @@ public class TaskApplication extends Controller {
                 return ok(showAllTasks.render("showTasks", Requester.Task.getAll()));
             else
                 return ok(showTasks.render("showTasks", Arrays.asList( Requester.Task.get(request().queryString().get("option")[0])) ));
-        return util.Err.displayError(400,"Bad URL."); //bahhh geht in die Hose!
+        return util.Err.displayError(400,"Bad URL.");
     }
     
     private static List<String> getDisallowedContent(Map<String, String> data) {
