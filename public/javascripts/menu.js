@@ -1,3 +1,5 @@
+if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript requires jQuery') }
+
 $(document).ready(function(){
 	var toggleGroupNav = 0;
 	var toggleTaskSheetNav = 0;
@@ -35,41 +37,36 @@ $(document).ready(function(){
 
 	$('.lectureButtons').click(function(e){
 	   e.preventDefault();
-	   var $this = $(this);
-	   setTimeout(function(){
-			var name = $this.attr('name').replace(/\s/g, 'popel1215');
-			
-			$('.navbar-brand').not('.navbarButtons').removeClass('myActive');
-			$this.addClass('myActive');
-			
-			if(toggleGroupNav === 0){
-				toggleGroupNav = 1;
-				$("#"+name).addClass('toggled');
+		var name = $(this).attr('name').replace(/\s/g, 'popel1215');
+		
+		$('.navbar-brand').not('.navbarButtons').removeClass('myActive');
+		$(this).addClass('myActive');
+		
+		if(toggleGroupNav === 0){
+			toggleGroupNav = 1;
+			$("#"+name).addClass('toggled');
+		}else{
+			if($("#"+name).hasClass('toggled')){
+				toggleGroupNav = 0;
+				$("#"+name).removeClass('toggled');
+				$('.taskSheetNavs').removeClass('toggled');
 			}else{
-				if($("#"+name).hasClass('toggled')){
-					toggleGroupNav = 0;
-					$("#"+name).removeClass('toggled');
-					$('.taskSheetNavs').removeClass('toggled');
-				}else{
-					$('.groupNavs').removeClass('toggled');
-					$('.taskSheetNavs').removeClass('toggled');
-					$("#"+name).addClass('toggled');
-				}
-			}		
-	
-			$("#"+name).addClass('groupToggled');
-	       	$('.groupToggled').fadeToggle();	
-	       	$('.groupToggled').not("#"+name).removeClass('groupToggled');
-	        $('.toggled2').fadeToggle();
-	        $('.toggled2').removeClass('toggled2');
-	       	$('.taskSheetToggled').removeClass('taskSheetToggled');
-		}, 1); 
-   	});
+				$('.groupNavs').removeClass('toggled');
+				$('.taskSheetNavs').removeClass('toggled');
+				$("#"+name).addClass('toggled');
+			}
+		}		
+
+		$("#"+name).addClass('groupToggled');
+       	$('.groupToggled').fadeToggle();	
+       	$('.groupToggled').not("#"+name).removeClass('groupToggled');
+        $('.toggled2').fadeToggle();
+        $('.toggled2').removeClass('toggled2');
+       	$('.taskSheetToggled').removeClass('taskSheetToggled');
+   	})
    	
-  	$('.lectureButtons').dblclick(function(e){
+  	.dblclick(function(e){
 		e.preventDefault();
-	    doubleClick = true;
-	    clearTimeout(timeout);
 		$('#hiddenLecture').val($(this).attr('name'));
 		$('#menuForm').submit();
    	});
