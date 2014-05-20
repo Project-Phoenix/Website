@@ -6,6 +6,13 @@ body{
 	opacity: 0.9;
 }
 
+.notHover.navbar-brand:hover,
+.notHover.navbar-brand:focus {
+  color: #000000;
+  background-color: transparent;
+  text-decoration: none;
+}
+
 .lectureNavs{
 	z-index:999;
 	position:absolut;

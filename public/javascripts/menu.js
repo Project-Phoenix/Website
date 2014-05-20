@@ -25,10 +25,13 @@ $(document).ready(function(){
 			$('.navbar-brand').removeClass('myActive');
 		}
 			
-		if(!$('#lectures').hasClass('toggled')){
-			$('#lectures').addClass('toggled');	
+		if($('#lectures').hasClass('toggled')){
+	        $('.toggled').fadeToggle();
+			$('#lectures').removeClass('toggled');
+		}else{
+			$('#lectures').addClass('toggled');
+	        $('.toggled').fadeToggle();
 		}
-        $('.toggled').fadeToggle();
         $('.toggled').not('#lectures').removeClass('toggled');
         $('.toggled2').removeClass('toggled2');
        	$('.groupToggled').removeClass('groupToggled');

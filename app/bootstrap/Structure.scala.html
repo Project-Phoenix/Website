@@ -43,11 +43,17 @@
 				<nav class="navbar navbar-default navbar-fixed-top taskSheetNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")@group.getTitle().replaceAll("""\s""","popel1215")">
 				  <div class="container">
 				    <div class="collapse navbar-collapse collapse-buttons">
+	    		    @if(group.getTaskSheetTitles().size() != 0){	
 						@for(taskSheet <- group.getTaskSheetTitles()){
 					       	<div class="navbar-header">
 				        		<a class="navbar-brand taskSheetButtons" href="#" name="@taskSheet.getTitle()">@taskSheet.getTitle()</a>
 				      		</div>		
 						}
+				    }else{
+			      	    <div class="navbar-header">
+				    		<p class="navbar-brand notHover">keine Übungsblätter vohanden!</p>
+				    	</div>
+				    }
 				    </div>
 				  </div>
 				</nav>
@@ -57,11 +63,17 @@
 			<nav class="navbar navbar-default navbar-fixed-top groupNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")">
 			  <div class="container">
 			    <div class="collapse navbar-collapse collapse-buttons">
+    		    @if(lecture.getGroupTitles().size() != 0){
 					@for(group <- lecture.getGroupTitles()){
 				       	<div class="navbar-header">
 			        		<a class="navbar-brand groupButtons" href="#" name="@lecture.getTitle()@group.getTitle()">@group.getTitle()</a>
 			      		</div>		
 					}
+			    }else{
+		      	    <div class="navbar-header">
+			    		<p class="navbar-brand notHover">keine Gruppen vohanden!</p>
+			    	</div>
+			    }
 			    </div>
 			  </div>
 			</nav>
@@ -69,11 +81,17 @@
 		<nav class="navbar navbar-default navbar-fixed-top lectureNavs" role="navigation" id="lectures">
 		  <div class="container">
 		    <div class="collapse navbar-collapse collapse-buttons">
+		    @if(lectureTitles.size() != 0){
 		        @for(lectureTitle <- lectureTitles){
 		      	    <div class="navbar-header">
 		        		<a class="navbar-brand lectureButtons" href="#" name="@lectureTitle.getTitle()">@lectureTitle.getTitle()</a>
 		      		</div>
 		      	}
+		    }else{
+	      	    <div class="navbar-header">
+		    		<p class="navbar-brand notHover">keine Vorlesungen vohanden!</p>
+		    	</div>
+		    }
 		    </div>
 		  </div>
 		</nav>
