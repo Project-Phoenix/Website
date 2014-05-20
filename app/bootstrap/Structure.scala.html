@@ -10,6 +10,11 @@
 	<meta name="keywords" content="education, learn, phoenix, ovgu">
 	<meta name="author" content="Matthias Eiserloh, Markus Wolf, Phoenix-Project contributors">
 
+	<script type="text/javascript" src="/assets/javascripts/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="/assets/javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/javascripts/multipleInputs.js"></script>
+	<script type="text/javascript" src="/assets/javascripts/menu.js"></script>
+
 	<!-- Bootstrap import in main.css-->
 	<!-- <link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap.css" /> -->
 	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css" />
@@ -38,11 +43,17 @@
 				<nav class="navbar navbar-default navbar-fixed-top taskSheetNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")@group.getTitle().replaceAll("""\s""","popel1215")">
 				  <div class="container">
 				    <div class="collapse navbar-collapse collapse-buttons">
+	    		    @if(group.getTaskSheetTitles().size() != 0){	
 						@for(taskSheet <- group.getTaskSheetTitles()){
 					       	<div class="navbar-header">
 				        		<a class="navbar-brand taskSheetButtons" href="#" name="@taskSheet.getTitle()">@taskSheet.getTitle()</a>
 				      		</div>		
 						}
+				    }else{
+			      	    <div class="navbar-header">
+				    		<p class="navbar-brand notHover">keine Übungsblätter vohanden!</p>
+				    	</div>
+				    }
 				    </div>
 				  </div>
 				</nav>
@@ -52,11 +63,17 @@
 			<nav class="navbar navbar-default navbar-fixed-top groupNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")">
 			  <div class="container">
 			    <div class="collapse navbar-collapse collapse-buttons">
+    		    @if(lecture.getGroupTitles().size() != 0){
 					@for(group <- lecture.getGroupTitles()){
 				       	<div class="navbar-header">
 			        		<a class="navbar-brand groupButtons" href="#" name="@lecture.getTitle()@group.getTitle()">@group.getTitle()</a>
 			      		</div>		
 					}
+			    }else{
+		      	    <div class="navbar-header">
+			    		<p class="navbar-brand notHover">keine Gruppen vohanden!</p>
+			    	</div>
+			    }
 			    </div>
 			  </div>
 			</nav>
@@ -64,11 +81,17 @@
 		<nav class="navbar navbar-default navbar-fixed-top lectureNavs" role="navigation" id="lectures">
 		  <div class="container">
 		    <div class="collapse navbar-collapse collapse-buttons">
+		    @if(lectureTitles.size() != 0){
 		        @for(lectureTitle <- lectureTitles){
 		      	    <div class="navbar-header">
 		        		<a class="navbar-brand lectureButtons" href="#" name="@lectureTitle.getTitle()">@lectureTitle.getTitle()</a>
 		      		</div>
 		      	}
+		    }else{
+	      	    <div class="navbar-header">
+		    		<p class="navbar-brand notHover">keine Vorlesungen vohanden!</p>
+		    	</div>
+		    }
 		    </div>
 		  </div>
 		</nav>
@@ -138,11 +161,6 @@
 	</div>
 </div>
 <!-- Rechte Spalte Ende -->
-	
-	<script type="text/javascript" src="/assets/javascripts/jquery-1.9.0.min.js"></script>
-	<script type="text/javascript" src="/assets/javascripts/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/assets/javascripts/multipleInputs.js"></script>
-	<script type="text/javascript" src="/assets/javascripts/menu.js"></script>
 
 </body>
 </html>
