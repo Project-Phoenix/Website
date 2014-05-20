@@ -1,15 +1,76 @@
 @(title : String)(head : Html)(content : Html)
+@import meta.Requester; var lectureTitles = Requester.Lecture.getAllTitles();
 <!DOCTYPE html>
 <html>
 <head>
 	<script type="text/javascript" src="/assets/javascripts/jquery-1.9.0.min.js"></script>
 	<script type="text/javascript" src="/assets/javascripts/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/menu.css" />
 	@head
 	<title>@title</title>
 
 </head>
 <body>
+	<div id='menu'>
+	<form action="/menu" method="post" id="menuForm">
+		<input type=hidden id=hiddenLecture name=lecture value="">
+		<input type=hidden id=hiddenGroup name=group value="">
+		@for(lecture <- lectureTitles){
+			@for(group <- lecture.getGroupTitles()){
+				<nav class="navbar navbar-default navbar-fixed-top taskSheetNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")@group.getTitle().replaceAll("""\s""","popel1215")">
+				  <div class="container">
+				    <div class="collapse navbar-collapse collapse-buttons">
+						@for(taskSheet <- group.getTaskSheetTitles()){
+					       	<div class="navbar-header">
+				        		<a class="navbar-brand taskSheetButtons" href="#" name="@taskSheet.getTitle()">@taskSheet.getTitle()</a>
+				      		</div>		
+						}
+				    </div>
+				  </div>
+				</nav>
+			}
+		}
+		@for(lecture <- lectureTitles){
+			<nav class="navbar navbar-default navbar-fixed-top groupNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")">
+			  <div class="container">
+			    <div class="collapse navbar-collapse collapse-buttons">
+					@for(group <- lecture.getGroupTitles()){
+				       	<div class="navbar-header">
+			        		<a class="navbar-brand groupButtons" href="#" name="@lecture.getTitle()@group.getTitle()">@group.getTitle()</a>
+			      		</div>		
+					}
+			    </div>
+			  </div>
+			</nav>
+		}
+		<nav class="navbar navbar-default navbar-fixed-top lectureNavs" role="navigation" id="lectures">
+		  <div class="container">
+		    <div class="collapse navbar-collapse collapse-buttons">
+		        @for(lectureTitle <- lectureTitles){
+		      	    <div class="navbar-header">
+		        		<a class="navbar-brand lectureButtons" href="#" name="@lectureTitle.getTitle()">@lectureTitle.getTitle()</a>
+		      		</div>
+		      	}
+		    </div>
+		  </div>
+		</nav>
+	
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top">
+		  <div class="container">
+		    <div class="navbar-header">
+	   	      <a class="navbar-brand navbarButtons" href="#" id="home">Home</a>
+	   	      <a class="navbar-brand navbarButtons" href="#" id="lecturesLink">Veranstaltungen</a>
+	  	      <a class="navbar-brand navbarButtons" href="#" id="options">Verwalten</a>
+		    </div>
+		  </div>
+		</nav>
+	</form>
+</div>
+<div id='everythingElse'>
 	@content
+</div>
+
+<script type="text/javascript" src="/assets/javascripts/menu.js"></script>
 </body>
 </html>
