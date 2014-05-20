@@ -9,6 +9,8 @@ import de.phoenix.date.Weekday;
 import de.phoenix.rs.entity.PhoenixDetails;
 import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.PhoenixLectureGroup;
+import de.phoenix.rs.entity.titleonly.LectureTitle;
+
 import de.phoenix.rs.key.KeyReader;
 import de.phoenix.rs.key.SelectEntity;
 import de.phoenix.rs.key.UpdateEntity;
@@ -35,8 +37,13 @@ public class LectureElement extends PhoenixRequest {
     }
     
     public List<PhoenixLecture> getAll() { 
-            List<PhoenixLecture> result = this.getAll(PhoenixLecture.getResource(CLIENT, BASE_URI));
-            return result;
+        List<PhoenixLecture> result = this.getAll(PhoenixLecture.getResource(CLIENT, BASE_URI));
+        return result;
+    }
+    
+    public List<LectureTitle> getAllTitles() {
+        List<LectureTitle> result = this.getAllTitles(PhoenixLecture.getOnlyTitlesResource(CLIENT, BASE_URI));
+        return result;
     }
     
     public int delete(String lectureTitle) {

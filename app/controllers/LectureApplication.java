@@ -96,12 +96,14 @@ public class LectureApplication extends Controller {
         if (Requester.Lecture.getStatus() != 200)
             return util.Err.displayError(Requester.Lecture.getStatus(),"Error deleting this lecture!");
         else
-            return ok(showLectures.render("show Lectures", Requester.Lecture.getAll()));
+            return ok(views.html.showLectures.render("show Lectures", Requester.Lecture.getAll()));
     } 
     
     public static Result updateLecture(){
         PhoenixLecture lecture = Requester.Lecture.get(Form.form().bindFromRequest().get("lecture"));
         return ok(createLecture.render("Create Lecture", lecture));
     }
+    
+    
     
 }

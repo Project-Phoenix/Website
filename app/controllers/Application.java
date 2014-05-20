@@ -35,6 +35,7 @@ import play.mvc.Result;
 import util.Err;
 import views.html._Debug;
 import views.html._Images;
+import views.html.home;
 import bootstrap.html.test;
 
 import com.sun.jersey.api.client.Client;
@@ -46,6 +47,7 @@ import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixTask;
 import de.phoenix.rs.entity.PhoenixText;
+import de.phoenix.rs.entity.titleonly.LectureTitle;
 
 
 
@@ -78,7 +80,8 @@ public class Application extends Controller {
     }
     
     public static Result test() {
-        return ok(test.render("Test"));
+        List<LectureTitle> lectureTitles = Requester.Lecture.getAllTitles();
+        return ok(test.render("Test", lectureTitles));
     }
 
     public static Result images() { 

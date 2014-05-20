@@ -10,6 +10,8 @@ import com.sun.jersey.api.client.WebResource;
 
 import de.phoenix.rs.EntityUtil;
 import de.phoenix.rs.PhoenixClient;
+import de.phoenix.rs.entity.PhoenixLecture;
+import de.phoenix.rs.entity.titleonly.LectureTitle;
 import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.PhoenixEntity;
 import de.phoenix.rs.key.SelectAllEntity;
@@ -144,6 +146,18 @@ public class PhoenixRequest {
             return EntityUtil.extractEntityList(response);
         else
             return null; 
+    }
+    
+    
+    //only for LectureTitle right now!
+    protected List<LectureTitle> getAllTitles(WebResource webresource) {
+        ClientResponse response = webresource.get(ClientResponse.class);
+
+        this.status = response.getStatus();
+        if (this.status == 200)
+            return EntityUtil.extractEntityList(response);
+        else
+            return null;  
     }
     
     /**
