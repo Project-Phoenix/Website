@@ -6,9 +6,13 @@ body{
 	opacity: 0.9;
 }
 
+.notHover.navbar-brand{
+  color: #ff0000;
+}
+
 .notHover.navbar-brand:hover,
 .notHover.navbar-brand:focus {
-  color: #000000;
+  color: #ff0000;
   background-color: transparent;
   text-decoration: none;
 }
@@ -19,6 +23,14 @@ body{
 	top:50px;
 	display:none;
 }	
+
+.manageNav{
+	z-index:999;
+	position:absolut;
+	top:50px;
+	display:none;
+}	
+
 .groupNavs{
 	z-index:998;
 	position:absolut;

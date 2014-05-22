@@ -36,8 +36,10 @@
 <body>
 	<div id='menu'>
 	<form action="/menu" method="post" id="menuForm">
-		<input type=hidden id=hiddenLecture name=lecture value="">
-		<input type=hidden id=hiddenGroup name=group value="">
+		<input type=hidden id=hiddenAllLectures name=hiddenAllLectures value="">
+		<input type=hidden id=hiddenLecture name=hiddenLecture value="">
+		<input type=hidden id=hiddenGroup name=hiddenGroup value="">
+		<input type=hidden id=hiddenTaskSheet name=hiddenTaskSheet value="">
 		@for(lecture <- lectureTitles){
 			@for(group <- lecture.getGroupTitles()){
 				<nav class="navbar navbar-default navbar-fixed-top taskSheetNavs" role="navigation" id="@lecture.getTitle().replaceAll("""\s""","popel1215")@group.getTitle().replaceAll("""\s""","popel1215")">
@@ -51,7 +53,7 @@
 						}
 				    }else{
 			      	    <div class="navbar-header">
-				    		<p class="navbar-brand notHover">keine Übungsblätter vohanden!</p>
+				    		<p class="navbar-brand notHover">Keine Übungsblätter vohanden!</p>
 				    	</div>
 				    }
 				    </div>
@@ -71,7 +73,7 @@
 					}
 			    }else{
 		      	    <div class="navbar-header">
-			    		<p class="navbar-brand notHover">keine Gruppen vohanden!</p>
+			    		<p class="navbar-brand notHover">Keine Gruppen vohanden!</p>
 			    	</div>
 			    }
 			    </div>
@@ -89,9 +91,20 @@
 		      	}
 		    }else{
 	      	    <div class="navbar-header">
-		    		<p class="navbar-brand notHover">keine Vorlesungen vohanden!</p>
+		    		<p class="navbar-brand notHover">Keine Vorlesungen vohanden!</p>
 		    	</div>
 		    }
+		    </div>
+		  </div>
+		</nav>
+	
+		<nav class="navbar navbar-default navbar-fixed-top manageNav" role="navigation" id="manageNav">
+		  <div class="container">
+		    <div class="collapse navbar-collapse collapse-buttons">
+	      	    <div class="navbar-header">
+	        		<a class="navbar-brand manageButtons" href="showTask?option=all" name="Aufgabenpool">Aufgabenpool</a>
+	        		<a class="navbar-brand manageButtons" href="#" name="Platzhalter1">PLatzhalter #1</a>	        		
+	      		</div>
 		    </div>
 		  </div>
 		</nav>
@@ -101,7 +114,7 @@
 		    <div class="navbar-header">
 	   	      <a class="navbar-brand navbarButtons" href="#" id="home">Home</a>
 	   	      <a class="navbar-brand navbarButtons" href="#" id="lecturesLink">Veranstaltungen</a>
-	  	      <a class="navbar-brand navbarButtons" href="#" id="options">Verwalten</a>
+	  	      <a class="navbar-brand navbarButtons" href="#" id="manage">Verwalten</a>
 		    </div>
 		  </div>
 		</nav>
