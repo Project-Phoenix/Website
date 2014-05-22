@@ -22,20 +22,24 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import meta.Requester;
+
 import org.apache.commons.io.FileUtils;
 
-import meta.Requester;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import util.Err;
+import util.Http;
 import views.html._Debug;
 import views.html._Images;
-import bootstrap.html.test;
+import bootstrap.html.*;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -81,6 +85,28 @@ public class Application extends Controller {
     public static Result test() {
         List<LectureTitle> lectureTitles = Requester.Lecture.getAllTitles();
         return ok(test.render("Test", lectureTitles));
+    }
+    
+    public static Result menu() {
+        Map<String, String> data = Form.form().bindFromRequest().data();
+        System.out.println(data.get("hiddenAllLectures"));
+        if(data.get("hiddenAllLectures").equals("yes")){
+            return ok(bootstrap.html.showAllLectures.render("Alle Veranstaltungen", Requester.Lecture.getAll()));
+        }else{
+            if(!(data.get("hiddenLecture").equals("")) && (data.get("hiddenGroup").equals(""))){
+                return ok(bootstrap.html.showLecture.render("Veranstaltung", 
+                        Requester.Lecture.get(data.get("hiddenLecture")),
+                        Requester.Group.getAll(data.get("hiddenLecture")) 
+                    ));
+            //showGroup
+            }else if((!data.get("hiddenLecture").equals("")) && (!data.get("hiddenGroup").equals("")) && (data.get("hiddenTaskSheet").equals(""))){
+                
+            //showTaskSheet
+            }else if((!data.get("hiddenLecture").equals("")) && (!data.get("hiddenGroup").equals("")) && (!data.get("hiddenTaskSheet").equals(""))){
+                
+            }
+        }
+        return ok();
     }
 
     public static Result images() { 

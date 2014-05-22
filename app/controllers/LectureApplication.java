@@ -18,6 +18,7 @@ import play.mvc.Result;
 import util.Http;
 import util.LectureCheck;
 import views.html.*;
+import bootstrap.html.*;
 
 public class LectureApplication extends Controller {
 
@@ -29,7 +30,7 @@ public class LectureApplication extends Controller {
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
         PhoenixLecture lecture = new PhoenixLecture("", listDetails);
-        return ok(createLecture.render("Create Lecture", lecture));
+        return ok(bootstrap.html.createNewLecture.render("Create Lecture", lecture));
     }
     
     public static Result sendLecture() {   

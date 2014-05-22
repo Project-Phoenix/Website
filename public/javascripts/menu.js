@@ -3,9 +3,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 $(document).ready(function(){
 	var toggleGroupNav = 0;
 	var toggleTaskSheetNav = 0;
-	$('#everythingElse').click(function(e){
-		e.preventDefault();
-		
+	var doubleClick = false;
+	$('#everythingElse').click(function(){
 		$('.navbar-brand').removeClass('myActive');
 		
         $('.toggled').fadeToggle();
@@ -14,29 +13,62 @@ $(document).ready(function(){
        	$('.groupToggled').removeClass('groupToggled');
        	$('.taskSheetToggled').removeClass('taskSheetToggled');
 	}); 
+	
 	$('#lecturesLink').click(function(e){
+		if(doubleClick == false){
+			e.preventDefault();
+		
+			if(!$(this).hasClass('myActive')){
+				$('.navbar-brand').removeClass('myActive');
+				$(this).addClass('myActive');
+			}else{
+				$('.navbar-brand').removeClass('myActive');
+			}
+				
+			if($('#lectures').hasClass('toggled')){
+		        $('.toggled').fadeToggle();
+				$('#lectures').removeClass('toggled');
+			}else{
+				$('#lectures').addClass('toggled');
+		        $('.toggled').fadeToggle();
+			}
+		    $('.toggled').not('#lectures').removeClass('toggled');
+		    $('.toggled2').removeClass('toggled2');
+		   	$('.groupToggled').removeClass('groupToggled');
+		   	$('.taskSheetToggled').removeClass('taskSheetToggled');
+		}
+	})	
+	.dblclick(function(e){
 		e.preventDefault();
-
-
+		$('#hiddenAllLectures').val('yes');
+		$('#menuForm').submit();
+	}); 
+	
+	$('#manage').click(function(e){
+		e.preventDefault();
+		
+		$('.navbar-brand').removeClass('myActive');		
+        $('.toggled').fadeToggle();
+        $('.toggled').removeClass('toggled');
+        $('.toggled2').removeClass('toggled2');
+       	$('.groupToggled').removeClass('groupToggled');
+       	$('.taskSheetToggled').removeClass('taskSheetToggled');
+       	
 		if(!$(this).hasClass('myActive')){
 			$('.navbar-brand').removeClass('myActive');
 			$(this).addClass('myActive');
 		}else{
 			$('.navbar-brand').removeClass('myActive');
 		}
-			
-		if($('#lectures').hasClass('toggled')){
+		
+		if($('#manageNav').hasClass('toggled')){
 	        $('.toggled').fadeToggle();
-			$('#lectures').removeClass('toggled');
+			$('#managaNav').removeClass('toggled');
 		}else{
-			$('#lectures').addClass('toggled');
+			$('#manageNav').addClass('toggled');
 	        $('.toggled').fadeToggle();
 		}
-        $('.toggled').not('#lectures').removeClass('toggled');
-        $('.toggled2').removeClass('toggled2');
-       	$('.groupToggled').removeClass('groupToggled');
-       	$('.taskSheetToggled').removeClass('taskSheetToggled');
-	});   
+	}); 
 
 	$('.lectureButtons').click(function(e){
 	   e.preventDefault();

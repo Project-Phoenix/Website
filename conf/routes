@@ -65,4 +65,5 @@ GET		/download/*clazz/*title/*filename/$type<attachment|pattern>/*submNr	control
 
 #Bootstrap
 GET 	/test						controllers.Application.test()
+POST 	/menu						controllers.Application.menu()
 
