@@ -1,9 +1,11 @@
 package meta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.DateTime;
+
 
 
 
@@ -31,7 +33,7 @@ public class GroupElement extends PhoenixRequest {
                 this.getList(PhoenixLectureGroup.getResource(CLIENT, BASE_URI), 
                         new SelectEntity<PhoenixLectureGroup>().addKey("lecture", 
                         new SelectEntity<PhoenixLecture>().addKey("title", lectureTitle)));
-        return result;
+        return result != null ? result : new ArrayList<PhoenixLectureGroup>();
     }
     
     public PhoenixLectureGroup get(String lectureTitle, String groupName) {

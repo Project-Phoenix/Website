@@ -18,7 +18,6 @@ import play.mvc.Result;
 import util.Http;
 import util.LectureCheck;
 import views.html.*;
-import bootstrap.html.*;
 
 public class LectureApplication extends Controller {
 
@@ -87,7 +86,10 @@ public class LectureApplication extends Controller {
             if (Http.GET("option").equals("all"))
                 return ok(bootstrap.html.showAllLectures.render("Alle Veranstaltungen", Requester.Lecture.getAll()));
             else
-                return ok(bootstrap.html.showLecture.render("Veranstaltung", Requester.Lecture.get(Http.GET("option"))) );
+                return ok(bootstrap.html.showLecture.render("Veranstaltung", 
+                            Requester.Lecture.get(Http.GET("option")),
+                            Requester.Group.getAll(Http.GET("option"))) 
+                        );
        return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");
     }
     

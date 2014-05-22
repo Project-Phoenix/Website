@@ -35,7 +35,6 @@ import play.mvc.Result;
 import util.Err;
 import views.html._Debug;
 import views.html._Images;
-import views.html.home;
 import bootstrap.html.test;
 
 import com.sun.jersey.api.client.Client;

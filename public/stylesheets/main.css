@@ -1,5 +1,10 @@
 @import "bootstrap.css";
 
+
+body {
+	background-color: #FFFFFF;
+}
+
 /* Colors */
 
 .info {

@@ -10,7 +10,6 @@ import com.sun.jersey.api.client.WebResource;
 
 import de.phoenix.rs.EntityUtil;
 import de.phoenix.rs.PhoenixClient;
-import de.phoenix.rs.entity.PhoenixLecture;
 import de.phoenix.rs.entity.titleonly.LectureTitle;
 import de.phoenix.rs.key.ConnectionEntity;
 import de.phoenix.rs.key.PhoenixEntity;

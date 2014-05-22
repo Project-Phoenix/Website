@@ -1,4 +1,4 @@
-@(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
+@(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup])
 
 @head = {}
 
@@ -19,17 +19,35 @@
 	
 	<h2 class="maintitle"> @lecture.getTitle() </h2>
 	
-	<div class="panel panel-primary">
+	<div class="panel panel-success">
 		<div class="panel-heading">
 	 		<h3 class="panel-title"> Informationen </h3>
 		</div>
 		<div class="panel body randlassen">
-			@for(detail <- lecture.getLectureDetails()) {
-				<b>Zeitraum: </b>@detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
-				<b>Raum: </b>@detail.getRoom()<br>
-				<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
-				<b>Turnus: @util.TimeGroup.getTurnus(detail.getInterval())</b>
-			}
+			<table style="width: 100%;">
+			<tr>
+				<td style="width: 70%; float: left;">
+					@for(detail <- lecture.getLectureDetails()) {
+						<b>Zeitraum: </b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
+						<b>Raum: </b>@detail.getRoom()<br>
+						<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
+						<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
+						<br>
+					}	
+				</td>
+				<td style="width: 30%;">
+					<div class="list-group" style="text-align: center;">
+						@for(group <- groups) {
+							<a class="list-group-item" href="#">
+								<strong class="info small"> @group.getName() </strong>
+							</a>
+						}
+					</div>
+
+
+				</td>
+			</tr>
+			</table>
 		</div>
 		
 		<!-- <div class="panel-footer">		
