@@ -25,7 +25,8 @@ public class Global extends GlobalSettings {
               img.mkdirs();
           Files.createSymbolicLink( img.toPath(), tmp.toPath()); 
       } catch (IOException e) {
-          System.out.println("COULD NOT CREATE IMAGE FOLDER !!"+e);
+          if (new File("public/images").exists())
+              System.out.println("/public/images existiert");
       } catch (UnsupportedOperationException x) {
           // Some file systems do not support symbolic links.
           System.out.println("ATTENTION !!!");

@@ -5,6 +5,7 @@ body {
 	background-color: #FFFFFF;
 }
 
+
 /* Colors */
 
 .info {
@@ -81,4 +82,13 @@ color: #3A87AD;
 	padding-top: 20px;
 	padding-left: 20px;
 	padding-right: 20px
+}
+
+.center {
+	margin-left: auto ;
+  	margin-right: auto ;
+}
+
+.panel.body img {
+	max-width: 100%;
 }

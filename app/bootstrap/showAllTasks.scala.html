@@ -31,7 +31,9 @@
 			<ul>
 				@task.getAttachments().map { attachment =>
 					<li>
-						<a href="/download/task/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">@attachment.getName().@attachment.getType()</a>
+						<a href="/download/task/@task.getTitle()/@attachment.getName().@attachment.getType()/attachment">
+							@attachment.getName().@attachment.getType()
+						</a>
 						&nbsp;
 						<a href="/deleteFromTask?task=@task.getTitle()&attachment=@attachment.getFullname()" style="color:red">
 							<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
@@ -45,7 +47,9 @@
 			<ul>
 				@task.getPattern().map { pattern =>
 					<li>
-						<a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">@pattern.getName().@pattern.getType()</a>
+						<a href="/download/task/@task.getTitle()/@pattern.getName().@pattern.getType()/pattern">
+							@pattern.getName().@pattern.getType()
+						</a>
 						&nbsp;
 						<a href="/deleteFromTask?task=@task.getTitle()&pattern=@pattern.getFullname()" style="color:red">
 							<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
