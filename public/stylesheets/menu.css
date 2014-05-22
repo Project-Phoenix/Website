@@ -18,28 +18,24 @@ body{
 }
 
 .lectureNavs{
-	z-index:999;
 	position:absolut;
 	top:50px;
 	display:none;
 }	
 
 .manageNav{
-	z-index:999;
 	position:absolut;
 	top:50px;
 	display:none;
 }	
 
 .groupNavs{
-	z-index:998;
 	position:absolut;
 	top:100px;
 	display:none;
 }
 
 .taskSheetNavs{
-	z-index:997;
 	position:absolut;
 	top:150px;
 	display:none;

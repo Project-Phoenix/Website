@@ -4,9 +4,7 @@ $(document).ready(function(){
 	var toggleGroupNav = 0;
 	var toggleTaskSheetNav = 0;
 	var doubleClick = false;
-	$('#everythingElse').click(function(e){
-		e.preventDefault();
-		
+	$('#everythingElse').click(function(){
 		$('.navbar-brand').removeClass('myActive');
 		
         $('.toggled').fadeToggle();
