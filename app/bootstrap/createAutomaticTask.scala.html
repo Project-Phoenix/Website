@@ -1,0 +1,147 @@
+@(title : String) 
+
+@head = {
+<script src="/assets/javascripts/tiny_mce/tiny_mce.js"></script>
+<script>
+        tinymce.init({selector:'#editor'});
+</script>
+<script>
+$(document).ready(function(){
+	$('#alert_empty').hide();
+	$('#alert_char').hide();
+	$('#alert_syntax').hide();
+});
+function validateForm() {
+	var x=document.forms["create"]["title"].value;
+	var pat = /^[a-zA-Z0-9_äÄöÖüÜ!\-\s]+$/g;
+	
+	for(var i=1; $("[name='test_"+i+"']").length != 0; i++) {
+		var str = $("[name='test_"+i+"']").val().replace(/\t/g, '');
+		var a = str.indexOf("class ")+6;
+		if (a == 5) {
+			$('#alert_empty').hide();
+			$('#alert_char').hide();
+			$('#alert_syntax').show();
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			return false;
+		}
+		var len = str.length;
+		var part = str.substr(a,len);
+		if (part.indexOf('@HtmlFormat.raw(" {")') == -1) //Scala pisst mir ans Bein und ich piss zurueck  
+			if (part.indexOf('@HtmlFormat.raw("{")') == -1)
+				if (part.indexOf('@HtmlFormat.raw("<")') == -1) {
+					$('#alert_empty').hide();
+					$('#alert_char').hide();
+					$('#alert_syntax').show();
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					return false;
+				}
+	}
+	
+	if (x==null || x=="") {
+		$('#alert_syntax').hide();
+		$('#alert_char').hide();
+		$('#alert_empty').show();
+		$('html, body').animate({ scrollTop: 0 }, 'fast');
+  		return false;
+  	}
+	if (x.match(pat) == null) {
+		$('#alert_syntax').hide();
+		$('#alert_empty').hide();
+  		$('#alert_char').show();
+		$('html, body').animate({ scrollTop: 0 }, 'fast');
+  		return false;
+  	}
+	
+}
+
+</script>
+}
+
+
+@Structure(title)(head) {
+	<h2 class="maintitle"> Automatisch getestete Aufgabe erstellen </h2>
+	<form enctype="multipart/form-data" name="create" method="POST" action="sendAutomaticTask" onsubmit="return validateForm()">
+
+		<div id="alert_char" class="alert alert-danger">
+	  		Es dürfen <b>keine</b> Sonderzeichen benutzt werden!
+		</div>
+		
+		
+		<div id="alert_empty" class="alert alert-danger">
+	  		Bitte einen Aufgabentitel angeben!
+		</div>
+		
+		<div id="alert_syntax" class="alert alert-danger">
+	  		Syntax Error in einem Unit Test!
+		</div>
+
+		<div class="alert alert-info">
+			<b>Beschreibung</b><br><br>
+			<textarea id="editor" name="description" style="width: 100%; height: 100%" >
+		
+					<strong>Um Bilder zu nutzen, bitte bei "image URL" '/images/Bildname' angeben.</strong>
+					<strong>Zu nutzdende Bilder m&uuml;ssen als Anhang hinzugef&uuml;gt werden.</strong>
+		
+			</textarea>
+		</div>
+		
+		<div class="alert alert-info">
+			<b>Unit Tests</b><br><br>
+			<b><button id="AddMoreTestBox" type="button" class="small"><div class="glyphicon glyphicon-plus small"></div> Weiteren Test</button></b>
+			<br>
+			<div id="InputsWrapperTest">
+				<div>
+					<button class="removeclassTest" type="button" class="small" style="margin-bottom: 4px; float: right;"><font color="red"><div class="glyphicon glyphicon-trash small"></div><b>entfernen</b></font></button>
+					<textarea name="test_1" style="max-width: 100%; min-width: 100%" rows="9" ></textarea>
+					<!-- <a href="#" class=" small ">&times; entfernen</a></div> -->
+				</div>
+			</div>
+		</div>
+		
+		<div class="alert alert-info">
+			<table style="width:100%"> <tr><td style="width: 50%; text-align: center"><b>Aufgabentitel</b></td><td style="width: 50%; text-align: center"> <input name="title" style="width: 100%" type="text" ></td></tr></table>
+		</div>	
+		
+		<div class="alert alert-info">
+			<table style="width:100%"> <tr><td style="width: 50%; text-align: center"><b>Backend</b></td>
+				<td style="width: 50%; text-align: center"> 
+					<select name="backend">
+						<option value="Java">Java</option>
+						<option value="Python">Python</option>
+						<option value="C++">C++</option>
+					</select>
+				</td></tr></table>
+		</div>
+		
+		<div class="alert alert-info">
+			<table style="width:100%"> <tr><td style="width: 50%; text-align: center"><b>Nicht zugelassene Packages</b></td>
+				<td style="width: 50%; text-align: left"> 
+					<input type="checkbox" name="javaio" checked="checked" value="java.io,java.nio,java.net,javax.net"> java.io, java.nio, java.net, javax.net<br>
+					<input type="text" name="disallowed" style="width:100%"><i class="small">Nicht erlaubte Strings (durch Komma getrennt) </i>
+				</td></tr></table>
+		</div>		
+
+		<div class="alert alert-info">
+			<table style="width:100%">
+				<tr>
+					<td style="width: 50%; text-align: center"><b>Anhang</b></td>
+					<td style="width: 50%; text-align: center"><input type="file" name="binary" multiple/></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="alert alert-info">
+			<table style="width:100%">
+				<tr>
+					<td style="width: 50%; text-align: center"><b>Antwortvorlage</b></td>
+					<td style="width: 50%; text-align: center"><input type="file" accept="binary" name="pattern" multiple/></td>
+				</tr>
+			</table>
+		</div>
+		
+		<center><button class="btn btn-md btn-primary" type="submit" style="margin-top: 5px; width:15%">Erstellen</button></center>
+
+	</form>
+
+}

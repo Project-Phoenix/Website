@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.research.ws.wadl.Request;
+
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixTaskTest;
 import de.phoenix.rs.entity.PhoenixText;
@@ -18,17 +20,16 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 import util.Http;
-
 import bootstrap.html.*;
 
 public class TaskApplication extends Controller {
     
     public static Result createTask() {
-        return ok(createTask.render("Create Task"));
+        return ok(bootstrap.html.createTask.render("Create Task"));
     }
     
     public static Result createAutomaticTask() {
-        return ok(createAutomaticTask.render("Create Automatic Task"));
+        return ok(bootstrap.html.createAutomaticTask.render("Create Automatic Task"));
     }
     
     
@@ -62,11 +63,6 @@ public class TaskApplication extends Controller {
         
         ArrayList<PhoenixAttachment> attachmentLst = new ArrayList<PhoenixAttachment>();
         ArrayList<PhoenixText> patternLst = new ArrayList<PhoenixText>();
-
-        if (!Form.form().bindFromRequest().get("title").matches("[a-zA-Z0-9_äÄöÖüÜ!\\-\\s]+")) {
-            flash("maliciousChar","true");
-            return createTask();
-        }
         
         for (FilePart fp : form.getFiles()) {
             try {
@@ -93,7 +89,7 @@ public class TaskApplication extends Controller {
             if (request().queryString().get("option")[0].equals("all"))
                 return ok(showAllTasks.render("showTasks", Requester.Task.getAll()));
             else
-                return ok(showTasks.render("showTasks", Arrays.asList( Requester.Task.get(request().queryString().get("option")[0])) ));
+                return ok(showTask.render("showTasks", Requester.Task.get(request().queryString().get("option")[0])) );
         return util.Err.displayError(400,"Bad URL.");
     }
     
