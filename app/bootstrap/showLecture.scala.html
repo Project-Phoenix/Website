@@ -26,25 +26,30 @@
 		<div class="panel body randlassen">
 			<table style="width: 100%;">
 			<tr>
-				<td style="width: 70%; float: left;">
-					@for(detail <- lecture.getLectureDetails()) {
-						<b>Zeitraum: </b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
-						<b>Raum: </b>@detail.getRoom()<br>
-						<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
-						<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
-						<br>
-					}	
-				</td>
-				<td style="width: 30%;">
-					<div class="list-group" style="text-align: center;">
-						@for(group <- groups) {
-							<a class="list-group-item" href="#">
-								<strong class="info small"> @group.getName() </strong>
-							</a>
-						}
+				<td style="width: 15%;">
+					<div class="list-group" style="text-align: center; width:100%; float: left">
+						@if(groups.size() > 0) {
+							@for(group <- groups) {
+								<a class="list-group-item" href="#">
+									<strong class="info"> @group.getName() </strong>
+								</a>
+							}
+						}else{ <b>Keine Gruppen vorhanden</b> }
 					</div>
-
-
+				</td>
+				<td style="width: 60%; vertical-align:top;">
+					<div class="well" style="margin-left: 20px">
+						@for(detail <- lecture.getLectureDetails()) {
+							<b>Zeitraum: </b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
+							<b>Raum: </b>@detail.getRoom()<br>
+							<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
+							<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
+							<br>
+						}	
+					</div>
+					<div class="well" style="margin-left: 20px">
+						@lecture.getDescription()
+					</div>
 				</td>
 			</tr>
 			</table>

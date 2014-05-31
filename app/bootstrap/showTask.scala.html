@@ -1,7 +1,6 @@
-@(title : String)(tasks : List[de.phoenix.rs.entity.PhoenixTask]) 
+@(title : String)(task : de.phoenix.rs.entity.PhoenixTask)
 
 @head = {}
-
 
 @isAutomatic(cls: AnyRef) = @{
     cls match {
@@ -10,13 +9,11 @@
     }
 }
 
+
 @Structure(title)(head) {
 
-<!-- Hauptueberschrift -->
-<h2 class="maintitle"> Aufgaben </h2>
- 
-
-@tasks.map { task =>
+	<h2 class="maintitle"> @task.getTitle() </h2>
+	
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 	 		<h3 class="panel-title"> @task.getTitle() @isAutomatic(task)</h3>
@@ -59,11 +56,5 @@
 			</ul>			
 		</div> <!-- Footer -->
 	</div> <!-- Panel -->
-}
-
-<!-- Zwischenueberschrift 
-<h3 class="title";>Überschrift 2</h3>	
--->
-
-
+	
 }

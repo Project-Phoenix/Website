@@ -1,0 +1,85 @@
+@(title : String)
+
+@head = {
+<script src="/assets/javascripts/tiny_mce/tiny_mce.js"></script>
+<script>
+        tinymce.init({selector:'textarea'});
+</script>
+<script>
+$(document).ready(function(){
+	$('#alert_empty').hide();
+	$('#alert_char').hide();
+});
+function validateForm() {
+	var x=document.forms["create"]["title"].value;
+	var pat = /^[a-zA-Z0-9_äÄöÖüÜ!\-\s]+$/g;
+	if (x==null || x=="") {
+		$('#alert_char').hide();
+		$('#alert_empty').show();
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
+  		return false;
+  	}
+	if (x.match(pat) == null) {
+		$('#alert_empty').hide();
+  		$('#alert_char').show();
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
+  		return false;
+  	}
+}
+</script>
+}
+
+
+@Structure(title)(head) {
+	<h2 class="maintitle"> Aufgabe erstellen </h2>
+	<form enctype="multipart/form-data" name="create" method="POST" action="sendTask" onsubmit="return validateForm()">
+	
+		<b><span class="glyphicon glyphicon-ok-circle"></span> 
+			<a href="createAutomaticTask">Automatisch getestete Aufgabe erstellen</a></b><br><br>
+
+		<div id="alert_char" class="alert alert-danger">
+	  		Es dürfen <b>keine</b> Sonderzeichen benutzt werden!
+		</div>
+		
+		
+		<div id="alert_empty" class="alert alert-danger">
+	  		Bitte einen Aufgabentitel angeben!
+		</div>
+
+		<div class="alert alert-info">
+			<b>Beschreibung</b><br><br>
+			<textarea id="editor" name="description" style="width: 100%; height: 100%" >
+		
+					<h1><strong>Um Bilder zu nutzen, bitte bei "image URL" '/images/Bildname' angeben.</strong></h1>
+					<h1><strong>Zu nutzdende Bilder m&uuml;ssen als Anhang hinzugef&uuml;gt werden.</strong></h1>
+		
+			</textarea>
+		</div>
+		
+		<div class="alert alert-info">
+			<table style="width:100%"> <tr><td style="width: 50%; text-align: center"><b>Aufgabentitel</b></td><td style="width: 50%; text-align: center"> <input name="title" style="width: 100%" type="text" ></td></tr></table>
+		</div>	
+		
+		<div class="alert alert-info">
+			<table style="width:100%">
+				<tr>
+					<td style="width: 50%; text-align: center"><b>Anhang</b></td>
+					<td style="width: 50%; text-align: center"><input type="file" name="binary" multiple/></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="alert alert-info">
+			<table style="width:100%">
+				<tr>
+					<td style="width: 50%; text-align: center"><b>Antwortvorlage</b></td>
+					<td style="width: 50%; text-align: center"><input type="file" accept="binary" name="pattern" multiple/></td>
+				</tr>
+			</table>
+		</div>
+		
+		<center><button class="btn btn-md btn-primary" type="submit" style="margin-top: 5px; width:15%">Erstellen</button></center>
+
+	</form>
+
+}

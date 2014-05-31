@@ -19,7 +19,8 @@ $(document).ready(function() {
 	
 	// Test Boxen
 	var tests = new Adding("#InputsWrapperTest","removeclassTest",
-			'<div><textarea name="test_IDNR" style="width: 100%" rows="8" ></textarea><a href="#" class="REMOVE_ID">&times; entfernen</a></div>');
+			'<div><button class="REMOVE_ID" type="button" class="small" style="margin-bottom: 4px; float: right;"><font color="red"><div class="glyphicon glyphicon-trash small"></div><b>entfernen</b></font></button>\
+			<textarea name="test_IDNR" style="max-width: 100%; min-width: 100%" rows="9" ></textarea></div>');
 
 	var createLecture = new Adding("#lectureDetail", "removeDetail",
 	'<div class="well">\

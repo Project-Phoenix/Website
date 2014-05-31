@@ -6,15 +6,15 @@
 GET  /*path/  						controllers.Application.untrail(path: String)
 
 
-GET 	/							controllers.Application.home()
+GET 	/							controllers.Application.home() 
 GET		/debug						controllers.Application.debug()
 GET		/debug_delete				controllers.Application.deleteDebug()
 GET		/images						controllers.Application.images()
 POST	/uploadImg					controllers.Application.uploadImg()
 
 # TASK
-GET 	/createTask					controllers.TaskApplication.createTask()
-GET		/showTask					controllers.TaskApplication.showTasks()
+GET 	/createTask					controllers.TaskApplication.createTask() 
+GET		/showTask					controllers.TaskApplication.showTasks() 
 POST	/sendTask					controllers.TaskApplication.sendTask()
 GET		/createAutomaticTask		controllers.TaskApplication.createAutomaticTask()
 POST	/sendAutomaticTask			controllers.TaskApplication.sendAutomaticTask()
@@ -22,11 +22,11 @@ GET 	/deleteFromTask				controllers.TaskApplication.deleteFromTask()
 
 
 # LECTURE
-GET		/createLecture				controllers.LectureApplication.createLecture()
-GET 	/showLecture				controllers.LectureApplication.showLectures()
+GET		/createLecture				controllers.LectureApplication.createLecture() 
+GET 	/showLecture				controllers.LectureApplication.showLectures() 
 GET		/existLecture				controllers.LectureApplication.existLecture()
 POST	/sendLecture				controllers.LectureApplication.sendLecture()
-POST	/deleteLecture				controllers.LectureApplication.deleteLecture()
+POST	/deleteLecture				controllers.LectureApplication.deleteLecture() 
 POST	/updateLecture				controllers.LectureApplication.updateLecture()
 
 # GROUP

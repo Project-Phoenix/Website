@@ -1,7 +1,10 @@
 package meta;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 
 import de.phoenix.rs.entity.PhoenixAttachment;
@@ -30,6 +33,18 @@ import de.phoenix.submission.DisallowedContent;
  */
 public class TaskElement extends PhoenixRequest{
     
+    private static final String IMGFORMATS = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|svg|jfif|tiff))$)";
+    
+    private static void saveImage(PhoenixAttachment img) {
+          try {
+              FileUtils.moveFile(img.getFile(), new File("public/images", img.getFullname()));
+          }
+          catch (IOException e) {
+              if (!new File("public/images/"+img.getFullname()).exists())
+                  System.out.println("Bild konnte nicht local gespeichert werden"); 
+          }    
+    }
+    
     public int create(String title, String description, List<PhoenixText> answerPattern, List<PhoenixAttachment> AttachmentList) {
         PhoenixTask toSend = new PhoenixTask(AttachmentList, answerPattern, description, title);
         this.create(PhoenixTask.createResource(CLIENT, BASE_URI), toSend);
@@ -48,11 +63,22 @@ public class TaskElement extends PhoenixRequest{
     
     public PhoenixTask get(String Tasktitle) {
         PhoenixTask result = this.get(PhoenixTask.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixTask>().addKey("title", Tasktitle));
+        
+        for(PhoenixAttachment a : result.getAttachments())
+            if (a.getFullname().matches(IMGFORMATS))
+                TaskElement.saveImage(a);
+        
         return result;
     }
     
     public List<PhoenixTask> getAll() {
         List<PhoenixTask> result = this.getAll(PhoenixTask.getResource(CLIENT, BASE_URI));
+        
+        for(PhoenixTask pt : result)
+            for(PhoenixAttachment a : pt.getAttachments())
+                if (a.getFullname().matches(IMGFORMATS))
+                    TaskElement.saveImage(a);
+        
         return result;
     }
     

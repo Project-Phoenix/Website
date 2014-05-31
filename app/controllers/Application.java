@@ -38,7 +38,6 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import util.Err;
-import util.Http;
 import views.html._Debug;
 import views.html._Images;
 import bootstrap.html.*;
