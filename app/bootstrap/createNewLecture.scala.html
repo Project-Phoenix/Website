@@ -1,51 +1,208 @@
 @(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
 @head={
-<!doctype html>
-<!-- JQuery already loaded in _Structure.scala.html -->
-<script type="text/javascript"  src="/assets/javascripts/jquery-1.9.0.min.js"></script>
-<script src="/assets/javascripts/multipleInputs.js"></script>
-<script src="/assets/javascripts/createLecture.js"></script>
+	<!doctype html>
+	<script>
+	$(document).ready(function(){
+		var detail2 = false;
+		var detail3 = false;
+		var notNumber = /\D+/
+		var splChars =/^.*?(?=[\^#%&$\*:;!\"�<>\?/\{\|\}@@]).*$/;
+		
+		for(var i = 2; i <= "@lecture.getLectureDetails().size()"; i++){
+			$("#moreDetails").click();
+		}	
+	
+		if(@lecture.getTitle()!=""){
+			$('#Submit').val('Update');
+			$('#title').val(@lecture.getTitle());
+		}
+		
+		@for(index <- 0 to lecture.getLectureDetails().size()-1){
+			document.getElementsByName("room_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getRoom()";
+			document.getElementsByName("day_"+(@index+1).toString())[0].selectedIndex = @lecture.getLectureDetails().get(index).getWeekday().getDateTimeConstant()-1;
+			document.getElementsByName("startTime_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getStartTime().toString("HH:mm")";
+			document.getElementsByName("endTime_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getEndTime().toString("HH:mm")";
+			document.getElementsByName("startDate_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getStartDate().toString("YYYY-MM-dd")";
+			document.getElementsByName("endDate_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getEndDate().toString("YYYY-MM-dd")";
+								
+	
+	
+			@if(lecture.getLectureDetails().get(index).getInterval().getDays() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getDays();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 0;
+			}else{
+				@if(lecture.getLectureDetails().get(index).getInterval().getWeeks() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getWeeks();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 1;
+				}else{
+					@if(lecture.getLectureDetails().get(index).getInterval().getMonths() > 0){
+					document.getElementsByName("period_"+(@index+1).toString())[0].value = @lecture.getLectureDetails().get(index).getInterval().getMonths();
+					document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 2;
+					}
+				}
+			}
+		}
+		
+		
+		$(document).on('change', '.Number', function(){	
+			if(notNumber.test($(this).val())){
+				$(this).val("0");
+				alert('Bitte hier eine Nummer eingeben.'); 
+			}
+		});	
+		
+		$(document).on('blur', '.Date', function(){
+			var year = parseInt($(this).val().slice(0, 4));
+			if(year <= 1583 || year >= 9999){
+				$(this).val("@util.TimeGroup.now("Y-MM-dd")");
+			    alert("Die Gregorianer werden Böse!"); 
+			    $(this).focus();
+			}
+		});
+		
+		$("#lectureDetail").on('change', '.Text', function(){	
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
+		$("#title").change(function(){
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+  		
+  		}
+  		
+		function checkLecture(inhalt)
+		{
+			$.get('/existLecture',
+				      {'title': inhalt})
+				      .success(function(data) {
+			    		  	alert("Diese Veranstaltung ist schon vorhanden!");
+			        	  	$("#title").val("");
+				      })
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/createLecture.css" />
 }
 
 @Structure(title)(head){
 	<!-- Hauptueberschrift -->
-	<h2 class="maintitle"> Veranstaltung erstellen </h2>
-	
-	<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);" id="form1">
-	
-		<input type="hidden" name="oldLecture" value="@lecture.getTitle()"/>
-		Titel:&nbsp;&nbsp;&nbsp;<input type="text" name="title" value="@lecture.getTitle()" id="title" class="Text" onchange="checkLecture(this.value)"><br><br>
-		<div id="lectureDetail">
-			<div>
-			Raum: <input type="text" name="room_1" class="Text"><br><br>
-			<select name="day_1" size="1">
-				<option value="monday" checked>Montag</option>
-				<option value="tuesday">Dienstag</option>
-				<option value="wednesday">Mittwoch</option>
-				<option value="thursday">Donnerstag</option>
-				<option value="friday">Freitag</option>
-				<option value="saturday">Samstag</option>
-				<option value="sunday">Sonntag</option>
-		    </select><br><br>		    
-			Startzeit:<input type="time" name="startTime_1" value="00:00"><br><br>
-			Endzeit: <input type="time" name="endTime_1" value="00:00"><br><br>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+	 		<h3 class="panel-title"> Veranstaltung erstellen </h3>
+		</div>
+		<div class="panel body randlassen">
+			<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);" id="form1">
 			
-			Periode:<input type="text" name="period_1" value="0" class="Number"/>
-			    <select name="periodDD_1" size="1">
-			      <option value="days">Tag(e)</option>
-			      <option value="weeks" selected>Woche(n)</option>
-			      <option value="months">Monat(e)</option>
-			    </select><br><br>
-			
-			Startdatum:<input type="date" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date" min="1584-01-01" max="9998-12-31"><br><br>			
-			Enddatum:<input type="date" name="endDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date" min="1584-01-01" max="9998-12-31"><br><br>
-			<input type="button" class="removeDetails" value="Detail l&ouml;schen"/></div>
-		</div>		
-		<input type="button" id="moreDetails" value="mehr DETAILS!"/>
-		<br>
-		<input id="Create" name="submit" type="submit" value="Create" />
-		<input id="Update" name="submit" type="submit" value="Update" />	
-	</form> 
-	
+				<input type="hidden" name="oldLecture" value="@lecture.getTitle()"/>
+				<table style="width:100%">
+					<td style="width:30%"></td>
+					<td style="width:40%">
+						<input type="text" class="form-control round-corners Text" placeholder="Titel" name="title" id="title" onchange="checkLecture(this.value)" style="width:100%">
+					</td>
+					<td style="width:30%"></td>
+				</table>
+				<br>
+				
+				<div id="lectureDetail">
+				 <div class="well">
+					<table style="width:100%">					
+						<td style="width:50%">
+  							<h4>Detail #1</h4>  
+						</td>
+						<td style="width:50%">
+							<div style="float:right">	
+								<a href="#" style="color:red" class="removeDetails">
+									<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
+								</a>
+							</div>	
+						</td>
+					</table><br>
+					
+					<table style="width:100%">					
+						<td style="width:50%">
+  							<input type="text" name="room_1" class="Text form-control round-corners" placeholder="Raum">  
+						</td>
+					</table><br>
+					
+			        <input type="hidden" name="day_1" value="monday">				    
+				    <div class="btn-group">
+					  <button type="button" class="btn btn-default">Montag</button>
+					  <button type="button" class="btn btn-default">Dienstag</button>
+					  <button type="button" class="btn btn-default">Mittwoch</button>
+					  <button type="button" class="btn btn-default">Donnerstag</button>
+					  <button type="button" class="btn btn-default">Freitag</button>
+					  <button type="button" class="btn btn-default">Samstag</button>
+					  <button type="button" class="btn btn-default">Sonntag</button>
+					</div><br><br>
+					
+					<table style="width:100%">
+						<tr>
+							<td style="width:30%">
+								Startzeit:
+							</td>
+							<td style="width:20%"></td>	
+							<td style="width:30%">
+								Endzeit:
+							</td>
+							<td style="width:20%"></td>							
+						</tr>
+						<tr>
+							<td style="width:30%">
+								<input type="time" name="startTime_1" value="00:00" class="Time form-control round-corners">
+							</td>
+							<td style="width:20%"></td>
+							<td style="width:30%">
+								<input type="time" name="endTime_1" value="00:00" class="Time form-control round-corners">
+							</td>
+							<td style="width:20%"></td>
+						</tr>					
+					</table><br>
+					
+					<div class="input-group">
+                        <input type="text" class="form-control round-corners" placeholder="Periode">
+					  <div class="input-group-btn">
+						  <button type="button" class="btn btn-default">Tag(e)</button>
+						  <button type="button" class="btn btn-default">Woche(n)</button>
+						  <button type="button" class="btn btn-default">Monat(e)</button>
+					  </div>
+					</div><br>
+
+	                 <table style="width:100%">
+						<tr>
+							<td style="width:30%">
+								Startdatum:
+							</td>
+							<td style="width:20%"></td>	
+							<td style="width:30%">
+								Enddatum:
+							</td>
+							<td style="width:20%"></td>							
+						</tr>
+						<tr>
+							<td style="width:30%">
+								<input type="date" id="startDate_1" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">
+							</td>
+							<td style="width:20%"></td>
+							<td style="width:30%">
+								<input type="date" name="endDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">
+							</td>
+							<td style="width:20%"></td>
+						</tr>					
+					</table>
+					</div>
+				</div>		
+				<input type="button" id="moreDetails" value="mehr DETAILS!"/>
+				<br>
+				<input id="Submit" name="submit" type="submit" value="Create" />
+			</form> 
+		</div>
+	</div>
 	
 }

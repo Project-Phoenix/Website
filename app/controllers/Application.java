@@ -20,7 +20,9 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -87,17 +89,14 @@ public class Application extends Controller {
         return ok(test.render("Test", lectureTitles));
     }
     
-    public static Result menu() {
+    public static Result menu() throws UnsupportedEncodingException {
         Map<String, String> data = Form.form().bindFromRequest().data();
         System.out.println(data.get("hiddenAllLectures"));
         if(data.get("hiddenAllLectures").equals("yes")){
-            return ok(bootstrap.html.showAllLectures.render("Alle Veranstaltungen", Requester.Lecture.getAll()));
+            return redirect("/showLecture?option=all");
         }else{
             if(!(data.get("hiddenLecture").equals("")) && (data.get("hiddenGroup").equals(""))){
-                return ok(bootstrap.html.showLecture.render("Veranstaltung", 
-                        Requester.Lecture.get(data.get("hiddenLecture")),
-                        Requester.Group.getAll(data.get("hiddenLecture")) 
-                    ));
+                return redirect("/showLecture?option=" + URLEncoder.encode(data.get("hiddenLecture"), "UTF-8"));
             //showGroup
             }else if((!data.get("hiddenLecture").equals("")) && (!data.get("hiddenGroup").equals("")) && (data.get("hiddenTaskSheet").equals(""))){
                 
