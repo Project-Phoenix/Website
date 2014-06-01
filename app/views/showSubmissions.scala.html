@@ -35,7 +35,8 @@
 		
 		}
 		<p>@submissions.get(i).getTexts().map { text =>
-			<p>@Html(text.getText().replace("\n", "<br>").replace(" ","&nbsp;").replace("\t","&nbsp;&nbsp;&nbsp;&nbsp;"))</p>
+			@*<!--  <p>@Html(text.getText().replace("\n", "<br>").replace(" ","&nbsp;").replace("\t","&nbsp;&nbsp;&nbsp;&nbsp;"))</p>-->*@
+			<xmp>@text.getText()</xmp>
 		}
 		<b>Anhänge</b>
 		<ul>
