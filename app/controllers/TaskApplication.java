@@ -89,7 +89,7 @@ public class TaskApplication extends Controller {
             if (request().queryString().get("option")[0].equals("all"))
                 return ok(showAllTasks.render("showTasks", Requester.Task.getAll()));
             else
-                return ok(showTask.render("showTasks", Requester.Task.get(request().queryString().get("option")[0])) );
+                return ok(bootstrap.html.showTask.render("showTasks", Requester.Task.get(request().queryString().get("option")[0])) );
         return util.Err.displayError(400,"Bad URL.");
     }
     

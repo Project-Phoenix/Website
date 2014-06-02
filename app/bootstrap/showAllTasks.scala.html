@@ -22,7 +22,13 @@
 	 		<h3 class="panel-title"> @task.getTitle() @isAutomatic(task)</h3>
 		</div>
 		<div class="panel body randlassen">
-			@Html(task.getDescription())
+			@Html(task.getDescription()) <br> <br>
+			
+			<form action="/showSubmissions" method="post">
+				<input type="hidden" value="@task.getTitle()" name="task">
+				<input type="submit" value="show Submissions" name="submissions"/>
+			</form>
+			
 		</div>
 		
 		<div class="panel-footer">
