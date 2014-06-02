@@ -116,7 +116,7 @@ $(document).ready(function() {
 	// Test Boxen ende
 	
 	//Create Lecture functions
-	$("#moreDetails").click(function (e) {
+	$("#moreDetails").click(function () {
 		createLecture.add();
 	});
 

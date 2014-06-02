@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//app/bootstrap/createNewLecture.scala.html=UTF-8
+encoding//app/bootstrap/showGroup.scala.html=UTF-8
 encoding//app/views/addGroup.scala.html=UTF-8
 encoding//app/views/createLecture.scala.html=UTF-8
 encoding/<project>=UTF-8

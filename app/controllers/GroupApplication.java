@@ -21,6 +21,7 @@ import de.phoenix.rs.entity.PhoenixTaskSheet;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.Http;
 import util.LectureCheck;
 import util.TimeGroup;
 import views.html.addGroup;
@@ -100,13 +101,23 @@ public class GroupApplication extends Controller {
           
     }
     
-    public static Result showLectureGroups() {
+    /*public static Result showLectureGroups() {
         List<PhoenixLecture> lectures = Requester.Lecture.getAll();   
         List<PhoenixLectureGroup> groups = Requester.Group.getAll( Form.form().bindFromRequest().get("lecture") );
         if (Requester.Group.getStatus() == 200)
             return ok(showGroups.render("show Groups", groups, lectures));
         else
             return util.Err.displayError(Requester.Group.getStatus(),"Error receiving group information!");  
+    }*/
+    
+    public static Result showLectureGroups(){   
+        System.out.println("I'm in groupApplication");
+        if (Http.GET("option") != null && Http.GET("group") != null)
+                return ok(bootstrap.html.showGroup.render("Gruppe", 
+                            Requester.Group.get(Http.GET("option"), Http.GET("group")),
+                            Requester.Group.getGroupTaskSheets(Http.GET("option"), Http.GET("group")))
+                        );
+       return util.Err.displayError(Requester.Lecture.getStatus(),"Error receiving lecture information!");
     }
     
     public static Result showGroupTaskSheets(){

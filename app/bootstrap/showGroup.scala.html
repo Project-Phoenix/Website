@@ -1,4 +1,4 @@
-@(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)(groups : List[de.phoenix.rs.entity.PhoenixLectureGroup])
+@(title : String)(group : de.phoenix.rs.entity.PhoenixLectureGroup)(taskSheets : List[de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet])
 
 @head = {}
 
@@ -17,7 +17,7 @@
 
 @Structure(title)(head) {
 	
-	<h2 class="maintitle"> @lecture.getTitle() </h2>
+	<h2 class="maintitle"> @group.getName() </h2>
 	
 	<div class="panel panel-success">
 		<div class="panel-heading">
@@ -28,27 +28,30 @@
 			<tr>
 				<td style="width: 15%;">
 					<div class="list-group" style="text-align: center; width:100%; float: left">
-						@if(groups.size() > 0) {
-							@for(group <- groups) {
-								<a class="list-group-item" href="/showGroup?option=@lecture.getTitle()&group=@group.getName()">
-									<strong class="info"> @group.getName() </strong>
+						@if(taskSheets.size() > 0) {
+							@for(taskSheet <- taskSheets) {
+								<a class="list-group-item" href="#">
+									<strong class="info"> @taskSheet.getTaskSheetTitle() </strong>
 								</a>
 							}
-						}else{ <b>Keine Gruppen vorhanden</b> }
+						}else{ <b>Keine �bungsbl�tter vorhanden</b> }
 					</div>
 				</td>
 				<td style="width: 60%; vertical-align:top;">
 					<div class="well" style="margin-left: 20px">
-						@for(detail <- lecture.getLectureDetails()) {
+							<b>Veranstaltung: </b>@group.getLecture().getTitle() <br>
+							<b>Max. Mitglieder: </b>@group.getMaxMember() <br>
+						@for(detail <- group.getDetails()) {
 							<b>Zeitraum: </b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
 							<b>Raum: </b>@detail.getRoom()<br>
 							<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
 							<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
-							<br>
 						}	
+							<b>Deadline für Abgaben immer: </b>@getGerWeekday(group.getSubmissionDeadlineWeekday().getDateTimeConstant()), @group.getSubmissionDeadlineTime().toString("hh:mm") Uhr<br>
+							<br>							
 					</div>
 					<div class="well" style="margin-left: 20px">
-						@lecture.getDescription()
+						@group.getDescription()
 					</div>
 				</td>
 			</tr>

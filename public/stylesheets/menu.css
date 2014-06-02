@@ -2,6 +2,10 @@ body{
 	padding: 50px;
 }
 
+#everythinElse{
+	z-index:100;
+}
+
 .navbar{
 	opacity: 0.9;
 }

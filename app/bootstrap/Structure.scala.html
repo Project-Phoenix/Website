@@ -12,6 +12,7 @@
 
 	<script type="text/javascript" src="/assets/javascripts/jquery-1.9.0.min.js"></script>
 	<script type="text/javascript" src="/assets/javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/javascripts/bootstrap-select.js"></script>
 	<script type="text/javascript" src="/assets/javascripts/multipleInputs.js"></script>
 	<script type="text/javascript" src="/assets/javascripts/menu.js"></script>
 
@@ -19,7 +20,8 @@
 	<!-- <link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap.css" /> -->
 	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css" />
 	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/menu.css" />
-	
+	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-select.css" />
+		
 	<!-- <link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-theme.min.css" />  -->
 	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -68,7 +70,7 @@
     		    @if(lecture.getGroupTitles().size() != 0){
 					@for(group <- lecture.getGroupTitles()){
 				       	<div class="navbar-header">
-			        		<a class="navbar-brand groupButtons" href="#" name="@lecture.getTitle()@group.getTitle()">@group.getTitle()</a>
+			        		<a class="navbar-brand groupButtons" href="#" name="@lecture.getTitle()@group.getTitle()" id="@group.getTitle()">@group.getTitle()</a>
 			      		</div>		
 					}
 			    }else{

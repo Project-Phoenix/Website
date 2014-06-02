@@ -1,21 +1,23 @@
 @(title : String)(lecture : de.phoenix.rs.entity.PhoenixLecture)
 @head={
 	<!doctype html>
-	<script>
+	<script type="text/javascript">
 	$(document).ready(function(){
+
 		var detail2 = false;
 		var detail3 = false;
-		var notNumber = /\D+/
+		var notNumber = /\D+/;
 		var splChars =/^.*?(?=[\^#%&$\*:;!\"�<>\?/\{\|\}@@]).*$/;
 		
 		for(var i = 2; i <= "@lecture.getLectureDetails().size()"; i++){
 			$("#moreDetails").click();
 		}	
-	
-		if(@lecture.getTitle()!=""){
+		
+		@if(lecture.getTitle()!=""){
 			$('#Submit').val('Update');
 			$('#title').val(@lecture.getTitle());
 		}
+
 		
 		@for(index <- 0 to lecture.getLectureDetails().size()-1){
 			document.getElementsByName("room_"+(@index+1).toString())[0].value = "@lecture.getLectureDetails().get(index).getRoom()";
@@ -75,18 +77,23 @@
 			    $(this).focus(); 
 			}
 		});
+		
+	    $(document).on('change', 'input:radio[name="weekDay"]', function (event) {
+	        $(this).parents(".buttonGroupParent").children(".hiddenInput").val($(this).val());
+	    	alert($(this).parents(".buttonGroupParent").children(".hiddenInput").val());
+	    });
+		
+	});
   		
-  		}
-  		
-		function checkLecture(inhalt)
-		{
-			$.get('/existLecture',
-				      {'title': inhalt})
-				      .success(function(data) {
-			    		  	alert("Diese Veranstaltung ist schon vorhanden!");
-			        	  	$("#title").val("");
-				      })
-		}
+	function checkLecture(inhalt)
+	{
+		$.get('/existLecture',
+			      {'title': inhalt})
+			      .success(function(data) {
+		    		  	alert("Diese Veranstaltung ist schon vorhanden!");
+		        	  	$("#title").val("");
+			      })
+	}
 	</script>
 	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/createLecture.css" />
 }
@@ -130,17 +137,33 @@
   							<input type="text" name="room_1" class="Text form-control round-corners" placeholder="Raum">  
 						</td>
 					</table><br>
-					
-			        <input type="hidden" name="day_1" value="monday">				    
-				    <div class="btn-group">
-					  <button type="button" class="btn btn-default">Montag</button>
-					  <button type="button" class="btn btn-default">Dienstag</button>
-					  <button type="button" class="btn btn-default">Mittwoch</button>
-					  <button type="button" class="btn btn-default">Donnerstag</button>
-					  <button type="button" class="btn btn-default">Freitag</button>
-					  <button type="button" class="btn btn-default">Samstag</button>
-					  <button type="button" class="btn btn-default">Sonntag</button>
-					</div><br><br>
+
+					<div class="buttonGroupParent">
+				        <input type="hidden" name="day_1" value="monday" class="hiddenInput">	
+						<div class="btn-group" data-toggle="buttons">
+						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="monday"> Montag
+						  </label>
+						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="tuesday"> Dienstag
+						  </label>
+						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="wednesday"> Mittwoch
+						  </label>
+ 						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="thursday"> Donnerstag
+						  </label>
+  						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="friday"> Freitag
+						  </label>
+  						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="saturday"> Samstag
+						  </label>
+  						  <label class="btn btn-default">
+						    <input type="radio" name="weekDay" value="sunday"> Sonntag
+						  </label>
+						</div>	
+					</div><br>
 					
 					<table style="width:100%">
 						<tr>
@@ -198,9 +221,10 @@
 					</table>
 					</div>
 				</div>		
-				<input type="button" id="moreDetails" value="mehr DETAILS!"/>
-				<br>
-				<input id="Submit" name="submit" type="submit" value="Create" />
+				<input type="button" id="moreDetails2" value="weiteren Termin" class="btn btn-primary"/>
+				<input type="button" id="moreDetails" value="weiteren Termin" class="btn btn-primary"/>
+				<br><br>
+				<input id="Submit" name="submit" type="submit" value="Create" class="btn btn-success"/>
 			</form> 
 		</div>
 	</div>

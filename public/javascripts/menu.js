@@ -142,7 +142,8 @@ $(document).ready(function(){
 
   	.dblclick(function(e){
 		e.preventDefault();
-		$('#hiddenLecture').val($(this).attr('name'));
+		$('#hiddenLecture').val($('.lectureButtons.myActive').attr('name'));
+		$('#hiddenGroup').val($(this).attr('id'));
 		$('#menuForm').submit();
    	});
 });
