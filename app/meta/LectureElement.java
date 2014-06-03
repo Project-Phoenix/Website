@@ -25,8 +25,8 @@ public class LectureElement extends PhoenixRequest {
         return this.getStatus();
     }
 
-    public int create(String title, List<PhoenixDetails> detailsList) {
-        PhoenixLecture toSend = new PhoenixLecture(title, detailsList);
+    public int create(String title, String description, List<PhoenixDetails> detailsList) {
+        PhoenixLecture toSend = new PhoenixLecture(title, description, detailsList);
         this.create(PhoenixLecture.createResource(CLIENT, BASE_URI), toSend);
         return this.getStatus();
     }

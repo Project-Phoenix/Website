@@ -80,7 +80,10 @@
 		
 	    $(document).on('change', 'input:radio[name="weekDay"]', function (event) {
 	        $(this).parents(".buttonGroupParent").children(".hiddenInput").val($(this).val());
-	    	alert($(this).parents(".buttonGroupParent").children(".hiddenInput").val());
+	    });
+	    
+   	    $(document).on('change', 'input:radio[name="period"]', function (event) {
+	        $(this).parents(".buttonPeriodParent").children(".hiddenPeriod").val($(this).val());
 	    });
 		
 	});
@@ -119,16 +122,14 @@
 				
 				<div id="lectureDetail">
 				 <div class="well">
-					<table style="width:100%">					
+					<table style="width:100%" class="parentTable">					
 						<td style="width:50%">
   							<h4>Detail #1</h4>  
 						</td>
 						<td style="width:50%">
-							<div style="float:right">	
-								<a href="#" style="color:red" class="removeDetails">
+								<a href="#" style="color:red; float:right" class="removeDetails">
 									<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
 								</a>
-							</div>	
 						</td>
 					</table><br>
 					
@@ -136,6 +137,7 @@
 						<td style="width:50%">
   							<input type="text" name="room_1" class="Text form-control round-corners" placeholder="Raum">  
 						</td>
+						<td style="width:50%"></td>
 					</table><br>
 
 					<div class="buttonGroupParent">
@@ -188,14 +190,32 @@
 						</tr>					
 					</table><br>
 					
-					<div class="input-group">
-                        <input type="text" class="form-control round-corners" placeholder="Periode">
-					  <div class="input-group-btn">
-						  <button type="button" class="btn btn-default">Tag(e)</button>
-						  <button type="button" class="btn btn-default">Woche(n)</button>
-						  <button type="button" class="btn btn-default">Monat(e)</button>
-					  </div>
-					</div><br>
+                 	<table style="width:100%">
+						<tr>
+							<td style="width:30%">
+			                        <input type="text" class="form-control round-corners Number" placeholder="Periode" name="period_1">
+							</td>
+							<td style="width:50%">	
+								<div class="buttonPeriodParent">
+							        <input type="hidden" name="periodDD_1" value="weeks" class="hiddenPeriod">	
+									<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-default">
+									    <input type="radio" name="period" value="days"> Tag(e)
+									  </label>
+			  						  <label class="btn btn-default">
+									    <input type="radio" name="period" value="weeks"> Woche(n)
+									  </label>
+			  						  <label class="btn btn-default">
+									    <input type="radio" name="period" value="months"> Monat(e)
+									  </label>
+									 </div>
+								</div>
+								</td>
+								<td style="width:20%"></td>
+							</tr>
+						</table>	
+								
+								<br>
 
 	                 <table style="width:100%">
 						<tr>
@@ -210,7 +230,7 @@
 						</tr>
 						<tr>
 							<td style="width:30%">
-								<input type="date" id="startDate_1" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">
+								<input type="date" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">
 							</td>
 							<td style="width:20%"></td>
 							<td style="width:30%">
@@ -221,9 +241,11 @@
 					</table>
 					</div>
 				</div>		
-				<input type="button" id="moreDetails2" value="weiteren Termin" class="btn btn-primary"/>
 				<input type="button" id="moreDetails" value="weiteren Termin" class="btn btn-primary"/>
 				<br><br>
+				Beschreibung:<br>
+				<textarea class="form-control round-corners" rows="3" name="description"></textarea>
+				<br>
 				<input id="Submit" name="submit" type="submit" value="Create" class="btn btn-success"/>
 			</form> 
 		</div>

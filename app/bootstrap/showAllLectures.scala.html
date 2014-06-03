@@ -1,4 +1,5 @@
 @(title : String)(lectures : List[de.phoenix.rs.entity.PhoenixLecture])
+@import java.net.URLEncoder;
 
 @head = {}
 
@@ -10,7 +11,7 @@
 
 <div class="list-group" style="margin: 5%;text-align: center;">
 	@lectures.map { lecture =>
-		<a class="list-group-item" href="#">
+		<a class="list-group-item" href="/showLecture?option=@lecture.getTitle()">
 			<h4><strong class="info">@lecture.getTitle()</strong></h4>
 		</a>
 	}
