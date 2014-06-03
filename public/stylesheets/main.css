@@ -5,6 +5,14 @@ body {
 	background-color: #FFFFFF;
 }
 
+td.pad, th.pad{
+    padding-left:10px;
+}
+
+th.pad {
+	padding-bottom: 5px;
+}
+
 
 /* Colors */
 

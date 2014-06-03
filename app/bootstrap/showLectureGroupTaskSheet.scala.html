@@ -1,0 +1,41 @@
+@(title : String)(lectureTitle : String)(groupName : String)(sheets : List[de.phoenix.rs.entity.PhoenixLectureGroupTaskSheet]) 
+@import java.net._
+
+@head = {}
+
+
+@Structure(title)(head)	{
+	<h2 class="maintitle">Aufgabenblatt</h2>
+	 @sheets.map { sheet =>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+		 		<h3 class="panel-title"> @sheet.getTaskSheetTitle() </h3> @if(flash.get("success") == sheet.getTaskSheetTitle()){<font color="green"><i>geändert</i></font>}
+			</div>
+			<div style="align: center"class="panel body randlassen">
+			
+			<table class="center">
+			<tr>
+			<th></th>
+			<th class="pad">Erscheint am</th>
+			<th class="pad">Abgabe</th>
+			<th class="pad"></th>
+			</tr>
+			@sheet.getTasks().map { task =>
+				<tr>
+					<form method="POST" action="/changeTaskDate">
+						<td><a href="/showTask?option=@task.getTask().getTitle()">@task.getTask().getTitle()</a></td>
+						<td class="pad"><input type="datetime-local" name="release" value="@org.joda.time.format.DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").print(task.getReleaseDate())"/></td>
+			      	 	<td class="pad"><input type="datetime-local" name="deadline" value="@org.joda.time.format.DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").print(task.getDeadlineDate())"/></td>
+						<td class="pad"><input type="submit" name="change" value="Ändern"></td>
+						<input type="hidden" name="meta" value='@lectureTitle;@groupName;@sheet.getTaskSheetTitle();@task.getTask().getTitle()' />
+					</form>
+				</tr>
+			}
+		</table>
+			
+			
+			
+			</div>
+		</div> 
+	}	
+}

@@ -1,12 +1,18 @@
 package controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import meta.Requester;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -111,7 +117,6 @@ public class GroupApplication extends Controller {
     }*/
     
     public static Result showLectureGroups(){   
-        System.out.println("I'm in groupApplication");
         if (Http.GET("option") != null && Http.GET("group") != null)
                 return ok(bootstrap.html.showGroup.render("Gruppe", 
                             Requester.Group.get(Http.GET("option"), Http.GET("group")),
@@ -121,12 +126,22 @@ public class GroupApplication extends Controller {
     }
     
     public static Result showGroupTaskSheets(){
-        String groupName = Form.form().bindFromRequest().get("groupName");
-        String lectureTitle = Form.form().bindFromRequest().get("lectureTitle");
+        String lectureTitle = util.Http.GET("ltitle");
+        String groupName = util.Http.GET("gname");
+        String sheet = util.Http.GET("sheet");
+        
         List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(lectureTitle, groupName);
 
-        if(Requester.Group.getStatus()==200) 
-            return ok(showLectureGroupTaskSheets.render("show TaskSheet", lectureTitle, groupName, sheets));
+        if (sheet != null)
+            for(PhoenixLectureGroupTaskSheet s : sheets)
+                if (s.getTaskSheetTitle().equals(sheet)) {
+                    sheets = new ArrayList<PhoenixLectureGroupTaskSheet>();
+                    sheets.add(s);
+                    break;
+                }
+        
+        if(Requester.Group.getStatus()==200)
+            return ok(bootstrap.html.showLectureGroupTaskSheet.render("show TaskSheet", lectureTitle, groupName, sheets));
         else
             return util.Err.displayError(Requester.Group.getStatus(),"Error receiving tasksheet information!");
 
@@ -134,19 +149,28 @@ public class GroupApplication extends Controller {
     
     public static Result changeTaskDate() {
         String[] meta = Form.form().bindFromRequest().get("meta").split(";");
+        
+        /*decode all array entries
+        for (int i=0; i < meta.length; meta[i] = util.Http.urlDecode(meta[i]),i++);*/
+        
         Requester.Task.setDatedTask(
-                DateTime.parse(Form.form().bindFromRequest().get("deadline"), DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm")), 
-                        DateTime.parse(Form.form().bindFromRequest().get("release"), DateTimeFormat.forPattern("Y-MM-dd'T'HH:mm")),
+                DateTime.parse(Form.form().bindFromRequest().get("deadline"), DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").withZoneUTC()), 
+                        DateTime.parse(Form.form().bindFromRequest().get("release"), DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").withZoneUTC()),
                                 meta[0], meta[1], meta[2], meta[3]);
 
+        
         if(Requester.Task.getStatus()!=200) 
             return util.Err.displayError(Requester.Task.getStatus(),"Unable to set date properly!");
-  
-        List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(meta[0], meta[1]);
+        
         if(Requester.Group.getStatus()!=200) 
             return util.Err.displayError(Requester.Group.getStatus(),"Error receiving tasksheet information!");
         
-        return ok(showLectureGroupTaskSheets.render("show TaskSheet", meta[0], meta[1], sheets));
+        flash("success", meta[2]);
+
+        //encode all array entries
+        for (int i=0; i < meta.length; meta[i] = util.Http.urlEncode(meta[i]),i++); 
+        
+        return redirect("/showGroupTaskSheets?ltitle="+meta[0]+"&gname="+meta[1]);
     }
     
 

@@ -1,0 +1,42 @@
+@(title : String)(tasks : List[String])
+
+@head = {
+		<script type="text/javascript" src="/assets/javascripts/bootstrap-checkbox.js"></script>
+		<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-checkbox.css" />	
+}
+
+
+@Structure(title)(head) {
+	
+	<h2 class="maintitle"> Aufgabenblatt erstellen </h2>
+
+	<form method="POST" action="/sendTaskSheet">
+		<div class="alert alert-info">
+			<table style="width:100%; text-align: center"><tr><td style="width:50%"><b>Aufgabenblattname</b></td> <td style="width:50%"><input type="text" name="sheetname" value=""></td></tr></table>
+		</div>
+		<div class="alert alert-info">
+			<table style="width:100%;">
+			<tr>
+				<td style="float: left; width: 50%;padding-left:1%">
+					@for(i <- 0 until tasks.size()/2+1){
+						<input type="checkbox" class="checkbox" name="@tasks.get(i)">@tasks.get(i)<br>
+				     }
+		      	</td>
+		      	<td style="float: left; width: 50%; padding-left:1%">
+			      	@for(i <- tasks.size()/2+1 until tasks.size()) {
+			      		<input type="checkbox" class="checkbox" name="@tasks.get(i)">@tasks.get(i)<br>
+			      	}
+			    </td>
+			</tr>    
+	      	</table>
+      	</div>
+
+      	<center><button class="btn btn-md btn-primary" type="submit" style="margin-top: 5px; width:15%">Erstellen</button></center>
+      	
+    </form>
+
+	<!-- To change the checkboxes -->
+	<script type="text/javascript">	
+		$('input[type="checkbox"]').checkbox();
+	</script>
+}

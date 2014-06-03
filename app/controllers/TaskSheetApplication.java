@@ -17,6 +17,7 @@ import views.html.showTaskSheet;
 import views.html.stringShower;
 import views.html.addTaskToTaskSheet;
 
+
 public class TaskSheetApplication extends Controller {
     
     public static Result showTaskSheets() {
@@ -27,7 +28,7 @@ public class TaskSheetApplication extends Controller {
         ArrayList<String> titles = new ArrayList<String>();
         for(PhoenixTask t : Requester.Task.getAll())
             titles.add(t.getTitle());
-        return ok(createTaskSheet.render("Create Task Sheet", titles));
+        return ok(bootstrap.html.createTaskSheet.render("Create Task Sheet", titles));
     }
 
     
@@ -36,7 +37,7 @@ public class TaskSheetApplication extends Controller {
         raw.remove("submit");
         String sheetname = raw.get("sheetname");
         raw.remove("sheetname");
-        
+
         ArrayList<String> taskTitlesList = new ArrayList<String>();
         taskTitlesList.addAll(raw.keySet());
         Requester.TaskSheet.create(sheetname, taskTitlesList);
