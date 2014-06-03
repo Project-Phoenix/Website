@@ -1,0 +1,273 @@
+@(title : String)(lectures : List[de.phoenix.rs.entity.PhoenixLecture])(group : de.phoenix.rs.entity.PhoenixLectureGroup)
+@head={
+<!doctype html>
+<script type="text/javascript">
+	var notNumber = /\D+/
+	var splChars =/^.*?(?=[\^#%&$\*:;!\"�<>\?/\{\|\}@@]).*$/;
+	
+
+	$(document).ready(function(){
+		for(var i = 2; i <= "@group.getDetails().size()"; i++){
+			$("#moreDetails").click();
+		}
+
+		@if(group.getName()!=""){
+			$('#Submit').val('Update');
+			$('#title').val(@group.getName());
+		}
+		
+		@for(index <- 0 to group.getDetails().size()-1){
+			document.getElementsByName("room_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getRoom()";
+			document.getElementsByName("day_"+(@index+1).toString())[0].selectedIndex = "@group.getDetails().get(index).getWeekday().getDateTimeConstant()"-1;
+			document.getElementsByName("startTime_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getStartTime().toString("HH:mm")";
+			document.getElementsByName("endTime_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getEndTime().toString("HH:mm")";
+			document.getElementsByName("startDate_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getStartDate().toString("YYYY-MM-dd")";
+			document.getElementsByName("endDate_"+(@index+1).toString())[0].value = "@group.getDetails().get(index).getEndDate().toString("YYYY-MM-dd")";
+								
+
+
+			@if(group.getDetails().get(index).getInterval().getDays() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @group.getDetails().get(index).getInterval().getDays();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 0;
+			}else{
+				@if(group.getDetails().get(index).getInterval().getWeeks() > 0){
+				document.getElementsByName("period_"+(@index+1).toString())[0].value = @group.getDetails().get(index).getInterval().getWeeks();
+				document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 1;
+				}else{
+					@if(group.getDetails().get(index).getInterval().getMonths() > 0){
+					document.getElementsByName("period_"+(@index+1).toString())[0].value = @group.getDetails().get(index).getInterval().getMonths();
+					document.getElementsByName("periodDD_"+(@index+1).toString())[0].selectedIndex = 2;
+					}
+				}
+			}
+		}
+		
+		document.getElementsByName("submissionDay")[0].selectedIndex = @group.getSubmissionDeadlineWeekday().getDateTimeConstant()-1;
+				
+		@for(index <- 0 to lectures.size()-1){
+			@if(lectures.get(index).getTitle() == group.getLecture().getTitle()){
+				document.getElementsByName("selectLecture")[0].selectedIndex = @index;
+			}
+		}
+		
+		$(document).on('change', '.Number', function(){	
+			if(notNumber.test($(this).val())){
+				$(this).val("0");
+				alert('Bitte hier eine Nummer eingeben.'); 
+			    $(this).focus(); 
+			}
+		});	
+		
+		$("#lectureDetail").on('change', '.Text', function(){	
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
+		$("#title").change(function(){
+			if(splChars.test($(this).val())){
+				$(this).val('');
+			    alert ("Illegal characters detected!"); 
+			    $(this).focus(); 
+			}
+		});
+		
+	    $(document).on('change', 'input:radio[name="weekDay"]', function (event) {
+	        $(this).parents(".buttonGroupParent").children(".hiddenInput").val($(this).val());
+	    });
+
+	    $(document).on('change', 'input:radio[name="submissionDay"]', function (event) {
+	        $(this).parents(".buttonSubmissionParent").children(".hiddenInput").val($(this).val());
+	    });
+	    
+   	    $(document).on('change', 'input:radio[name="period"]', function (event) {
+	        $(this).parents(".buttonPeriodParent").children(".hiddenPeriod").val($(this).val());
+	    });
+	});
+	</script>
+}
+
+@Structure(title)(head){
+<div class="panel panel-primary">
+	<div class="panel-heading">
+ 		<h3 class="panel-title"> Veranstaltung erstellen </h3>
+	</div>
+	<div class="panel body randlassen">
+	<form action="/sendGroup" method="post" onsubmit="return ValidateForm(this);">
+		<input type="hidden" name="oldLecture" value="@group.getLecture().getTitle()"/>
+		<input type="hidden" name="oldName" value="@group.getName()"/>
+		<table style="width:100%">
+			<td style="width:30%"></td>
+			<td style="width:40%">
+				<input type="text" class="form-control round-corners Text" placeholder="Titel" name="title" id="title" onchange="checkLecture(this.value)" style="width:100%">
+			</td>
+			<td style="width:30%"></td>
+		</table><br>
+		Zugeh&ouml;rige Veranstaltung:&nbsp;&nbsp;&nbsp;
+		<select name="selectLecture" size="1"> 
+			@lectures.map{ lecture =>
+				<option>@lecture.getTitle()</option>
+			}		
+		</select><br><br>
+		Maximale Gr&ouml;&szlig;e:&nbsp;&nbsp;&nbsp;<input type="text" name="size" class="Number form-control round-corners" value="@group.getMaxMember()"><br><br>
+		<div id="lectureDetail">
+			 <div class="well">
+				<table style="width:100%" class="parentTable">					
+					<td style="width:50%">
+ 							<h4>Detail #1</h4>  
+					</td>
+					<td style="width:50%">
+							<a href="#" style="color:red; float:right" class="removeDetails">
+								<font color="red"><div class="glyphicon glyphicon-remove"></div></font>
+							</a>
+					</td>
+				</table><br>
+				
+				<table style="width:100%">					
+					<td style="width:50%">
+ 							<input type="text" name="room_1" class="Text form-control round-corners" placeholder="Raum">  
+					</td>
+					<td style="width:50%"></td>
+				</table><br>
+
+				<div class="buttonGroupParent">
+			        <input type="hidden" name="day_1" value="monday" class="hiddenInput">	
+					<div class="btn-group" data-toggle="buttons">
+					  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="monday"> Montag
+					  </label>
+					  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="tuesday"> Dienstag
+					  </label>
+					  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="wednesday"> Mittwoch
+					  </label>
+						  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="thursday"> Donnerstag
+					  </label>
+ 						  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="friday"> Freitag
+					  </label>
+ 						  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="saturday"> Samstag
+					  </label>
+ 						  <label class="btn btn-default">
+					    <input type="radio" name="weekDay" value="sunday"> Sonntag
+					  </label>
+					</div>	
+				</div><br>
+				
+				<table style="width:100%">
+					<tr>
+						<td style="width:30%">
+							Startzeit:
+						</td>
+						<td style="width:20%"></td>	
+						<td style="width:30%">
+							Endzeit:
+						</td>
+						<td style="width:20%"></td>							
+					</tr>
+					<tr>
+						<td style="width:30%">
+							<input type="time" name="startTime_1" value="00:00" class="Time form-control round-corners">
+						</td>
+						<td style="width:20%"></td>
+						<td style="width:30%">
+							<input type="time" name="endTime_1" value="00:00" class="Time form-control round-corners">
+						</td>
+						<td style="width:20%"></td>
+					</tr>					
+				</table><br>
+				
+                	<table style="width:100%">
+					<tr>
+						<td style="width:30%">
+		                        <input type="text" class="form-control round-corners Number" placeholder="Periode" name="period_1">
+						</td>
+						<td style="width:50%">	
+							<div class="buttonPeriodParent">
+						        <input type="hidden" name="periodDD_1" value="weeks" class="hiddenPeriod">	
+								<div class="btn-group" data-toggle="buttons">
+								  <label class="btn btn-default">
+								    <input type="radio" name="period" value="days"> Tag(e)
+								  </label>
+		  						  <label class="btn btn-default">
+								    <input type="radio" name="period" value="weeks"> Woche(n)
+								  </label>
+		  						  <label class="btn btn-default">
+								    <input type="radio" name="period" value="months"> Monat(e)
+								  </label>
+								 </div>
+							</div>
+							</td>
+							<td style="width:20%"></td>
+						</tr>
+					</table>	
+							
+							<br>
+
+                 <table style="width:100%">
+					<tr>
+						<td style="width:30%">
+							Startdatum:
+						</td>
+						<td style="width:20%"></td>	
+						<td style="width:30%">
+							Enddatum:
+						</td>
+						<td style="width:20%"></td>							
+					</tr>
+					<tr>
+						<td style="width:30%">
+							<input type="date" name="startDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">
+						</td>
+						<td style="width:20%"></td>
+						<td style="width:30%">
+							<input type="date" name="endDate_1" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">
+						</td>
+						<td style="width:20%"></td>
+					</tr>					
+				</table>
+				</div>
+			</div>		
+		<input type="button" id="moreDetails" value="weiteren Termin" class="btn btn-primary"/><br><br>
+		Abgabetag:<br>		
+		<div class="buttonSubmissionParent">
+	        <input type="hidden" name="submissionDay" value="monday" class="hiddenInput">	
+			<div class="btn-group" data-toggle="buttons">
+			  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="monday"> Montag
+			  </label>
+			  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="tuesday"> Dienstag
+			  </label>
+			  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="wednesday"> Mittwoch
+			  </label>
+				  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="thursday"> Donnerstag
+			  </label>
+					  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="friday"> Freitag
+			  </label>
+					  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="saturday"> Samstag
+			  </label>
+					  <label class="btn btn-default">
+			    <input type="radio" name="submissionDay" value="sunday"> Sonntag
+			  </label>
+			</div>	
+		</div><br>
+		Abgabezeit:<input type="time" name="submissionTime" value="00:00" class="Time form-control round-corners"><br>
+		Beschreibung:<br>
+		<textarea class="form-control round-corners" rows="3" name="description"></textarea>
+		<br>
+		<input id="Submit" name="Submit" type="submit" value="Create" class="btn btn-success"/>
+	</form> 
+	</div>
+</div>	
+}
+		

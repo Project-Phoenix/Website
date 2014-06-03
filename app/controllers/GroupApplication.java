@@ -24,11 +24,8 @@ import play.mvc.Result;
 import util.Http;
 import util.LectureCheck;
 import util.TimeGroup;
-import views.html.addGroup;
-import views.html.addTaskSheetToGroup;
-import views.html.showGroups;
-import views.html.showLectureGroupTaskSheets;
-import views.html.stringShower;
+import views.html.*;
+import bootstrap.html.*;
 
 public class GroupApplication extends Controller {
    
@@ -40,22 +37,23 @@ public class GroupApplication extends Controller {
         PhoenixDetails details = new PhoenixDetails("", Weekday.MONDAY, time, time, period, date, date);
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
-        PhoenixLecture emptyLecture = new PhoenixLecture("", listDetails);
-        PhoenixLectureGroup emptyGroup = new PhoenixLectureGroup("", 0, Weekday.MONDAY, time, listDetails, emptyLecture);
-        return ok(addGroup.render("add Group", Requester.Lecture.getAll(), emptyGroup));
+        PhoenixLecture emptyLecture = new PhoenixLecture("", "", listDetails);
+        PhoenixLectureGroup emptyGroup = new PhoenixLectureGroup("", "", 0, Weekday.MONDAY, time, listDetails, emptyLecture);
+        return ok(bootstrap.html.addNewGroup.render("add Group", Requester.Lecture.getAll(), emptyGroup));
     }
     
     public static Result sendGroup() {        
         //Array to get the inputs form addGroup
         Map<String, String> data = Form.form().bindFromRequest().data();
         String title = data.get("title");
+        String description = data.get("description");
         String lecture = data.get("selectLecture");
         int size = Integer.parseInt(data.get("size"));
         String submissionDay = data.get("submissionDay");
         LocalTime submissionTime = LectureCheck.getTime(data.get("submissionTime"));       
         
         if(data.get("Submit").equals("Create")){
-            Requester.Lecture.addGroup(lecture, title, size, submissionDay, submissionTime, LectureCheck.createDetails(data));
+            Requester.Lecture.addGroup(lecture, title, description, size, submissionDay, submissionTime, LectureCheck.createDetails(data));
             if(Requester.Lecture.getStatus() == 200)
                 return ok(stringShower.render("strings to show", "Good News!"));
             else

@@ -28,13 +28,13 @@
 			<tr>
 				<td style="width: 15%;">
 					<div class="list-group" style="text-align: center; width:100%; float: left">
-						@if(taskSheets.size() > 0) {
+						@if(taskSheets != null) {
 							@for(taskSheet <- taskSheets) {
 								<a class="list-group-item" href="#">
 									<strong class="info"> @taskSheet.getTaskSheetTitle() </strong>
 								</a>
 							}
-						}else{ <b>Keine �bungsbl�tter vorhanden</b> }
+						}else{ <b>Keine &uuml;bungsbl&auml;tter vorhanden</b> }
 					</div>
 				</td>
 				<td style="width: 60%; vertical-align:top;">
@@ -46,6 +46,7 @@
 							<b>Raum: </b>@detail.getRoom()<br>
 							<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
 							<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
+							<br>
 						}	
 							<b>Deadline für Abgaben immer: </b>@getGerWeekday(group.getSubmissionDeadlineWeekday().getDateTimeConstant()), @group.getSubmissionDeadlineTime().toString("hh:mm") Uhr<br>
 							<br>							
