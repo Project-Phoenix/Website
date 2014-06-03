@@ -29,17 +29,20 @@ public class LectureApplication extends Controller {
         PhoenixDetails details = new PhoenixDetails("", Weekday.MONDAY, time, time, period, date, date);
         List<PhoenixDetails> listDetails = new ArrayList<PhoenixDetails>();
         listDetails.add(details);
-        PhoenixLecture lecture = new PhoenixLecture("", listDetails);
+        PhoenixLecture lecture = new PhoenixLecture("", "", listDetails);
         return ok(bootstrap.html.createNewLecture.render("Create Lecture", lecture));
     }
     
     public static Result sendLecture() {   
         Map<String, String> data = Form.form().bindFromRequest().data();
         String title = data.get("title");
+        String description = data.get("description");
+        System.out.println(data.get("startDate_1"));
+        System.out.println(data.get("endDate_1"));
         if(data.get("submit").equals("Create")){
-            Requester.Lecture.create(title, LectureCheck.createDetails(data));   
+            Requester.Lecture.create(title, description, LectureCheck.createDetails(data));   
             if(Requester.Lecture.getStatus() == 200)
-                return ok(stringShower.render("strings to show", "Good News!"));
+                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating this lecture!");
         }else if(data.get("submit").equals("Update")){          
@@ -64,7 +67,7 @@ public class LectureApplication extends Controller {
             }
             
             if(Requester.Lecture.getStatus() == 200)
-                return ok(stringShower.render("strings to show", "Good News!"));
+                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error updating this lecture!");
         }else

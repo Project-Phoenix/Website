@@ -17,16 +17,16 @@ import de.phoenix.rs.key.UpdateEntity;
 
 public class LectureElement extends PhoenixRequest {
     
-    public int addGroup(String Lecturetitle, String name, int maxMember, String submissionDeadlineWeekday, LocalTime submissionDeadlineTime, List<PhoenixDetails> details) {
+    public int addGroup(String Lecturetitle, String name, String description, int maxMember, String submissionDeadlineWeekday, LocalTime submissionDeadlineTime, List<PhoenixDetails> details) {
         PhoenixLecture lecture = this.get(PhoenixLecture.getResource(CLIENT, BASE_URI), new SelectEntity<PhoenixLecture>().addKey("title", Lecturetitle));
         System.out.println(lecture);
-        PhoenixLectureGroup group = new PhoenixLectureGroup(name, maxMember, Weekday.forName(submissionDeadlineWeekday), submissionDeadlineTime, details, lecture);
+        PhoenixLectureGroup group = new PhoenixLectureGroup(name, description, maxMember, Weekday.forName(submissionDeadlineWeekday), submissionDeadlineTime, details, lecture);
         this.create(PhoenixLecture.addGroupResource(CLIENT, BASE_URI), KeyReader.createAddTo(lecture, Arrays.asList(group)));
         return this.getStatus();
     }
 
-    public int create(String title, List<PhoenixDetails> detailsList) {
-        PhoenixLecture toSend = new PhoenixLecture(title, detailsList);
+    public int create(String title, String description, List<PhoenixDetails> detailsList) {
+        PhoenixLecture toSend = new PhoenixLecture(title, description, detailsList);
         this.create(PhoenixLecture.createResource(CLIENT, BASE_URI), toSend);
         return this.getStatus();
     }
