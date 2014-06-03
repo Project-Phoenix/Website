@@ -26,19 +26,25 @@ $(document).ready(function() {
 	'<div class="well">\
 			<table style="width:100%" class="parentTable">\
 	<td style="width:50%">\
-			<h4>Detail #IDNR</h4>\
+			<h4>Termin #IDNR</h4>\
 	</td>\
 	<td style="width:50%">\
 			<a href="#" style="color:red; float:right" class="removeDetails">\
 				<font color="red"><div class="glyphicon glyphicon-remove"></div></font>\
 			</a>\
 	</td>\
-</table><br>\
+</table>\
 <table style="width:100%">\
-	<td style="width:50%">\
-			<input type="text" name="room_IDNR" class="Text form-control round-corners" placeholder="Raum">\
-	</td>\
-	<td style="width:50%"></td>\
+	<tr>\
+		<td style="width:50%">Raum:</td>\
+		<td style="width:50%"></td>\
+	</tr>\
+	<tr>\
+		<td style="width:50%">\
+					<input type="text" name="room_IDNR" class="Text form-control round-corners" placeholder="Tragen Sie hier den Raum ein">\
+		</td>\
+		<td style="width:50%"></td>\
+	</tr>\
 </table><br>\
 <div class="buttonGroupParent">\
     <input type="hidden" name="day_IDNR" value="monday" class="hiddenInput">\
@@ -67,33 +73,33 @@ $(document).ready(function() {
 	</div>\
 </div><br>\
 <table style="width:100%">\
-	<tr>\
-		<td style="width:30%">\
-			Startzeit:\
-		</td>\
-		<td style="width:20%"></td>\
-		<td style="width:30%">\
-			Endzeit:\
-		</td>\
-		<td style="width:20%"></td>\
-	</tr>\
-	<tr>\
-		<td style="width:30%">\
-			<input type="time" name="startTime_IDNR" value="00:00" class="Time form-control round-corners">\
-		</td>\
-		<td style="width:20%"></td>\
-		<td style="width:30%">\
-			<input type="time" name="endTime_IDNR" value="00:00" class="Time form-control round-corners">\
-		</td>\
-		<td style="width:20%"></td>\
+<tr>\
+	<td style="width:20%">\
+		Startzeit:\
+	</td>\
+	<td style="width:15%"></td>	\
+	<td style="width:20%">\
+		Endzeit:\
+	</td>\
+	<td style="width:45%"></td>\
+</tr>\
+<tr>\
+	<td style="width:20%">\
+		<input type="time" name="startTime_IDNR" value="00:00" class="Time form-control round-corners">\
+	</td>\
+	<td style="width:15%; text-align:center">bis</td>\
+	<td style="width:20%">\
+		<input type="time" name="endTime_IDNR" value="00:00" class="Time form-control round-corners">\
+	</td>\
+	<td style="width:45%"></td>\
 	</tr>\
 </table><br>\
 <table style="width:100%">\
 	<tr>\
-		<td style="width:30%">\
+		<td style="width:20%">\
                 <input type="text" class="form-control round-corners Number" placeholder="Periode" name="period_IDNR">\
 		</td>\
-		<td style="width:50%">\
+		<td style="width:60%">\
 			<div class="buttonPeriodParent">\
 		        <input type="hidden" name="periodDD_IDNR" value="weeks" class="hiddenPeriod">\
 				<div class="btn-group" data-toggle="buttons">\
@@ -112,27 +118,27 @@ $(document).ready(function() {
 			<td style="width:20%"></td>\
 		</tr>\
 	</table>\
-			<br>\
- <table style="width:100%">\
+	<br>\
+    <table style="width:100%">\
 	<tr>\
-		<td style="width:30%">\
+		<td style="width:20%">\
 			Startdatum:\
 		</td>\
-		<td style="width:20%"></td>\
-		<td style="width:30%">\
+		<td style="width:15%"></td>\
+		<td style="width:20%">\
 			Enddatum:\
 		</td>\
-		<td style="width:20%"></td>\
+		<td style="width:45%"></td>\
 	</tr>\
 	<tr>\
-		<td style="width:30%">\
-			<input type="date" name="startDate_IDNR" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">\
+		<td style="width:20%">\
+			<input type="date" name="startDate_IDNR" value="2014-06-05" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">\
 		</td>\
-		<td style="width:20%"></td>\
-		<td style="width:30%">\
-			<input type="date" name="endDate_IDNR" value="@util.TimeGroup.now("Y-MM-dd")" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">\
+		<td style="width:15%; text-align:center">bis</td>\
+		<td style="width:20%">\
+			<input type="date" name="endDate_IDNR" value="2014-06-05" class="Date form-control round-corners" min="1584-01-01" max="9998-12-31">\
 		</td>\
-		<td style="width:20%"></td>\
+		<td style="width:45%"></td>\
 	</tr>\
 </table>\
 </div>');
