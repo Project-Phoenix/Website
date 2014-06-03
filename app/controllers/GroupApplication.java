@@ -55,7 +55,7 @@ public class GroupApplication extends Controller {
         if(data.get("Submit").equals("Create")){
             Requester.Lecture.addGroup(lecture, title, description, size, submissionDay, submissionTime, LectureCheck.createDetails(data));
             if(Requester.Lecture.getStatus() == 200)
-                return ok(stringShower.render("strings to show", "Good News!"));
+                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error adding this group!");
         
@@ -78,7 +78,7 @@ public class GroupApplication extends Controller {
             LectureCheck.setNewDetails(oldDetails, newDetails, newGroup);
             
             if (Requester.Lecture.getStatus() == 200)
-                return ok(stringShower.render("strings to show", "Good News!"));
+                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error updating the group");       
         }else
@@ -184,9 +184,9 @@ public class GroupApplication extends Controller {
                         return util.Err.displayError(Requester.Group.getStatus(),"Error adding tasksheet to selected groups!");
                 }
             }
-            return ok(stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
+            return ok(bootstrap.html.stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
         }
-        return ok(stringShower.render("FAIL!", "Kein TaskSheet angegeben!!"));
+        return ok(bootstrap.html.stringShower.render("FAIL!", "Kein TaskSheet angegeben!!"));
     } 
     
     public static Result deleteGroup(){
