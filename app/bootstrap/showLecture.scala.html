@@ -40,10 +40,40 @@
 				<td style="width: 60%; vertical-align:top;">
 					<div class="well" style="margin-left: 20px">
 						@for(detail <- lecture.getLectureDetails()) {
-							<b>Zeitraum: </b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
-							<b>Raum: </b>@detail.getRoom()<br>
-							<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
-							<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
+							<table style="width:100%">
+								<tr>
+									<td style="width:30%">
+										<b>Zeitraum: 
+									</td>
+									<td style="width:70%">
+										</b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:30%">
+										<b>Raum: 
+									</td>
+									<td style="width:70%">
+										</b>@detail.getRoom()<br>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:30%">
+										<b>Findet statt am: 
+									</td>
+									<td style="width:70%">
+										</b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:30%">
+										<b>Turnus: 
+									</td>
+									<td style="width:70%">
+										</b>@util.TimeGroup.getTurnus(detail.getInterval())
+									</td>
+								</tr>
+							</table>
 							<br>
 						}	
 					</div>
@@ -57,7 +87,7 @@
 		
 		<div class="panel-footer">	
 			<ul style="padding-top:6px">
-				<li><i><b><a href="addTaskSheetToGroup?lecture=@lecture.getTitle()">Aufgabenblatt hinzufÃ¼gen</b></i></a></li>
+				<li><i><b><a href="addTaskSheetToGroup?lecture=@lecture.getTitle()">Aufgabenblatt hinzufügen</b></i></a></li>
 			</ul>	
 		</div> 
 	</div>
