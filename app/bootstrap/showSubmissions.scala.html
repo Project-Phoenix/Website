@@ -1,0 +1,85 @@
+@(title : String)(submissions : List[de.phoenix.rs.entity.PhoenixSubmission]) 
+@import de.phoenix.rs.entity.PhoenixSubmissionResult
+
+@head = {
+
+<style>
+.panel-heading a:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";    
+    float: right; 
+    color: grey; 
+}
+.panel-heading a.collapsed:after {
+    content: "\e080";
+}
+</style>
+
+<link rel="stylesheet" href="/assets/javascripts/styles/default.css">
+<script src="/assets/javascripts/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+}
+
+
+@Structure(title)(head) {
+
+	<h2 class="maintitle"> Einreichungen </h2>
+	<br>
+	
+<div class="panel-group" id="accordion">
+	@for(i <- 0 until submissions.size()) {
+	  <div class="panel panel-default" id="panel@i">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-target="#collapse@i" 
+	           href="#collapse@i" class="collapsed">
+	          Einreichung vom @submissions.get(i).getDate().toString("dd.MM.YYYY, hh:mm") Uhr
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="collapse@i" class="panel-collapse collapse">
+	      <div class="panel-body">
+	      
+      			<div class="well" style="text-align: center">
+					@submissions.get(i).getResult().getStatus() match {
+		
+						case PhoenixSubmissionResult.SubmissionStatus.ERROR => {
+							<b><font color="DarkRed">Kritischer Fehler: @submissions.get(i).getResult().getStatusText()</font></b>
+						}
+						
+						case PhoenixSubmissionResult.SubmissionStatus.SUBMITTED => {
+							<b><font color="blue">Eingereicht</font></b>
+						}
+						
+						case PhoenixSubmissionResult.SubmissionStatus.COMPILED => {
+							<b><font color="Yellow">@submissions.get(i).getResult().getStatusText()</font></b>
+						}
+						
+						case PhoenixSubmissionResult.SubmissionStatus.MISSING_FILES => {
+							<b><font color="DarkOrange">@submissions.get(i).getResult().getStatusText()</font></b>
+						}
+						
+						case PhoenixSubmissionResult.SubmissionStatus.TEST_FAILED => {
+							<b><font color="OrangeRed">@submissions.get(i).getResult().getStatusText()</font></b>
+						}
+						
+						case PhoenixSubmissionResult.SubmissionStatus.OK => {
+							<b><font color="Green">Your Submission passed all tests!</font></b>
+						}
+					
+					}
+				</div>
+				
+				@submissions.get(i).getTexts().map { text =>
+					<b>@text.getFullname()</b>
+					<pre><code>@text.getText()</code></pre>
+				}
+	      </div>
+	    </div>
+	  </div>
+	 }
+</div>
+
+
+
+}

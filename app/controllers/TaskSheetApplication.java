@@ -64,7 +64,7 @@ public class TaskSheetApplication extends Controller {
     
     public static Result addTask() {
         try {
-            String taskSheetTitle = request().queryString().get("tasksheet")[0];
+            String taskSheetTitle = util.Http.GET("tasksheet");
             PhoenixTaskSheet sheet = Requester.TaskSheet.get(taskSheetTitle); 
             List<PhoenixTask> tasks = Requester.Task.getAll(); 
             if (Requester.TaskSheet.getStatus() == 200 && Requester.Task.getStatus() == 200)

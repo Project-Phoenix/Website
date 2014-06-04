@@ -42,7 +42,7 @@ public class LectureApplication extends Controller {
         if(data.get("submit").equals("Create")){
             Requester.Lecture.create(title, description, LectureCheck.createDetails(data));   
             if(Requester.Lecture.getStatus() == 200)
-                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
+                return ok(bootstrap.html.stringShower.render("success","Erfolgreich", "Die Veranstaltung wurde erfolgreich erstellt."));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error creating this lecture!");
         }else if(data.get("submit").equals("Update")){          
@@ -67,7 +67,7 @@ public class LectureApplication extends Controller {
             }
             
             if(Requester.Lecture.getStatus() == 200)
-                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
+                return ok(bootstrap.html.stringShower.render("success","Erfolgreich", "Die Änderung wurde gespeichert."));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error updating this lecture!");
         }else

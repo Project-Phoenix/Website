@@ -31,7 +31,6 @@ import util.Http;
 import util.LectureCheck;
 import util.TimeGroup;
 import views.html.*;
-import bootstrap.html.*;
 
 public class GroupApplication extends Controller {
    
@@ -61,7 +60,7 @@ public class GroupApplication extends Controller {
         if(data.get("Submit").equals("Create")){
             Requester.Lecture.addGroup(lecture, title, description, size, submissionDay, submissionTime, LectureCheck.createDetails(data));
             if(Requester.Lecture.getStatus() == 200)
-                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
+                return ok(bootstrap.html.stringShower.render("success","Erfolgreich", "Die Gruppe wurde erfolgreich erstellt."));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error adding this group!");
         
@@ -84,7 +83,7 @@ public class GroupApplication extends Controller {
             LectureCheck.setNewDetails(oldDetails, newDetails, newGroup);
             
             if (Requester.Lecture.getStatus() == 200)
-                return ok(bootstrap.html.stringShower.render("Erfolgreich", "Erfolgreich!"));
+                return ok(bootstrap.html.stringShower.render("info","Erfolgreich", "Die Änderung wurde gespeichert."));
             else
                 return util.Err.displayError(Requester.Lecture.getStatus(),"Error updating the group");       
         }else
@@ -168,18 +167,21 @@ public class GroupApplication extends Controller {
         //encode all array entries
         for (int i=0; i < meta.length; meta[i] = util.Http.urlEncode(meta[i]),i++); 
         
+        if (meta[4].equals("1"))
+            return redirect("/showGroupTaskSheets?ltitle="+meta[0]+"&gname="+meta[1]+"&sheet="+meta[2]);
+
         return redirect("/showGroupTaskSheets?ltitle="+meta[0]+"&gname="+meta[1]);
     }
     
 
     
     public static Result addTaskSheetToGroup() {
-        if (request().queryString().get("lecture") != null) {
-            String lecture = request().queryString().get("lecture")[0];
+        if (util.Http.GET("lecture") != null) {
+            String lecture = util.Http.GET("lecture");
             if (lecture != null) {
                 List<TimeGroup> groups = TimeGroup.toTimeGroup( Requester.Group.getAll(lecture) );
                 List<PhoenixTaskSheet> tasksheets = Requester.TaskSheet.getAll();
-                return ok(addTaskSheetToGroup.render("Add Sheet to Group",lecture,tasksheets,groups));
+                return ok(bootstrap.html.createLectureGroupTaskSheet.render("Add Sheet to Group",lecture,tasksheets,groups));
             } else 
                 return util.Err.displayError(Requester.Group.getStatus(),"This lecture does not exist! (<i>"+lecture+"</i>)");
         }
@@ -208,9 +210,9 @@ public class GroupApplication extends Controller {
                         return util.Err.displayError(Requester.Group.getStatus(),"Error adding tasksheet to selected groups!");
                 }
             }
-            return ok(bootstrap.html.stringShower.render("Erfolg!", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
+            return ok(bootstrap.html.stringShower.render("success","Erfolg", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
         }
-        return ok(bootstrap.html.stringShower.render("FAIL!", "Kein TaskSheet angegeben!!"));
+        return ok(bootstrap.html.stringShower.render("danger","Fehler", "Kein TaskSheet angegeben!"));
     } 
     
     public static Result deleteGroup(){

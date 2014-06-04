@@ -69,11 +69,13 @@ color: #3A87AD;
 
 .footer {
 	background-color: lightgrey;
-	height: 60px;
+	height: 85px;
 	text-align: center;
-	padding: 40px;
+	vertical-align: middle;
+	/*padding-top: 20px;*/
 	margin-top: 50px;
 	border-radius: 4px;
+	width: 100%;
 }
 
 .maintitle {

@@ -52,7 +52,7 @@ POST	/mergeTaskWithTaskSheet		controllers.TaskSheetApplication.mergeTaskWithTask
 
 
 # SUBMISSION
-POST	/showSubmissions			controllers.SubmissionApplication.showSubmissions()
+GET		/showSubmissions			controllers.SubmissionApplication.showSubmissions()
 GET		/submitSolution				controllers.SubmissionApplication.submitSolution()
 POST	/sendSubmission				controllers.SubmissionApplication.sendSubmission()
 

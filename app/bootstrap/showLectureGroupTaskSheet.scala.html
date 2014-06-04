@@ -5,11 +5,12 @@
 
 
 @Structure(title)(head)	{
-	<h2 class="maintitle">Aufgabenblatt</h2>
+	@if(sheets.size() == 1) {<h2 class="maintitle">Aufgabenblatt</h2>
+	}else{<h2 class="maintitle">Aufgabenblätter</h2>}
 	 @sheets.map { sheet =>
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-		 		<h3 class="panel-title"> @sheet.getTaskSheetTitle() </h3> @if(flash.get("success") == sheet.getTaskSheetTitle()){<font color="green"><i>geändert</i></font>}
+		 		<h3 class="panel-title"> @sheet.getTaskSheetTitle() @if(flash.get("success") == sheet.getTaskSheetTitle()){<font color="lightgreen"> geändert</font>}</h3> 
 			</div>
 			<div style="align: center"class="panel body randlassen">
 			
@@ -26,8 +27,8 @@
 						<td><a href="/showTask?option=@task.getTask().getTitle()">@task.getTask().getTitle()</a></td>
 						<td class="pad"><input type="datetime-local" name="release" value="@org.joda.time.format.DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").print(task.getReleaseDate())"/></td>
 			      	 	<td class="pad"><input type="datetime-local" name="deadline" value="@org.joda.time.format.DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm").print(task.getDeadlineDate())"/></td>
-						<td class="pad"><input type="submit" name="change" value="Ändern"></td>
-						<input type="hidden" name="meta" value='@lectureTitle;@groupName;@sheet.getTaskSheetTitle();@task.getTask().getTitle()' />
+						<td class="pad"><input type="submit" name="change" value="speichern"></td>
+						<input type="hidden" name="meta" value='@lectureTitle;@groupName;@sheet.getTaskSheetTitle();@task.getTask().getTitle();@sheets.size()' />
 					</form>
 				</tr>
 			}

@@ -23,15 +23,13 @@
 		</div>
 		<div class="panel body randlassen">
 			@Html(task.getDescription()) <br> <br>
-			
-			<form action="/showSubmissions" method="post">
-				<input type="hidden" value="@task.getTitle()" name="task">
-				<input type="submit" value="show Submissions" name="submissions"/>
-			</form>
-			
+			<ul>
+				<li><b><i><a href="/showSubmissions?task=@task.getTitle()">Einreichungen anzeigen</a></i></b></li>
+			</ul>
 		</div>
 		
 		<div class="panel-footer">
+
 			@if(task.getAttachments().isEmpty()) { <span class="label label-warning">Keine Anhänge</span> 
 			} else { <span class="label label-info">Anhänge</span> }
 			<ul>

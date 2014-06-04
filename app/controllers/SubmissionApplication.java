@@ -20,11 +20,15 @@ import views.html.submitSolution;
 public class SubmissionApplication extends Controller {
     
     public static Result showSubmissions() {
-        List<PhoenixSubmission> submissions = Requester.Submission.get( Form.form().bindFromRequest().data().get("task") );
+        String task = util.Http.GET("task");
+        List<PhoenixSubmission> submissions = Requester.Submission.get( task );
 
         if (Requester.Submission.getStatus() == 200)
-            return ok(showSubmissions.render("showSubmissions", submissions));
+            return ok(bootstrap.html.showSubmissions.render("Einreichungen", submissions));
 
+        if (Requester.Submission.getStatus() == 461) //no entities
+            return ok(bootstrap.html.stringShower.render("warning","Keine Einreichungen","Für diese Aufgabe sind noch keine Einreichungen vorhanden."));
+                    
         return util.Err.displayError(Requester.Submission.getStatus(),"Error displaying submissions!");
     }
     

@@ -19,7 +19,10 @@
 	 		<h3 class="panel-title"> @task.getTitle() @isAutomatic(task)</h3>
 		</div>
 		<div class="panel body randlassen">
-			@Html(task.getDescription())
+			@Html(task.getDescription()) <br> <br>
+			<ul>
+				<li><b><i><a href="/showSubmissions?task=@task.getTitle()">Einreichungen anzeigen</a></i></b></li>
+			</ul>
 		</div>
 		
 		<div class="panel-footer">

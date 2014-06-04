@@ -1,0 +1,69 @@
+@(title : String)(lectureTitle : String)(sheets : List[de.phoenix.rs.entity.PhoenixTaskSheet])(groups : List[util.TimeGroup])
+
+@head = {
+		<script type="text/javascript" src="/assets/javascripts/bootstrap-checkbox.js"></script>
+		<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-checkbox.css" />	
+}
+
+
+@Structure(title)(head) {
+
+		<h2 class="maintitle">Aufgabenblatt hinzufügen</h2>
+		<i>Wählen Sie ein Blatt aus, das Sie den verschiedenen Gruppen hinzufügen möchten.</i><br><br>
+		
+		<div class="alert alert-info">
+			<form method="POST" action="/sendTaskSheetToGroup">
+				<table style="width: 100%" class="center">
+					<tr>
+						<th style="padding: 11px;width: 20%;text-align: center">
+							<h4>Aufgabenblätter</h4>
+						</th>
+						  
+						<th style="padding: 11px;width: 80%;text-align: center">
+							<h4>@lectureTitle</h4>
+						</th>
+						
+					</tr>
+					<tr>
+						<td>
+				 		  @for(i <- 0 until sheets.size()){
+		      				<input type="radio" name="tasksheet" value="@sheets.get(i).getTitle()"> @sheets.get(i).getTitle()<br> 
+		      	 		  }
+		    			</td>
+		    			<td>
+			    			<table style="width: 100%">
+			    			<th style="width: 20%">
+			    			</th>
+			    			<th style="width: 40%">
+			    				Erscheint am
+			    			</th>
+			    			<th style="width: 40%">
+			    				Abgabetag
+			    			</th>
+			    			  @for(i <- 0 until groups.size()) {
+				    			  <tr>
+				    			  	<td>
+				      					<input type="checkbox" name="@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).getPhoenixGroup().getName()"> @groups.get(i).getPhoenixGroup().getName()<br> 
+				      	 		  	</td>
+				      	 		  	<td>
+				      	 		  		<input type="datetime-local" name="release_@groups.get(i).getPhoenixGroup().getName()" value="@util.TimeGroup.now("Y-MM-dd'T'HH:mm")"/><br> 
+				      	 		  	</td>
+				      	 		 	<td>
+				      	 		  		<input type="datetime-local" name="deadline_@groups.get(i).getPhoenixGroup().getName()" value="@groups.get(i).nextDeadlineDateString("Y-MM-dd'T'HH:mm")"/><br> 
+				      	 		  	</td>
+				      	 		  </tr>
+			      	 		  }	
+		   					</table>
+		      	 	</tr>
+		      	 </table>
+		      	 <input type="hidden" name="lecture" value="@lectureTitle">
+	      		 <center><button class="btn btn-md btn-success" type="submit" value="Senden" style="margin-top: 20px; width:15%">Hinzufügen</button></center>
+			</form>
+		</div>
+		
+		<!-- To change the checkboxes -->
+		<script type="text/javascript">	
+			$('input[type="checkbox"]').checkbox();
+		</script>
+		
+}
