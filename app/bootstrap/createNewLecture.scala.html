@@ -103,11 +103,8 @@
 
 @Structure(title)(head){
 	<!-- Hauptueberschrift -->
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-	 		<h3 class="panel-title"> Veranstaltung erstellen </h3>
-		</div>
-		<div class="panel body randlassen">
+	<h2 class="maintitle"> Veranstaltung erstellen </h2>
+	<div class="alert alert-info">
 			<form action="/sendLecture" method="post" onsubmit="return ValidateForm(this);" id="form1">
 			
 				<input type="hidden" name="oldLecture" value="@lecture.getTitle()"/>
@@ -252,9 +249,8 @@
 				</div>		
 				<input type="button" id="moreDetails" value="weiteren Termin" class="btn btn-primary"/>
 				<br><br>
-				<input id="Submit" name="submit" type="submit" value="Create" class="btn btn-success"/>
+				<input id="Submit" name="submit" type="submit" value="Erstellen" class="btn btn-success"/>
 			</form> 
-		</div>
 	</div>
 	
 }
