@@ -43,7 +43,7 @@ public class TaskSheetApplication extends Controller {
         Requester.TaskSheet.create(sheetname, taskTitlesList);
          
         if(Requester.TaskSheet.getStatus() == 200)
-            return ok(stringShower.render("TaskSheet created", "Your Tasksheet has been created successfully!"));
+            return ok(stringShower.render("TaskSheet created", "Das Aufgabenblatt wurde erfolgreich angelegt."));
         else
             return util.Err.displayError(Requester.TaskSheet.getStatus(),"Error creating tasksheet!");
     }
@@ -86,9 +86,9 @@ public class TaskSheetApplication extends Controller {
                 return ok(bootstrap.html.addTaskToTaskSheet.render("Aufgabe hinzufügen", sheet, tasks));
             }
             else if (Requester.TaskSheet.getStatus() != 200)
-                return util.Err.displayError(Requester.TaskSheet.getStatus(),"Fehler beim holen des Tasksheets!");
+                return util.Err.displayError(Requester.TaskSheet.getStatus(),"Fehler beim holen des Aufgabenblatts!");
             else
-                return util.Err.displayError(Requester.Task.getStatus(),"Fehler beim holen der Tasks!");
+                return util.Err.displayError(Requester.Task.getStatus(),"Fehler beim holen der Aufgabe!");
         }
         catch (Exception e) {
             e.printStackTrace();

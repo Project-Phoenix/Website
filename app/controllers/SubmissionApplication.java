@@ -3,8 +3,11 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import meta.Requester;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import meta.Requester;
 import de.phoenix.rs.entity.PhoenixAttachment;
 import de.phoenix.rs.entity.PhoenixSubmission;
 import de.phoenix.rs.entity.PhoenixText;
@@ -22,7 +25,7 @@ public class SubmissionApplication extends Controller {
     public static Result showSubmissions() {
         String task = util.Http.GET("task");
         List<PhoenixSubmission> submissions = Requester.Submission.get( task );
-
+           
         if (Requester.Submission.getStatus() == 200)
             return ok(bootstrap.html.showSubmissions.render("Einreichungen", submissions));
 

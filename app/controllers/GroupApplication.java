@@ -125,20 +125,20 @@ public class GroupApplication extends Controller {
     public static Result showGroupTaskSheets(){
         String lectureTitle = util.Http.GET("ltitle");
         String groupName = util.Http.GET("gname");
-        String sheet = util.Http.GET("sheet");
+        String sheetname = util.Http.GET("sheet");
+        PhoenixLectureGroupTaskSheet sheet = null;
         
         List<PhoenixLectureGroupTaskSheet> sheets = Requester.Group.getGroupTaskSheets(lectureTitle, groupName);
-
-        if (sheet != null)
+        
+        if (sheetname != null)
             for(PhoenixLectureGroupTaskSheet s : sheets)
-                if (s.getTaskSheetTitle().equals(sheet)) {
-                    sheets = new ArrayList<PhoenixLectureGroupTaskSheet>();
-                    sheets.add(s);
+                if (s.getTaskSheetTitle().equals(sheetname)) {
+                    sheet = s;
                     break;
                 }
         
-        if(Requester.Group.getStatus()==200)
-            return ok(bootstrap.html.showLectureGroupTaskSheet.render("show TaskSheet", lectureTitle, groupName, sheets));
+        if(Requester.Group.getStatus()==200 && lectureTitle != null && groupName != null && sheetname != null)
+            return ok(bootstrap.html.showLectureGroupTaskSheet.render("Aufgabenblatt", lectureTitle, groupName, sheet));
         else
             return util.Err.displayError(Requester.Group.getStatus(),"Error receiving tasksheet information!");
 
@@ -162,15 +162,14 @@ public class GroupApplication extends Controller {
         if(Requester.Group.getStatus()!=200) 
             return util.Err.displayError(Requester.Group.getStatus(),"Error receiving tasksheet information!");
         
-        flash("success", meta[2]);
+        flash("success", meta[3]);
 
         //encode all array entries
         for (int i=0; i < meta.length; meta[i] = util.Http.urlEncode(meta[i]),i++); 
         
-        if (meta[4].equals("1"))
-            return redirect("/showGroupTaskSheets?ltitle="+meta[0]+"&gname="+meta[1]+"&sheet="+meta[2]);
 
-        return redirect("/showGroupTaskSheets?ltitle="+meta[0]+"&gname="+meta[1]);
+        return redirect("/showGroupTaskSheets?ltitle="+meta[0]+"&gname="+meta[1]+"&sheet="+meta[2]);
+
     }
     
 
@@ -210,7 +209,7 @@ public class GroupApplication extends Controller {
                         return util.Err.displayError(Requester.Group.getStatus(),"Error adding tasksheet to selected groups!");
                 }
             }
-            return ok(bootstrap.html.stringShower.render("success","Erfolg", "Die Tasksheets wurden den ausgewählten Gruppen hinzugefügt!"));
+            return ok(bootstrap.html.stringShower.render("success","Erfolg", "Das Aufgabenblatt wurden den ausgewählten Gruppen hinzugefügt!"));
         }
         return ok(bootstrap.html.stringShower.render("danger","Fehler", "Kein TaskSheet angegeben!"));
     } 

@@ -1,5 +1,6 @@
 @(title : String)(submissions : List[de.phoenix.rs.entity.PhoenixSubmission]) 
 @import de.phoenix.rs.entity.PhoenixSubmissionResult
+@import org.joda.time.DateTimeZone
 
 @head = {
 
@@ -37,7 +38,7 @@
 	      <h4 class="panel-title">
 	        <a data-toggle="collapse" data-target="#collapse@i" 
 	           href="#collapse@i" class="collapsed">
-	          Einreichung vom @submissions.get(i).getDate().toString("dd.MM.YYYY, hh:mm") Uhr
+	          Einreichung vom @submissions.get(i).getDate().withZone(DateTimeZone.UTC).toString("dd.MM.YYYY, HH:mm") Uhr
 	        </a>
 	      </h4>
 	    </div>

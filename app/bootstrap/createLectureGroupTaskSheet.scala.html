@@ -11,8 +11,9 @@
 		<h2 class="maintitle">Aufgabenblatt hinzufügen</h2>
 		<i>Wählen Sie ein Blatt aus, das Sie den verschiedenen Gruppen hinzufügen möchten.</i><br><br>
 		
-		<div class="alert alert-info">
+		
 			<form method="POST" action="/sendTaskSheetToGroup">
+			<div class="alert alert-info">
 				<table style="width: 100%" class="center">
 					<tr>
 						<th style="padding: 11px;width: 20%;text-align: center">
@@ -56,10 +57,11 @@
 		   					</table>
 		      	 	</tr>
 		      	 </table>
+		      	 </div>
 		      	 <input type="hidden" name="lecture" value="@lectureTitle">
 	      		 <center><button class="btn btn-md btn-success" type="submit" value="Senden" style="margin-top: 20px; width:15%">Hinzufügen</button></center>
 			</form>
-		</div>
+
 		
 		<!-- To change the checkboxes -->
 		<script type="text/javascript">	
