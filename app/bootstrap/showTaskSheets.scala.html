@@ -13,7 +13,7 @@
 					<ul>
 						@sheet.getTasks().map { task =>
 							<li>
-								<a href="/showTasks?option=@task.getTitle()">@task.getTitle()</a>
+								<a href="/showTask?option=@task.getTitle()">@task.getTitle()</a>
 								<b><a style="color:red" href="/deleteTaskfromTaskSheet?tasksheet=@sheet.getTitle()&task=@task.getTitle()">entfernen</a></b>
 							</li>
 						}

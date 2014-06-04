@@ -1,0 +1,78 @@
+@(title : String)(taskSheets : List[de.phoenix.rs.entity.PhoenixTaskSheet])
+
+@head = {
+
+<script type="text/javascript"> 
+$(document).ready(function(){
+	@for(i <- 0 until taskSheets.size()) {
+	    $("#content@i").hide();
+	    $(".open-close@i").click(function (e) {
+	      e.preventDefault();
+	      $("#content@i").slideToggle("fast");
+	    });
+	}
+});
+</script>
+
+
+}
+
+
+@Structure(title)(head){
+
+	<h2 class="maintitle">Einreichung</h2>
+	<form enctype="multipart/form-data" method="POST" action="/sendSubmission">
+		
+	
+	<div class="alert alert-info">
+		<b><i>Zu welcher Aufgabe soll eine Lösung eingereicht werden?</i></b><br><br>
+		<table style="width: 100%">
+		<tr>
+			<td style="vertical-align: top; width: 50%">
+				@for(i <- 0 until taskSheets.size()/2+1) {
+					<a class="open-close@i" href="#">@taskSheets.get(i).getTitle()</a><br>
+					<div id="content@i">
+					@for(task <- taskSheets.get(i).getTasks()) { 
+						<input type="radio" name="task" value="@task.getTitle()"> @task.getTitle()<br>
+					}
+					</div>
+				}
+			</td>
+			<td style="vertical-align: top; width: 50%">
+				@for(i <- taskSheets.size()/2+1 until taskSheets.size()) {
+					<a class="open-close@i" href="#">@taskSheets.get(i).getTitle()</a><br>
+					<div id="content@i">
+					@for(task <- taskSheets.get(i).getTasks()) { 
+						<input type="radio" name="task" value="@task.getTitle()"> @task.getTitle()<br>
+					}
+					</div>
+				}
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+		<table>
+			<tr>
+				<td style="padding-right: 20px;">
+					<h4>Lösung </h4>
+				</td>
+				<td>
+					<input style="display: inline-block;" type="file" name="solution" multiple/>
+				</td>	
+			</tr>
+			<tr>
+			<td style="padding-right: 20px;">
+				<h4>Anhang </h4>
+			</td>
+			<td>
+				<input style="display: inline-block;" type="file" name="attachment" multiple/><br>
+			</td>
+			</tr>
+		</table>	
+			
+				<center><button class="btn btn-md btn-success" type="submit" style="margin-top: 15px; width:15%">Erstellen</button></center>
+
+	</form>
+
+}

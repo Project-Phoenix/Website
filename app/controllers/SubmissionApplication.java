@@ -33,7 +33,7 @@ public class SubmissionApplication extends Controller {
     }
     
     public static Result submitSolution() {
-        return ok(submitSolution.render("Einreichung", Requester.TaskSheet.getAll()));
+        return ok(bootstrap.html.submitSolution.render("Einreichung", Requester.TaskSheet.getAll()));
     }
     
     public static Result sendSubmission() {
