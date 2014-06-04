@@ -30,7 +30,7 @@
 					<div class="list-group" style="text-align: center; width:100%; float: left">
 						@if(taskSheets != null) {
 							@for(taskSheet <- taskSheets) {
-								<a class="list-group-item" href="#">
+								<a class="list-group-item" href="/showGroupTaskSheets?ltitle=@group.getLecture.getTitle()&gname=@group.getName()&sheet=@taskSheet.getTaskSheetTitle()">
 									<strong class="info"> @taskSheet.getTaskSheetTitle() </strong>
 								</a>
 							}

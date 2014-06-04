@@ -146,4 +146,5 @@ $(document).ready(function(){
 		$('#hiddenGroup').val($(this).attr('id'));
 		$('#menuForm').submit();
    	});
+	
 });
