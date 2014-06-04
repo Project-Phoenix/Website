@@ -1,0 +1,24 @@
+@(title : String)(sheets : List[de.phoenix.rs.entity.PhoenixTaskSheet]) 
+@head={}
+
+@Structure(title)(head){
+		 <h2 class="maintitle">Aufgabenblätter</h2>
+		 @sheets.map { sheet =>
+			 <div class="panel panel-primary">
+				<div class="panel-heading">
+		 			<h3 class="panel-title"> @sheet.getTitle() @if(flash.get("success") == sheet.getTitle()){<font color="lightgreen"> geändert</font>}</h3> 
+				</div>
+				<div class="panel body randlassen">
+					<i><a style="color:green" href="/addTaskToTaskSheet?tasksheet=@sheet.getTitle()">Aufgabe hinzufügen</a></i><br><br>
+					<ul>
+						@sheet.getTasks().map { task =>
+							<li>
+								<a href="/showTasks?option=@task.getTitle()">@task.getTitle()</a>
+								<b><a style="color:red" href="/deleteTaskfromTaskSheet?tasksheet=@sheet.getTitle()&task=@task.getTitle()">entfernen</a></b>
+							</li>
+						}
+					</ul>
+				</div>
+			</div> 
+		}
+}

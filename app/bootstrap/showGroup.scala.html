@@ -49,10 +49,17 @@
 							<br>
 						}	
 							<b>Deadline für Abgaben immer: </b>@getGerWeekday(group.getSubmissionDeadlineWeekday().getDateTimeConstant()), @group.getSubmissionDeadlineTime().toString("hh:mm") Uhr<br>
-							<br>							
+							<br>	
+							
+							
+						@if( controllers.GroupApplication.getCurrentTaskSheet(group.getLecture().getTitle(),group.getName()) != null ){
+							<b>Aktuelles Arbeitsblatt: <font color="#FFBF00">@controllers.GroupApplication.getCurrentTaskSheet(group.getLecture().getTitle(),group.getName()).getTaskSheetTitle()</b></font>
+						}else {<b>Kein aktuelles Arbeitsblatt</b>}
+							
+													
 					</div>
 					<div class="well" style="margin-left: 20px">
-						@group.getDescription()
+						@Html(group.getDescription())
 					</div>
 				</td>
 			</tr>
