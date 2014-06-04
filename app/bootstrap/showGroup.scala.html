@@ -39,17 +39,71 @@
 				</td>
 				<td style="width: 60%; vertical-align:top;">
 					<div class="well" style="margin-left: 20px">
-							<b>Veranstaltung: </b>@group.getLecture().getTitle() <br>
-							<b>Max. Mitglieder: </b>@group.getMaxMember() <br>
+						<table style="width:100%">		
+							<tr>
+								<td style="width:35%">					
+									<b>Veranstaltung: 
+								</td>
+								<td style="width:65%">
+									</b>@group.getLecture().getTitle() <br>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:35%">
+									<b>Max. Mitglieder: 
+								</td>
+								<td style="width:65%">	
+									</b>@group.getMaxMember() <br>
+								</td>
+							</tr>
 						@for(detail <- group.getDetails()) {
-							<b>Zeitraum: </b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
-							<b>Raum: </b>@detail.getRoom()<br>
-							<b>Findet statt am: </b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
-							<b>Turnus: </b>@util.TimeGroup.getTurnus(detail.getInterval()) <br>
-							<br>
+								<tr>
+									<td style="width:35%">
+										<b>Zeitraum: 
+									</td>
+									<td style="width:65%">
+										</b>vom @detail.getStartDate().toString("dd. MMM yyyy") bis @detail.getEndDate().toString("dd. MMM yyyy")<br>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:35%">
+										<b>Raum: 
+									</td>
+									<td style="width:65%">
+										</b>@detail.getRoom()<br>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:35%">
+										<b>Findet statt am: 
+									</td>
+									<td style="width:65%">
+										</b>@getGerWeekday(detail.getWeekday().getDateTimeConstant()), @detail.getStartTime().toString("hh:mm") Uhr bis @detail.getEndTime().toString("hh:mm") Uhr<br>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:35%">
+										<b>Turnus: <br><br>
+									</td>
+									<td style="width:65%">
+										</b>@util.TimeGroup.getTurnus(detail.getInterval())<br><br>
+									</td>
+								</tr>
 						}	
-							<b>Deadline für Abgaben immer: </b>@getGerWeekday(group.getSubmissionDeadlineWeekday().getDateTimeConstant()), @group.getSubmissionDeadlineTime().toString("hh:mm") Uhr<br>
-							<br>							
+								<tr>
+									<td style="width:35%">
+										<b>Deadline für Abgaben: 
+									</td>
+									<td style="width:65%">
+										</b>@getGerWeekday(group.getSubmissionDeadlineWeekday().getDateTimeConstant()), @group.getSubmissionDeadlineTime().toString("hh:mm") Uhr<br>
+									</td>
+								</tr>
+							</table>
+							<br>	
+							
+						@if( controllers.GroupApplication.getCurrentTaskSheet(group.getLecture().getTitle(),group.getName()) != null ){
+							<b>Aktuelles Arbeitsblatt: <font color="#FFBF00">@controllers.GroupApplication.getCurrentTaskSheet(group.getLecture().getTitle(),group.getName()).getTaskSheetTitle()</b></font>
+						}else {<b>Kein aktuelles Arbeitsblatt</b>}						
 					</div>
 					<div class="well" style="margin-left: 20px">
 						@group.getDescription()
