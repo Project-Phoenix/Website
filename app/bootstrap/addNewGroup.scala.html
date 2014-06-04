@@ -90,11 +90,8 @@
 }
 
 @Structure(title)(head){
-<div class="panel panel-primary">
-	<div class="panel-heading">
- 		<h3 class="panel-title"> Gruppe hinzufügen </h3>
-	</div>
-	<div class="panel body randlassen">
+<h2 class="maintitle"> Gruppe hinzufügen </h2>
+<div class="alert alert-info">
 	<form action="/sendGroup" method="post" onsubmit="return ValidateForm(this);">
 		<input type="hidden" name="oldLecture" value="@group.getLecture().getTitle()"/>
 		<input type="hidden" name="oldName" value="@group.getName()"/>
@@ -292,9 +289,8 @@
 		</tr>
 		</table>
 		<br>
-		<input id="Submit" name="Submit" type="submit" value="Create" class="btn btn-success"/>
+		<input id="Submit" name="Submit" type="submit" value="Hinzufügen" class="btn btn-success"/>
 	</form> 
-	</div>
 </div>	
 }
 		
