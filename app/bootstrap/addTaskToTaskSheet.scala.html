@@ -1,0 +1,49 @@
+@(title : String)(sheet : de.phoenix.rs.entity.PhoenixTaskSheet)(tasks : List[de.phoenix.rs.entity.PhoenixTask])
+
+@head = {
+		<script type="text/javascript" src="/assets/javascripts/bootstrap-checkbox.js"></script>
+		<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap-checkbox.css" />	
+}
+
+
+@Structure(title)(head) {
+	
+	<h2 class="maintitle"> Aufgabe hinzufügen </h2>
+
+	<div class="alert alert-info">
+		<b>@sheet.getTitle()</b>
+		<ul>
+		@sheet.getTasks().map { task =>
+			<li>@task.getTitle()</li>
+		}
+		</ul>
+	</div>
+	
+	<form method="POST" action="/mergeTaskWithTaskSheet">
+		<div class="alert alert-info">
+		<b><i>Welche Aufgaben sollen zu <u>@sheet.getTitle()</u> hinzugefügt werden?</i></b><br><br>
+			<table style="width:100%;">
+			<tr>
+				<td style="float: left; width: 50%;padding-left:1%">
+					@for(i <- 0 until tasks.size()/2+1){
+						<input type="checkbox" class="checkbox" name="@tasks.get(i).getTitle()">@tasks.get(i).getTitle()<br>
+				     }
+		      	</td>
+		      	<td style="float: left; width: 50%; padding-left:1%">
+			      	@for(i <- tasks.size()/2+1 until tasks.size()) {
+			      		<input type="checkbox" class="checkbox" name="@tasks.get(i).getTitle()">@tasks.get(i).getTitle()<br>
+			      	}
+			    </td>
+			</tr>    
+	      	</table>
+      	</div>
+		<input type="hidden" name="tasksheet" value="@sheet.getTitle()">
+		
+      	<center><button class="btn btn-md btn-success" type="submit" style="margin-top: 5px; width:15%">Hinzufügen</button></center>
+    </form>
+
+	<!-- To change the checkboxes -->
+	<script type="text/javascript">	
+		$('input[type="checkbox"]').checkbox();
+	</script>
+}

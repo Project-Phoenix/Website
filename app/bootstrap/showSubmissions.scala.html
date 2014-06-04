@@ -25,8 +25,12 @@
 
 	<h2 class="maintitle"> Einreichungen </h2>
 	<br>
-	
-<div class="panel-group" id="accordion">
+
+<div class="alert alert-info">
+<b> Aufgabe: @submissions.get(0).getTask().getTitle() </b><br><br>
+
+
+ <div class="panel-group" id="accordion">
 	@for(i <- 0 until submissions.size()) {
 	  <div class="panel panel-default" id="panel@i">
 	    <div class="panel-heading">
@@ -74,12 +78,24 @@
 					<b>@text.getFullname()</b>
 					<pre><code>@text.getText()</code></pre>
 				}
+				
+				@if(submissions.get(i).getAttachments().size() > 0){
+					<b>Anhänge</b>
+					<ul>
+					<p>@submissions.get(i).getAttachments().map { attachment => 
+						<li>
+							<a href="/download/submission/@submissions.get(i).getTask().getTitle()/@attachment.getFullname()/attachment/@i">@attachment.getFullname()</a>
+						</li>
+					}
+					</ul>
+				}
+				
+				
 	      </div>
 	    </div>
 	  </div>
 	 }
+	</div>
 </div>
-
-
 
 }
