@@ -90,21 +90,14 @@ public class Application extends Controller {
     
     public static Result menu() throws UnsupportedEncodingException {
         Map<String, String> data = Form.form().bindFromRequest().data();
-        System.out.println(data.get("hiddenAllLectures"));
         if(data.get("hiddenAllLectures").equals("yes")){
             return redirect("/showLecture?option=all");
         }else{
-            System.out.println(data.get("hiddenLecture"));
-            System.out.println(data.get("hiddenGroup"));
             if(!(data.get("hiddenLecture").equals("")) && (data.get("hiddenGroup").equals(""))){
                 return redirect("/showLecture?option=" + URLEncoder.encode(data.get("hiddenLecture"), "UTF-8"));
             //showGroup
-            }else if((!data.get("hiddenLecture").equals("")) && (!data.get("hiddenGroup").equals("")) && (data.get("hiddenTaskSheet").equals(""))){
-                System.out.println("I'm Right?!?");
+            }else if((!data.get("hiddenLecture").equals("")) && (!data.get("hiddenGroup").equals(""))){
                 return redirect("/showGroup?option=" + URLEncoder.encode(data.get("hiddenLecture"), "UTF-8") + "&group=" + URLEncoder.encode(data.get("hiddenGroup"), "UTF-8"));
-            //showTaskSheet
-            }else if((!data.get("hiddenLecture").equals("")) && (!data.get("hiddenGroup").equals("")) && (!data.get("hiddenTaskSheet").equals(""))){
-                
             }
         }
         return ok();

@@ -78,7 +78,7 @@ public class TaskApplication extends Controller {
         
         Requester.Task.create(Form.form().bindFromRequest().get("title"), Form.form().bindFromRequest().get("description"), patternLst, attachmentLst);   
         if(Requester.Task.getStatus() == 200)
-            return ok(stringShower.render("Task created", "Task has been created successfully"));
+            return ok(bootstrap.html.stringShower.render("success", "Task created", "Task has been created successfully"));
         else
             return util.Err.displayError(Requester.Task.getStatus(),"Error creating this task!");
     }
@@ -142,7 +142,7 @@ public class TaskApplication extends Controller {
         Requester.Task.createAutomatic(attachmentLst, patternLst, Form.form().bindFromRequest().get("description"), Form.form().bindFromRequest().get("title"),
                 backend, testList, getDisallowedContent(Form.form().bindFromRequest().data()) );   
         if(Requester.Task.getStatus() == 200)
-            return ok(stringShower.render("Task created", "Task has been created successfully"));
+            return ok(bootstrap.html.stringShower.render("success", "Task created", "Task has been created successfully"));
         else
             return util.Err.displayError(Requester.Task.getStatus(),"Error creating automatic task!");
     }
