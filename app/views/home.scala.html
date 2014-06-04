@@ -3,6 +3,14 @@
 @head = {}
 
 @_Structure(title)(head){
+	@if(title == "EGG") {
+		<center>
+			<h1>Protal, ey!</h1>
+			<h3>Du hascht wahrscheinlich das Easteregg gefunden, oder?!</h3><br>
+			<img src="http://yoomox24.lima-city.de/KiliEgg.png" border=7> <br><br>
+			<h3>Dir gebührt ein Präsent!</h3>
+		</center>
+	}else{
 	<h2>Home</h2><br>
 	<table cellspacing="10px">
 		<tr>
@@ -98,5 +106,5 @@
 	<br><br>
 	<form action="/debug" method="GET">
 		<input type="submit" value="DEBUG">
-	</form>
+	</form>}
 }
