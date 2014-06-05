@@ -43,7 +43,7 @@ public class TaskSheetApplication extends Controller {
         Requester.TaskSheet.create(sheetname, taskTitlesList);
          
         if(Requester.TaskSheet.getStatus() == 200)
-            return ok(stringShower.render("TaskSheet created", "Das Aufgabenblatt wurde erfolgreich angelegt."));
+            return ok(bootstrap.html.stringShower.render("success","TaskSheet created", "Das Aufgabenblatt wurde erfolgreich angelegt."));
         else
             return util.Err.displayError(Requester.TaskSheet.getStatus(),"Error creating tasksheet!");
     }
